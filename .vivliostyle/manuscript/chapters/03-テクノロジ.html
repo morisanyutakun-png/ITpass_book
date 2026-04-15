@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>テクノロジ系</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../../themes/packages/@zutsunagaru/theme/theme.css">
+  </head>
+  <body>
+    <p>:::chapter-opener</p>
+    <div class="chapter-no">CHAPTER 03</div>
+    <section class="level1" aria-labelledby="テクノロジ系">
+      <h1 id="テクノロジ系">テクノロジ系</h1>
+      <p>
+        :::chapter-lead
+        「何でできているか」を見る分野。<br>階層構造でとらえると、用語の山が一気に整理されます。
+        :::
+        :::
+      </p>
+      <section class="level2" aria-labelledby="この章の全体像">
+        <h2 id="この章の全体像">この章の全体像</h2>
+        <p>:::onepage-map</p>
+        <figure>
+          <img src="../../assets/diagrams/03-network-layers.svg" alt="ネットワーク階層図">
+          <figcaption>下から上へ階段を上がるように、基礎 → HW → SW → NW → DB → SEC → AI の順で学ぶ</figcaption>
+        </figure>:::
+        <p>
+          :::section-intro
+          テクノロジ系は出題数がもっとも多く、<strong>合否を分ける主戦場</strong>です。
+          範囲は広いものの、<strong>階層</strong>でとらえると怖くありません。
+          本章では、下から上へ階段を上がるように説明します。
+          :::
+        </p>
+      </section>
+      <section class="level2" aria-labelledby="よくある誤解">
+        <h2 id="よくある誤解">よくある誤解</h2>
+        <p>:::misconceptions</p>
+        <ul>
+          <li>「IP」「MAC」「URL」が何の違いかを説明できないまま先に進む</li>
+          <li>「認証」「認可」「識別」を同じ意味で使ってしまう</li>
+          <li>
+            「AI ＝ 生成 AI」と思い込む
+            :::
+          </li>
+        </ul>
+      </section>
+      <section class="level2" aria-labelledby="ネットワーク--住所のたとえで一気にほどく">
+        <h2 id="ネットワーク--住所のたとえで一気にほどく">ネットワーク — 住所のたとえで一気にほどく</h2>
+        <p>
+          :::compare-table
+          | 名前 | 役割 | 住所のたとえ |
+          | :-- | :-- | :-- |
+          | MAC アドレス | 機器に焼き付いた固有番号 | 身分証番号 |
+          | IP アドレス | ネットワーク上の現在の居場所 | 住民票の住所 |
+          | URL | 人が読むための看板 | 「新宿のラーメン屋」 |
+          :::
+        </p>
+        <p>:::point-box</p>
+        <ul>
+          <li><strong>URL → IP</strong> に変換する仕組みが <strong>DNS</strong></li>
+          <li>
+            <strong>IP → MAC</strong> に変換する仕組みが <strong>ARP</strong>
+            :::
+          </li>
+        </ul>
+        <section class="level3" aria-labelledby="tcp-と-udp">
+          <h3 id="tcp-と-udp">TCP と UDP</h3>
+          <p>
+            :::compare-table
+            | 観点 | TCP | UDP |
+            | :-- | :-- | :-- |
+            | 信頼性 | 高い（再送・順序制御） | 低い（届かないことがある） |
+            | 速さ | やや遅い | 速い |
+            | 使いどころ | Web・メール・ファイル転送 | 音声通話・映像配信・DNS |
+            :::
+          </p>
+        </section>
+      </section>
+      <section class="level2" aria-labelledby="セキュリティ--cia-三要素">
+        <h2 id="セキュリティ--cia-三要素">セキュリティ — CIA 三要素</h2>
+        <p>:::point-box</p>
+        <ul>
+          <li><strong>機密性（Confidentiality）</strong> 見るべき人だけが見られる</li>
+          <li><strong>完全性（Integrity）</strong> 内容が正しく、改ざんされていない</li>
+          <li>
+            <strong>可用性（Availability）</strong> 必要なときに使える
+            :::
+          </li>
+        </ul>
+        <p>
+          :::exam-trap-box
+          ### 「完全性が損なわれた例」を見抜く
+        </p>
+        <ul>
+          <li>データに矛盾が生じた → <strong>完全性</strong></li>
+          <li>システム障害で一時的に使えない → <strong>可用性</strong></li>
+          <li>
+            個人情報が漏えいした → <strong>機密性</strong>
+            主語が <strong>「データの正しさ」</strong> であるかどうかで判断します。
+            :::
+          </li>
+        </ul>
+      </section>
+      <section class="level2" aria-labelledby="この章のひっかけ">
+        <h2 id="この章のひっかけ">この章のひっかけ</h2>
+        <p>
+          :::mini-quiz
+          <strong>Q.</strong> 通信プロトコルのうち、再送制御によって信頼性の高い通信を実現するものはどれか。
+        </p>
+        <ol>
+          <li>UDP</li>
+          <li>TCP</li>
+          <li>ICMP</li>
+          <li>ARP</li>
+        </ol>
+        <p>
+          ::::answer
+          <strong>正解 : 2</strong>　UDP は速さ重視、ICMP は到達確認、ARP は IP → MAC 変換。
+          再送・順序制御を持つのは TCP のみです。
+          ::::
+          :::
+        </p>
+        <hr>
+        <p>
+          :::summary-card chapter
+          ### この章のまとめ
+        </p>
+        <ul>
+          <li>テクノロジ系は <strong>階層</strong>で整理する。</li>
+          <li>NW は <strong>MAC / IP / URL の住所メタファ</strong> と <strong>OSI 7 層・TCP/IP 4 層</strong> の対応で押さえる。</li>
+          <li>セキュリティは <strong>CIA 三要素</strong> と <strong>認証 3 要素（知識・所持・生体）</strong> を軸にする。</li>
+          <li>
+            AI は <strong>AI ⊃ 機械学習 ⊃ DL ⊃ 生成 AI</strong> の入れ子構造で覚える。
+            :::
+          </li>
+        </ul>
+      </section>
+    </section>
+  </body>
+</html>

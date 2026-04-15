@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@zutsunagaru/theme": "file:../../theme"
+  }
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 340" role="img" aria-label="OSI 7 層と TCP/IP 4 層の対応">
+  <defs>
+    <style>
+      .osi { fill: #eaf4f2; stroke: #0e7c86; stroke-width: 1.1; }
+      .tcp { fill: #ffffff; stroke: #1f3a5f; stroke-width: 1.1; }
+      .osi-text { font-family: "Hiragino Kaku Gothic ProN", sans-serif; font-size: 11px; fill: #1f3a5f; }
+      .tcp-text { font-family: "Hiragino Kaku Gothic ProN", sans-serif; font-size: 11px; fill: #1f3a5f; font-weight: 700; }
+      .sub { font-family: "Hiragino Kaku Gothic ProN", sans-serif; font-size: 10px; fill: #5b6675; }
+      .arrow { fill: none; stroke: #8695a8; stroke-width: 0.8; }
+      .note { font-family: "Hiragino Kaku Gothic ProN", sans-serif; font-size: 11px; fill: #5b6675; }
+      .head { font-family: "Hiragino Kaku Gothic ProN", sans-serif; font-size: 11px; font-weight: 700; fill: #1f3a5f; }
+    </style>
+  </defs>
+
+  <!-- Headers -->
+  <text class="head" x="130" y="20" text-anchor="middle">OSI 参照モデル（7 層）</text>
+  <text class="head" x="480" y="20" text-anchor="middle">TCP/IP モデル（4 層）</text>
+
+  <!-- OSI -->
+  <g>
+    <rect class="osi" x="40"  y="30"  width="180" height="32" rx="3" />
+    <text class="osi-text" x="130" y="51" text-anchor="middle">7. アプリケーション</text>
+    <rect class="osi" x="40"  y="65"  width="180" height="32" rx="3" />
+    <text class="osi-text" x="130" y="86" text-anchor="middle">6. プレゼンテーション</text>
+    <rect class="osi" x="40"  y="100" width="180" height="32" rx="3" />
+    <text class="osi-text" x="130" y="121" text-anchor="middle">5. セション</text>
+    <rect class="osi" x="40"  y="135" width="180" height="32" rx="3" />
+    <text class="osi-text" x="130" y="156" text-anchor="middle">4. トランスポート</text>
+    <rect class="osi" x="40"  y="170" width="180" height="32" rx="3" />
+    <text class="osi-text" x="130" y="191" text-anchor="middle">3. ネットワーク</text>
+    <rect class="osi" x="40"  y="205" width="180" height="32" rx="3" />
+    <text class="osi-text" x="130" y="226" text-anchor="middle">2. データリンク</text>
+    <rect class="osi" x="40"  y="240" width="180" height="32" rx="3" />
+    <text class="osi-text" x="130" y="261" text-anchor="middle">1. 物理</text>
+  </g>
+
+  <!-- TCP/IP -->
+  <g>
+    <rect class="tcp" x="380" y="38"  width="200" height="90" rx="3" />
+    <text class="tcp-text" x="480" y="64" text-anchor="middle">アプリケーション層</text>
+    <text class="sub"      x="480" y="84" text-anchor="middle">HTTP / SMTP / DNS</text>
+
+    <rect class="tcp" x="380" y="135" width="200" height="32" rx="3" />
+    <text class="tcp-text" x="480" y="150" text-anchor="middle">トランスポート層</text>
+    <text class="sub"      x="480" y="162" text-anchor="middle">TCP / UDP</text>
+
+    <rect class="tcp" x="380" y="170" width="200" height="32" rx="3" />
+    <text class="tcp-text" x="480" y="185" text-anchor="middle">インターネット層</text>
+    <text class="sub"      x="480" y="197" text-anchor="middle">IP / ICMP</text>
+
+    <rect class="tcp" x="380" y="205" width="200" height="67" rx="3" />
+    <text class="tcp-text" x="480" y="232" text-anchor="middle">ネットワーク</text>
+    <text class="tcp-text" x="480" y="248" text-anchor="middle">インタフェース層</text>
+    <text class="sub"      x="480" y="262" text-anchor="middle">Ethernet / Wi-Fi</text>
+  </g>
+
+  <!-- Connecting lines -->
+  <g>
+    <path class="arrow" d="M220 46 L380 80" />
+    <path class="arrow" d="M220 81 L380 80" />
+    <path class="arrow" d="M220 116 L380 85" />
+    <path class="arrow" d="M220 151 L380 151" />
+    <path class="arrow" d="M220 186 L380 186" />
+    <path class="arrow" d="M220 221 L380 235" />
+    <path class="arrow" d="M220 256 L380 245" />
+  </g>
+
+  <!-- Note -->
+  <text class="note" x="320" y="302" text-anchor="middle">左が理論の整理（OSI）／右が実運用の整理（TCP/IP）。</text>
+  <text class="note" x="320" y="320" text-anchor="middle">番号の上ほど「人に近い」。</text>
+</svg>

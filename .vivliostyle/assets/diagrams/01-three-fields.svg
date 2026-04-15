@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="ITパスポート 3 分野の関係図">
+  <defs>
+    <style>
+      .box { fill: #eaf4f2; stroke: #0e7c86; stroke-width: 1.4; }
+      .box-title { font-family: "Hiragino Kaku Gothic ProN", sans-serif; font-weight: 700; font-size: 15px; fill: #1f3a5f; }
+      .box-sub { font-family: "Hiragino Kaku Gothic ProN", sans-serif; font-size: 11px; fill: #5b6675; }
+      .arrow { fill: none; stroke: #3c5a80; stroke-width: 1.6; }
+      .label { font-family: "Hiragino Kaku Gothic ProN", sans-serif; font-size: 11px; fill: #3c5a80; }
+      .ground { fill: #fbfaf6; stroke: #c8d0da; stroke-width: 0.6; stroke-dasharray: 3 3; }
+      .read { font-family: "Hiragino Kaku Gothic ProN", sans-serif; font-size: 11px; fill: #5b6675; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3c5a80" />
+    </marker>
+  </defs>
+
+  <!-- Background band -->
+  <rect class="ground" x="20" y="30" width="600" height="140" rx="8" />
+
+  <!-- Strategy -->
+  <rect class="box" x="40" y="60" width="160" height="80" rx="6" />
+  <text class="box-title" x="120" y="90" text-anchor="middle">ストラテジ系</text>
+  <text class="box-sub" x="120" y="110" text-anchor="middle">経営・法務</text>
+  <text class="box-sub" x="120" y="126" text-anchor="middle">目的を決める</text>
+
+  <!-- Management -->
+  <rect class="box" x="240" y="60" width="160" height="80" rx="6" />
+  <text class="box-title" x="320" y="90" text-anchor="middle">マネジメント系</text>
+  <text class="box-sub" x="320" y="110" text-anchor="middle">開発・運用</text>
+  <text class="box-sub" x="320" y="126" text-anchor="middle">どう回すか</text>
+
+  <!-- Technology -->
+  <rect class="box" x="440" y="60" width="160" height="80" rx="6" />
+  <text class="box-title" x="520" y="90" text-anchor="middle">テクノロジ系</text>
+  <text class="box-sub" x="520" y="110" text-anchor="middle">HW / NW / DB / SEC</text>
+  <text class="box-sub" x="520" y="126" text-anchor="middle">何でできているか</text>
+
+  <!-- Arrows with labels -->
+  <path class="arrow" d="M 200 100 L 240 100" marker-end="url(#arrow)" />
+  <text class="label" x="220" y="92" text-anchor="middle">要件</text>
+
+  <path class="arrow" d="M 400 100 L 440 100" marker-end="url(#arrow)" />
+  <text class="label" x="420" y="92" text-anchor="middle">設計</text>
+
+  <!-- Reading note -->
+  <text class="read" x="320" y="210" text-anchor="middle">読み方：左が目的／右が手段。</text>
+  <text class="read" x="320" y="228" text-anchor="middle">ストラテジ → マネジメント → テクノロジの順に抽象度が下がる。</text>
+</svg>

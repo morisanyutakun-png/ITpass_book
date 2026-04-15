@@ -1,16 +1,17 @@
 % =============================================================
 % preamble.tex
-% パッケージ読み込みと日本語組版の基本設定（LuaLaTeX + luatexja）
+% パッケージ読み込み・紙面レイアウト・目次／章扉／見出しのデザイン
 % =============================================================
 
 % ---- 日本語組版 ----
 \usepackage{luatexja}
 \usepackage{luatexja-fontspec}
-% 既定フォントはシステム同梱の日本語フォントに任せる（luatexja の標準）
-% 環境差を避けるため明示的なフォント指定はしない
 
 % ---- レイアウト ----
-\usepackage[a5paper,top=20mm,bottom=22mm,left=18mm,right=18mm,headheight=28pt,headsep=6mm,footskip=12mm]{geometry}
+\usepackage[a5paper,
+  top=22mm, bottom=24mm, left=19mm, right=19mm,
+  headheight=16pt, headsep=8mm, footskip=12mm
+]{geometry}
 \usepackage{fancyhdr}
 \usepackage{enumitem}
 \usepackage{parskip}
@@ -18,34 +19,40 @@
 % ---- 図・表 ----
 \usepackage{graphicx}
 \usepackage{adjustbox}
-\usepackage{tikz}
-\usetikzlibrary{positioning,arrows.meta,shapes.geometric,fit,backgrounds,calc,shadows.blur}
 \usepackage{array}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{tabularx}
+\usepackage{colortbl}
+
+% ---- TikZ ----
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,fit,backgrounds,calc,shadows.blur}
 
 % ---- 囲み・色 ----
 \usepackage{xcolor}
 \usepackage[most]{tcolorbox}
-\tcbuselibrary{skins,breakable}
+\tcbuselibrary{skins,breakable,xparse}
 
 % ---- リンク・QR ----
 \usepackage{hyperref}
 \usepackage{qrcode}
 
+% ---- 見出し・目次 ----
+\usepackage{titlesec}  % section / subsection のみに使う（chapter は自作）
+\usepackage{titletoc}  % 目次の再デザイン
+
 % ---- その他 ----
 \usepackage{etoolbox}
 \usepackage{xparse}
 
-% ---- テーマ（色・TikZ スタイル）をここで読み込む ----
-% xcolor と tikz がロードされた後でなければ \definecolor と \tikzset が使えない
+% ---- テーマ（色・TikZ スタイル）を先に読む ----
 \input{styles/theme.tex}
 
 % ---- ハイパーリンク色 ----
 \hypersetup{
   colorlinks=true,
-  linkcolor=themeAccent,
+  linkcolor=themeMain,
   urlcolor=themeAccent,
   citecolor=themeAccent,
   bookmarksnumbered=true,
@@ -53,22 +60,116 @@
   pdfauthor={図でつながる ITパスポート 編集部}
 }
 
-% ---- 見出しスタイル ----
-% ltjsbook のクラス既定見出しを利用する（titlesec は ltjsbook と相性が悪いので使わない）。
+% =============================================================
+% 章扉：\@makechapterhead を再定義
+% 「CHIP＋THICKBAR＋TITLE＋ACCENTRULE」でメリハリを出す。
+% =============================================================
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{%
+  \vspace*{10pt}%
+  \noindent
+  \begin{minipage}[t]{\linewidth}
+    % 上段: 章番号チップ
+    \tikz[baseline=(n.base)]{
+      \node[
+        fill=chapChip, text=chapChipText,
+        inner xsep=10pt, inner ysep=5pt,
+        font=\sffamily\small\bfseries, rounded corners=1pt
+      ] (n) {\ CHAPTER\ \ \@arabic\c@chapter\ };
+    }%
+    \par
+    \vspace{8pt}%
+    % 太バー（章の"存在感"）
+    {\color{chapChip}\rule{0.38\linewidth}{5pt}}%
+    {\color{chapTagLine}\rule{0.22\linewidth}{5pt}}%
+    \par
+    \vspace{14pt}%
+    % メインタイトル
+    {\raggedright\LARGE\bfseries\color{themeMain} #1\par}%
+    \vspace{8pt}%
+    {\color{themeHair}\rule{\linewidth}{0.4pt}}%
+  \end{minipage}
+  \par
+  \vskip 22\p@
+}
+\makeatother
 
-% ---- ページヘッダ・フッタ ----
-% oneside 運用のため、E/O を分けず左右のみで指定する
+% =============================================================
+% 見出しデザイン（section / subsection のみ titlesec 適用）
+% =============================================================
+% section：色付きナンバーチップ＋本文色
+\titleformat{\section}
+  {\normalfont\Large\bfseries}
+  {%
+    \tikz[baseline=(s.base)]{
+      \node[
+        fill=themeAccent, text=white,
+        inner xsep=7pt, inner ysep=2.5pt,
+        font=\sffamily\normalsize\bfseries, rounded corners=1pt
+      ] (s) {\thesection};
+    }%
+  }
+  {0.6em}
+  {\color{themeMain}}
+
+% subsection：左バー＋ミュート色
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {%
+    {\color{themeAccent}\rule[-0.1ex]{\actorBarWidth}{1.0em}}%
+    \hspace{0.45em}%
+    {\color{themeSub}\thesubsection}%
+  }
+  {0.45em}
+  {\color{themeMain}}
+
+\titlespacing*{\section}{0pt}{20pt plus 2pt}{8pt}
+\titlespacing*{\subsection}{0pt}{14pt plus 2pt}{5pt}
+
+% section 見出しの直後に章の"呼吸"を入れるための小設定
+\renewcommand{\baselinestretch}{1.06}
+
+% =============================================================
+% 目次デザイン：章は大きく・節は小さく・ドットリーダーは極細
+% =============================================================
+\setcounter{tocdepth}{1}  % subsection を目次に出さない
+
+% 目次タイトルを柔らかく
+\renewcommand{\contentsname}{目次}
+
+% 章エントリ
+\titlecontents{chapter}[0pt]
+  {\addvspace{12pt}}
+  {%
+    \large\bfseries\color{themeMain}
+    \makebox[2.4em][l]{\thecontentslabel}%
+  }
+  {\large\bfseries\color{themeMain}}
+  {\normalfont\color{themeMuted}\ \titlerule*[0.7pc]{\footnotesize.}\ \contentspage}
+  [\vspace{1pt}{\color{themeHair}\rule{\linewidth}{0.3pt}}]
+
+% 節エントリ
+\titlecontents{section}[2em]
+  {\addvspace{2pt}\small}
+  {\color{themeSub}\makebox[2.2em][l]{\thecontentslabel}}
+  {}
+  {\normalfont\footnotesize\color{themeMuted}\ \titlerule*[0.7pc]{\tiny.}\ \contentspage}
+
+% =============================================================
+% ヘッダ・フッタ（oneside 運用）
+% =============================================================
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[R]{\small\nouppercase\leftmark}
-\fancyhead[L]{\small 図でつながる ITパスポート}
-\fancyfoot[C]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\small\color{themeMuted}\sffamily 図でつながる ITパスポート}
+\fancyhead[R]{\small\color{themeSub}\nouppercase\leftmark}
+\fancyfoot[C]{\small\color{themeMuted}\thepage}
+\renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
-\renewcommand{\headrule}{\hbox to\headwidth{\color{themeRule}\leaders\hrule height \headrulewidth\hfill}}
-
-% 章タイトルが \leftmark に流れすぎないよう短縮
-\renewcommand{\chaptermark}[1]{\markboth{第\thechapter 章\quad #1}{}}
+% ヘッダの下に極細罫線
+\renewcommand{\headrule}{%
+  \hbox to\headwidth{\color{themeHair}\leaders\hrule height 0.3pt\hfill}%
+}
+\renewcommand{\chaptermark}[1]{\markboth{第\,\thechapter\,章\quad #1}{}}
 
 % ---- リスト整形 ----
 \setlist[itemize]{leftmargin=1.4em,itemsep=2pt,topsep=4pt}
@@ -76,4 +177,4 @@
 
 % ---- 段落 ----
 \setlength{\parindent}{1em}
-\setlength{\parskip}{0.4em plus 0.1em minus 0.1em}
+\setlength{\parskip}{0.45em plus 0.1em minus 0.05em}
