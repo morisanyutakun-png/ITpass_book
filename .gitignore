@@ -1,0 +1,43 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.idx
+*.ilg
+*.ind
+*.dvi
+*.xdv
+*.thm
+*.lol
+*.listing
+book/_build/
+book/main.pdf
+book/**/*.aux
+
+# qrcode tmp
+*.qrcode.tex
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# Node / misc
+node_modules/
+.cache/

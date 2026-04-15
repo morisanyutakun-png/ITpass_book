@@ -1,0 +1,68 @@
+% =============================================================
+% main.tex
+% 図でつながる ITパスポート（書籍本体）
+% ビルド: LuaLaTeX + luatexja
+%   latexmk main.tex
+% =============================================================
+\documentclass[a5paper,11pt,openany,oneside]{ltjsbook}
+
+% preamble（パッケージ＋色定義）→ macros（カスタムコマンド）の順
+% theme.tex は preamble.tex 内部で xcolor/tikz ロード後に \input される。
+\input{styles/preamble.tex}
+\input{styles/macros.tex}
+
+% ---- 表紙情報 ----
+\title{\Huge 図でつながる ITパスポート\\[6pt]\large ―― 大学生・新社会人のための、理解で受かる参考書}
+\author{図でつながる ITパスポート 編集部}
+\date{初版}
+
+\begin{document}
+
+% ---- 表紙 ----
+\begin{titlepage}
+  \centering
+  \vspace*{40mm}
+  {\Huge\bfseries\color{themeMain} 図でつながる\\[6pt]ITパスポート\par}
+  \vspace{10mm}
+  {\large 大学生・新社会人のための、\\[2pt]理解で受かる参考書\par}
+  \vspace{30mm}
+  \supportqr{index}{サポートサイトはこちら}
+  \vfill
+  {\small 本が主役、Web は補助。\\ 用語の関係と図でつながる学習体験を。\par}
+  \vspace{10mm}
+\end{titlepage}
+
+% ---- 目次 ----
+\frontmatter
+\tableofcontents
+\cleardoublepage
+
+% ---- 本文 ----
+\mainmatter
+\include{chapters/00_intro}
+\include{chapters/01_strategy}
+\include{chapters/02_management}
+\include{chapters/03_technology}
+\include{chapters/04_cross_review}
+\include{chapters/05_mock_exam}
+
+% ---- 巻末 QR まとめ ----
+\backmatter
+\chapter*{サポートサイトの歩き方}
+\addcontentsline{toc}{chapter}{サポートサイトの歩き方}
+
+本書には、学習を補助する静的サポートサイトが付属します。
+サイトは教材の「主役」ではなく、本の「付録置き場」と「更新の窓口」です。
+以下の QR コードからそれぞれのページへアクセスできます。
+
+\vspace{4mm}
+\supportqr{downloads}{図解PDF・直前チェック資料}
+\supportqr{quiz}{クライアントサイド確認テスト}
+\supportqr{errata}{正誤表}
+\supportqr{changelog}{更新履歴}
+
+\vspace{8mm}
+\noindent\small サイトURL: {\ttfamily\supportbaseurl}\\
+\noindent 注意: 公開URLは予告なく変更される場合があります。最新の情報はサポートサイト上でご確認ください。
+
+\end{document}

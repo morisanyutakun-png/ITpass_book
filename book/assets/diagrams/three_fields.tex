@@ -1,0 +1,22 @@
+% 図: ITパスポート3分野の関係図
+% 用途: \input{assets/diagrams/three_fields}
+\begin{tikzpicture}[node distance=8mm and 8mm]
+
+  \node[keynode, minimum width=28mm] (strategy)
+    {\textbf{ストラテジ系}\\\footnotesize 経営・法務\\\footnotesize 目的を決める};
+  \node[keynode, minimum width=28mm, right=of strategy] (mgmt)
+    {\textbf{マネジメント系}\\\footnotesize 開発・運用\\\footnotesize どう回すか};
+  \node[keynode, minimum width=28mm, right=of mgmt] (tech)
+    {\textbf{テクノロジ系}\\\footnotesize HW/NW/DB/SEC\\\footnotesize 何でできているか};
+
+  \draw[arr2] (strategy) -- node[above, font=\scriptsize]{要件} (mgmt);
+  \draw[arr2] (mgmt) -- node[above, font=\scriptsize]{設計} (tech);
+
+  \node[subnode, below=6mm of mgmt, minimum width=92mm, text width=88mm]
+    (read) {\textbf{左が目的／右が手段}。ストラテジ→マネジメント→テクノロジの順に抽象度が下がる。};
+
+  \begin{scope}[on background layer]
+    \node[groupbg, fit=(strategy)(mgmt)(tech), inner sep=10pt] {};
+  \end{scope}
+
+\end{tikzpicture}

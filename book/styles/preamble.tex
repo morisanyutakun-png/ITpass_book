@@ -1,0 +1,79 @@
+% =============================================================
+% preamble.tex
+% パッケージ読み込みと日本語組版の基本設定（LuaLaTeX + luatexja）
+% =============================================================
+
+% ---- 日本語組版 ----
+\usepackage{luatexja}
+\usepackage{luatexja-fontspec}
+% 既定フォントはシステム同梱の日本語フォントに任せる（luatexja の標準）
+% 環境差を避けるため明示的なフォント指定はしない
+
+% ---- レイアウト ----
+\usepackage[a5paper,top=20mm,bottom=22mm,left=18mm,right=18mm,headheight=28pt,headsep=6mm,footskip=12mm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{parskip}
+
+% ---- 図・表 ----
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,fit,backgrounds,calc,shadows.blur}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+
+% ---- 囲み・色 ----
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{skins,breakable}
+
+% ---- リンク・QR ----
+\usepackage{hyperref}
+\usepackage{qrcode}
+
+% ---- その他 ----
+\usepackage{etoolbox}
+\usepackage{xparse}
+
+% ---- テーマ（色・TikZ スタイル）をここで読み込む ----
+% xcolor と tikz がロードされた後でなければ \definecolor と \tikzset が使えない
+\input{styles/theme.tex}
+
+% ---- ハイパーリンク色 ----
+\hypersetup{
+  colorlinks=true,
+  linkcolor=themeAccent,
+  urlcolor=themeAccent,
+  citecolor=themeAccent,
+  bookmarksnumbered=true,
+  pdftitle={図でつながる ITパスポート},
+  pdfauthor={図でつながる ITパスポート 編集部}
+}
+
+% ---- 見出しスタイル ----
+% ltjsbook のクラス既定見出しを利用する（titlesec は ltjsbook と相性が悪いので使わない）。
+
+% ---- ページヘッダ・フッタ ----
+% oneside 運用のため、E/O を分けず左右のみで指定する
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\small\nouppercase\leftmark}
+\fancyhead[L]{\small 図でつながる ITパスポート}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{themeRule}\leaders\hrule height \headrulewidth\hfill}}
+
+% 章タイトルが \leftmark に流れすぎないよう短縮
+\renewcommand{\chaptermark}[1]{\markboth{第\thechapter 章\quad #1}{}}
+
+% ---- リスト整形 ----
+\setlist[itemize]{leftmargin=1.4em,itemsep=2pt,topsep=4pt}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=2pt,topsep=4pt}
+
+% ---- 段落 ----
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0.4em plus 0.1em minus 0.1em}

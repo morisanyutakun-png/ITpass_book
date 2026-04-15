@@ -1,0 +1,49 @@
+% =============================================================
+% theme.tex
+% 配色・装飾テーマ（落ち着いた学習書デザイン）
+% =============================================================
+
+% メインカラー（濃紺系：落ち着き）
+\definecolor{themeMain}{HTML}{1F3A5F}
+% サブ（青灰）
+\definecolor{themeSub}{HTML}{3C5A80}
+% アクセント（シアン寄り：リンクや強調）
+\definecolor{themeAccent}{HTML}{0E7C86}
+% 警告・注意（赤橙を少しくすませる）
+\definecolor{themeAlert}{HTML}{B24B2C}
+% 情報補足（やや暖かいベージュ）
+\definecolor{themeInfoBg}{HTML}{FBF6EC}
+% 要点（淡いミント）
+\definecolor{themeKeyBg}{HTML}{EAF4F2}
+% つまずき（淡い桃）
+\definecolor{themePitBg}{HTML}{FBEDE7}
+% 比較（淡い藍）
+\definecolor{themeCmpBg}{HTML}{ECF0F7}
+% 罫線
+\definecolor{themeRule}{HTML}{C8D0DA}
+% まとめ（淡い黄）
+\definecolor{themeSumBg}{HTML}{FFF8DA}
+
+% TikZ のノード既定
+\tikzset{
+  node distance=10mm and 12mm,
+  every node/.style={font=\small},
+  boxnode/.style={
+    draw=themeMain, thick, fill=white, rounded corners=3pt,
+    inner sep=5pt, align=center, minimum height=8mm
+  },
+  keynode/.style={
+    draw=themeAccent, thick, fill=themeKeyBg, rounded corners=3pt,
+    inner sep=5pt, align=center, minimum height=8mm
+  },
+  subnode/.style={
+    draw=themeSub, thin, fill=white, rounded corners=2pt,
+    inner sep=4pt, align=center, font=\footnotesize
+  },
+  groupbg/.style={
+    draw=themeRule, dashed, fill=themeCmpBg, rounded corners=4pt,
+    inner sep=6pt
+  },
+  arr/.style={-{Latex[length=2mm]}, themeSub, thick},
+  arr2/.style={{Latex[length=2mm]}-{Latex[length=2mm]}, themeSub, thick},
+}

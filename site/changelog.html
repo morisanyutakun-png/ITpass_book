@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>更新履歴 — 図でつながる ITパスポート</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script defer src="assets/js/main.js"></script>
+  <script defer>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const mount = document.querySelector("#changelog-root");
+      try {
+        const data = await fetchJSON("data/changelog.json");
+        const rows = Array.isArray(data.items) ? data.items : [];
+        renderTable(mount, rows, [
+          { label: "日付", render: (r) => formatDate(r.date) },
+          {
+            label: "種別",
+            render: (r) => {
+              const cls =
+                r.type === "fix" ? "badge--fix" : r.type === "add" ? "badge--add" : "badge--update";
+              const label =
+                r.type === "fix" ? "修正" : r.type === "add" ? "追加" : "更新";
+              return `<span class="badge ${cls}">${label}</span>`;
+            },
+          },
+          { label: "対象", key: "target" },
+          { label: "内容", key: "description" },
+        ]);
+      } catch (e) {
+        mount.innerHTML = `<p style="color:var(--color-alert)">データの読み込みに失敗しました: ${e.message}</p>`;
+      }
+    });
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div class="site-title">
+        図でつながる ITパスポート
+        <small>大学生・新社会人のための、理解で受かる参考書</small>
+      </div>
+      <nav class="site-nav" aria-label="主要ナビ">
+        <a href="index.html">トップ</a>
+        <a href="about.html">本書について</a>
+        <a href="downloads.html">ダウンロード</a>
+        <a href="quiz.html">確認テスト</a>
+        <a href="errata.html">正誤表</a>
+        <a href="changelog.html">更新履歴</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>更新履歴</h1>
+      <p>本書本体とサポートサイト、配布資料、確認テストの更新内容を時系列で掲載します。</p>
+    </section>
+
+    <section>
+      <h2>変更ログ</h2>
+      <div id="changelog-root"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    © 図でつながる ITパスポート 編集部
+  </footer>
+</body>
+</html>

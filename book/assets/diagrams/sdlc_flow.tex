@@ -1,0 +1,25 @@
+% 図: システム開発工程の流れ図
+% 用途: \input{assets/diagrams/sdlc_flow}
+\begin{tikzpicture}[node distance=4mm and 5mm]
+
+  \node[boxnode, minimum width=19mm] (req)  {要件定義};
+  \node[boxnode, minimum width=19mm, right=of req]  (design) {設計};
+  \node[boxnode, minimum width=19mm, right=of design] (impl)  {実装};
+  \node[boxnode, minimum width=19mm, right=of impl]   (test)  {テスト};
+  \node[boxnode, minimum width=19mm, right=of test]   (op)    {運用・保守};
+
+  \draw[arr] (req)    -- (design);
+  \draw[arr] (design) -- (impl);
+  \draw[arr] (impl)   -- (test);
+  \draw[arr] (test)   -- (op);
+
+  \node[subnode, below=5mm of req,    minimum width=19mm] {何を作る};
+  \node[subnode, below=5mm of design, minimum width=19mm] {どう作る};
+  \node[subnode, below=5mm of impl,   minimum width=19mm] {作る};
+  \node[subnode, below=5mm of test,   minimum width=19mm] {動くか};
+  \node[subnode, below=5mm of op,     minimum width=19mm] {使い続ける};
+
+  \node[subnode, below=14mm of impl, minimum width=108mm, text width=100mm, align=center]
+    {ウォーターフォール：一方向に進む／アジャイル：この流れを小さく何周もする};
+
+\end{tikzpicture}

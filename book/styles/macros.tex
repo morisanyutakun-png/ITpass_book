@@ -1,0 +1,166 @@
+% =============================================================
+% macros.tex
+% 教材用の共通マクロ（囲み・比較・確認・QR など）
+% =============================================================
+
+% ---- サポートサイト URL（QR 連携の一元管理） ----
+% GitHub Pages の公開URLが決まったら、ここだけを書き換える。
+% \detokenize を \edef で強制適用し、URL 中の "_" 等が数式扱いされないようにする。
+\edef\supportbaseurl{\detokenize{https://morisanyutakun-png.github.io/ITpass_book/}}
+
+% 章補助URL: \supporturl{errata} → <base>errata.html
+\NewDocumentCommand{\supporturl}{m}{\supportbaseurl\detokenize{#1}.html}
+
+% ---- QR コード ----
+% \supportqr{quiz}{確認テスト} のように使う
+% qrcode は引数を展開しないため、\edef で事前に URL 文字列を確定させる。
+\makeatletter
+\newcommand{\itp@qrurl}{}
+\NewDocumentCommand{\supportqr}{m m}{%
+  \begingroup
+  \edef\itp@qrurl{\supportbaseurl\detokenize{#1}.html}%
+  \begin{center}
+    \begin{tcolorbox}[
+      enhanced, colback=white, colframe=themeRule,
+      boxrule=0.4pt, arc=2pt, left=6pt,right=6pt,top=6pt,bottom=6pt,
+      width=0.78\linewidth
+    ]
+      \begin{minipage}{0.30\linewidth}
+        \centering
+        \qrcode[height=22mm]{\itp@qrurl}
+      \end{minipage}%
+      \hfill
+      \begin{minipage}{0.62\linewidth}
+        \small
+        \textbf{#2}\\[2pt]
+        スマートフォンのカメラで読み取ると、\\
+        サポートサイトの該当ページへ移動します。\\[2pt]
+        {\tiny\urlstyle{tt}\expandafter\nolinkurl\expandafter{\itp@qrurl}}
+      \end{minipage}
+    \end{tcolorbox}
+  \end{center}%
+  \endgroup
+}
+\makeatother
+
+% ---- 定義ボックス ----
+\newtcolorbox{definitionbox}[1][定義]{%
+  enhanced, breakable,
+  colback=themeKeyBg, colframe=themeAccent, boxrule=0.6pt,
+  arc=3pt, left=10pt, right=10pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries\color{white},
+  title={#1},
+  colbacktitle=themeAccent,
+  attach boxed title to top left={xshift=6pt, yshift=-\tcboxedtitleheight/2},
+  boxed title style={colframe=themeAccent, sharp corners=all, arc=2pt},
+  before upper=\vspace{2pt},
+}
+\newcommand{\definitionbx}[2]{\begin{definitionbox}[#1]#2\end{definitionbox}}
+
+% ---- つまずきポイント ----
+\newtcolorbox{pitfallbox}[1][つまずきポイント]{%
+  enhanced, breakable,
+  colback=themePitBg, colframe=themeAlert, boxrule=0.6pt,
+  arc=3pt, left=10pt, right=10pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries\color{white},
+  title={#1},
+  colbacktitle=themeAlert,
+  attach boxed title to top left={xshift=6pt, yshift=-\tcboxedtitleheight/2},
+  boxed title style={colframe=themeAlert, sharp corners=all, arc=2pt},
+  before upper=\vspace{2pt},
+}
+\newcommand{\pitfall}[2]{\begin{pitfallbox}[#1]#2\end{pitfallbox}}
+
+% ---- 比較ボックス（表を中に入れて使う想定） ----
+\newtcolorbox{comparisonbox}[1][比較]{%
+  enhanced, breakable,
+  colback=themeCmpBg, colframe=themeSub, boxrule=0.5pt,
+  arc=3pt, left=8pt, right=8pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries\color{white},
+  title={#1},
+  colbacktitle=themeSub,
+  attach boxed title to top left={xshift=6pt, yshift=-\tcboxedtitleheight/2},
+  boxed title style={colframe=themeSub, sharp corners=all, arc=2pt},
+  before upper=\vspace{2pt},
+}
+\newcommand{\comparisonbx}[2]{\begin{comparisonbox}[#1]#2\end{comparisonbox}}
+
+% ---- 1 枚まとめ ----
+\newtcolorbox{summarybox}[1][この節のまとめ]{%
+  enhanced, breakable,
+  colback=themeSumBg, colframe=themeMain, boxrule=0.6pt,
+  arc=3pt, left=10pt, right=10pt, top=6pt, bottom=8pt,
+  fonttitle=\bfseries\color{white},
+  title={#1},
+  colbacktitle=themeMain,
+  attach boxed title to top left={xshift=6pt, yshift=-\tcboxedtitleheight/2},
+  boxed title style={colframe=themeMain, sharp corners=all, arc=2pt},
+  before upper=\vspace{2pt},
+}
+\newcommand{\onelinesummary}[2][この節のまとめ]{\begin{summarybox}[#1]#2\end{summarybox}}
+
+% ---- 学習アドバイス（軽め） ----
+\newtcolorbox{adviceinline}{%
+  enhanced, breakable,
+  colback=themeInfoBg, colframe=themeRule, boxrule=0.4pt,
+  arc=2pt, left=8pt, right=8pt, top=4pt, bottom=4pt,
+  fontupper=\small,
+}
+\newcommand{\advice}[1]{\begin{adviceinline}\textbf{\small 学習アドバイス}\quad #1\end{adviceinline}}
+
+% ---- 章末確認（4 択） ----
+% \checkquestion{問題文}{選択肢A}{選択肢B}{選択肢C}{選択肢D}{正解ラベル}{解説}
+\NewDocumentCommand{\checkquestion}{m m m m m m m}{%
+  \begingroup
+  \par\medskip
+  \noindent\textbf{確認問題}\quad #1\par
+  \begin{enumerate}[label=\textbf{\Alph*.},leftmargin=2em,itemsep=1pt,topsep=2pt]
+    \item #2
+    \item #3
+    \item #4
+    \item #5
+  \end{enumerate}
+  \begin{adviceinline}
+    \textbf{正解}\ #6\par
+    \textbf{解説}\ #7
+  \end{adviceinline}
+  \par\medskip
+  \endgroup
+}
+
+% ---- 章まとめ見出し ----
+\newcommand{\chaptersummary}[1]{%
+  \section*{この章のまとめ}%
+  \addcontentsline{toc}{section}{この章のまとめ}%
+  #1
+}
+
+% ---- 図番号付き図挿入（TikZ / image 共通） ----
+% \figurebox{キャプション}{ラベル}{中身}
+% 中身を \resizebox で本文幅以内に自動縮小し、overfull を防ぐ。
+\NewDocumentCommand{\figurebox}{m m m}{%
+  \begin{figure}[ht]
+    \centering
+    \adjustbox{max width=\linewidth}{#3}%
+    \caption{#1}\label{#2}
+  \end{figure}%
+}
+
+% ---- 強調用の小タグ ----
+\newcommand{\termtag}[1]{\textcolor{themeAccent}{\textbf{#1}}}
+\newcommand{\altterm}[1]{\textcolor{themeSub}{\textsf{#1}}}
+
+% ---- 比較表の軽いテンプレ ----
+% \comptable{ヘッダ行}{本体行 (& で区切り、\\で改行)}
+\NewDocumentCommand{\comptable}{m m}{%
+  \begin{center}
+  \small
+  \begin{tabularx}{0.96\linewidth}{@{}l X X@{}}
+    \toprule
+    #1 \\
+    \midrule
+    #2 \\
+    \bottomrule
+  \end{tabularx}
+  \end{center}%
+}

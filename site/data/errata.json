@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "note": "刷単位の正誤情報。初版刊行前はダミー行のみ。修正対象が確定したら printing / location / wrong / correct / date を更新する。",
+  "items": [
+    {
+      "printing": "初版 第1刷（予定）",
+      "location": "—",
+      "wrong": "（現在、公開中の正誤情報はありません）",
+      "correct": "—",
+      "date": "2026-04-15"
+    }
+  ]
+}
