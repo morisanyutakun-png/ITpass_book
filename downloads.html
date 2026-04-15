@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ダウンロード — 図でつながる ITパスポート</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script defer src="assets/js/main.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div class="site-title">
+        図でつながる ITパスポート
+        <small>大学生・新社会人のための、理解で受かる参考書</small>
+      </div>
+      <nav class="site-nav" aria-label="主要ナビ">
+        <a href="index.html">トップ</a>
+        <a href="about.html">本書について</a>
+        <a href="downloads.html">ダウンロード</a>
+        <a href="quiz.html">確認テスト</a>
+        <a href="errata.html">正誤表</a>
+        <a href="changelog.html">更新履歴</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>ダウンロード</h1>
+      <p>本書の学習を支える図解 PDF と、直前チェック資料です。本書の QR コードからも同じファイルにアクセスできます。</p>
+    </section>
+
+    <section>
+      <h2>主要資料</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>図解 PDF（1 枚まとめ集）</h3>
+          <p>各章末の「1 枚まとめ」だけを集めたコンパクト版。A4 印刷で壁に貼って使うのがおすすめです。</p>
+          <a class="card__link" href="downloads/one-page-summary.pdf">ダウンロード（準備中）→</a>
+        </div>
+        <div class="card">
+          <h3>直前チェック資料</h3>
+          <p>試験前日〜当日に見返すための要点整理。比較表と用語の対応図だけを厳選して収録します。</p>
+          <a class="card__link" href="downloads/last-minute-check.pdf">ダウンロード（準備中）→</a>
+        </div>
+        <div class="card">
+          <h3>本書本体 PDF</h3>
+          <p>（任意）電子版として提供する場合のリンク先。運用方針は初版リリース時に確定します。</p>
+          <a class="card__link" href="downloads/itpass-book.pdf">ダウンロード（準備中）→</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>ダウンロード資料の作り方（著者向けメモ）</h2>
+      <div class="box box--cmp">
+        <div class="box__title">配置ルール</div>
+        <ul class="list-plain">
+          <li>PDF ファイルは <code>book/downloads/</code> に置く</li>
+          <li>GitHub Actions が <code>site/downloads/</code> に複製する</li>
+          <li>ファイル名は英小文字・ハイフン区切りで統一する</li>
+          <li>本書の QR コードと差し替え可能にするため、ファイル名は変更しない</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    © 図でつながる ITパスポート 編集部
+  </footer>
+</body>
+</html>
