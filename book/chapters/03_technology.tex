@@ -3,18 +3,230 @@
 % =============================================================
 \chapter{テクノロジ系：何でできているかを見る}
 
-\section{ハードウェアとソフトウェアの棲み分け}
+テクノロジ系は出題数が最も多く、Iパスの\textbf{合否を分ける主戦場}です。
+範囲は広いものの、\textbf{階層構造}で整理すると怖くありません。
+本章は\textbf{基礎理論 → ハードウェア → ソフトウェア → ネットワーク → データベース → セキュリティ → AI}
+の順で、下から上へ階段を上がるように説明します。
 
-\pitfall{「OS」と「アプリ」と「ミドルウェア」の境界が曖昧}{
-初学者が最初に混乱するのが、ソフトウェアの階層です。
-\textbf{下から}ハードウェア → OS → ミドルウェア → アプリケーション、という\termtag{地層}で覚えます。
+\section{基礎理論：数の表現と計算量}
+
+\subsection{2 進数・16 進数と接頭語}
+
+\definitionbx{コンピュータが扱う数の表現}{
+コンピュータは内部で 0／1 の\termtag{2 進数}を扱い、表示や記述では\termtag{16 進数}を使う。
+\begin{itemize}
+  \item 1 ビット＝0 か 1 の 1 桁
+  \item 1 バイト＝8 ビット（256 種類）
+  \item 接頭語：K（$10^3$）→ M（$10^6$）→ G（$10^9$）→ T（$10^{12}$）
+\end{itemize}
+}
+
+\pitfall{SI 接頭語の桁を 1 つ間違える}{
+G（ギガ）と T（テラ）の関係を「G の 1000 倍が T」「M の 1000 倍が G」と覚えると、3 桁ずつの階段が崩れません。
+\textbf{G $\times 10^3$ = T}、\textbf{M $\times 10^3$ = G} です。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：CPU クロック周波数や通信速度に使う SI 接頭語の関係を問う問題で、適切な記述は\textbf{「G の $10^3$ 倍は T である」}。
+M の $10^3$ は G、M の $10^6$ は T で、3 桁ずつ上がる対応を覚えます。
+\hfill \textit{cf.} 令和5年度 問96
+\end{adviceinline}
+
+\subsection{論理演算と真理値}
+
+\comparisonbx{論理演算の基本}{%
+\comptable{演算 & 結果が真になる条件 & 表記の例}{
+論理積 (AND) & 両方が真 & A $\land$ B \\
+論理和 (OR)  & どちらかが真 & A $\lor$ B \\
+否定 (NOT)   & 元が偽 & $\lnot$ A \\
+排他的論理和 (XOR) & どちらか一方だけが真 & A $\oplus$ B
+}
+}
+
+\subsection{アルゴリズムと計算量}
+
+\comparisonbx{探索アルゴリズムの比較}{%
+\comptable{方法 & 前提 & 計算量}{
+線形探索 & 並び順問わず & $O(n)$ \\
+2 分探索 & \textbf{ソート済み}が前提 & $O(\log n)$
+}
+}
+
+\pitfall{2 分探索は「常に速い」とは限らない}{
+2 分探索は\textbf{要素が昇順／降順に並んでいる}ことが前提です。
+ソートされていない配列に対しては適用できないため、線形探索が現実解になります。
+\textbf{要素数が同じでも、値の特徴によって探索回数が変わる}のはここからきます。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：配列の探索アルゴリズムについて適切な記述は、
+\textbf{「線形探索法で必要な計算量は、配列の要素数に比例する」}。
+2 分探索が常に速いという記述や、線形探索にソートが必要という記述は誤りです。
+\hfill \textit{cf.} 令和5年度 問69
+\end{adviceinline}
+
+\subsection{擬似言語の読み方（基礎）}
+
+Iパスでは、IPA 公式の擬似言語による短い手続きを読ませる問題が出題されます。
+ポイントは\textbf{「変数の遷移を 1 行ずつ追う」}こと。
+
+\advice{%
+\textbf{擬似言語問題の解き方手順}：
+\begin{enumerate}
+  \item \textbf{初期値}を表に書き出す
+  \item ループは\textbf{先頭の数回}を手で回して変化を追う
+  \item if／else は\textbf{条件式の真偽}を必ず「真／偽」で判定
+  \item 返り値が「累積」なら\textbf{加算系}、「並べ替え」なら\textbf{交換系}と当たりをつける
+\end{enumerate}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：1 から max までの整数の総和を返す関数の空欄補充は、
+\textbf{calcX $\leftarrow$ calcX + n}（加算による累積）。
+$\times n$（積算）、$+1$（カウント）、$\leftarrow n$（上書き）はいずれも「総和」の意味と合いません。
+\hfill \textit{cf.} 令和5年度 問64
+\end{adviceinline}
+
+\section{ハードウェアの基本}
+
+\pitfall{「OS」「アプリ」「ミドルウェア」の境界が曖昧}{
+ソフトウェアは\textbf{下から}：ハードウェア → OS → ミドルウェア → アプリケーション、という\termtag{地層}構造。
 OS は「ハードとアプリの通訳」、ミドルウェアは「アプリが共通で使う裏方（DBMS、Web サーバなど）」です。
 }
 
+\subsection{CPU・主記憶・補助記憶}
+
+\comparisonbx{記憶装置の階層（上が速く小さい）}{%
+\comptable{階層 & 速度 & 容量}{
+CPU レジスタ & 最速 & 数十バイト \\
+キャッシュ (L1/L2/L3) & 高速 & MB 単位 \\
+主記憶 (DRAM) & 中速 & GB 単位 \\
+補助記憶 (SSD/HDD) & 低速 & TB 単位
+}
+}
+
+\subsection{記憶媒体の種類}
+
+\comparisonbx{光ディスクの種類と用途}{%
+\comptable{種類 & 書込み & 用途}{
+DVD-ROM & \textbf{読出し専用} & ソフト配布 \\
+DVD-R & 1 回書込み & データ保存 \\
+DVD-RW/DVD-RAM & 何度も書換え & バックアップ
+}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：「読出し専用の DVD」を選ぶ問題では、\textbf{DVD-ROM} が正解。
+末尾の\textbf{ROM＝Read Only Memory}という英語の意味から逆引きできるようにしておきます。
+\hfill \textit{cf.} 令和5年度 問88
+\end{adviceinline}
+
+\subsection{RAID：複数ディスクで信頼性／速度を上げる}
+
+\comparisonbx{RAID の代表的なレベル}{%
+\comptable{種類 & 仕組み & 容量／信頼性}{
+RAID 0 & ストライピング（分散） & 容量 = 合計／信頼性\textbf{低い} \\
+RAID 1 & ミラーリング（複製） & 容量 = 半分／信頼性\textbf{高い} \\
+RAID 5 & 分散＋パリティ & 容量 = (n-1)／1 台故障耐性
+}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：500 GB の HDD 2 台で構成した場合、
+\textbf{RAID 0 は 1 TB（合計）／RAID 1 は 500 GB（半分）}。
+速度重視＝0、信頼性重視＝1 という対応はすぐ言えるようにします。
+\hfill \textit{cf.} 令和5年度 問63
+\end{adviceinline}
+
+\subsection{IoT 関連デバイス}
+
+\comparisonbx{IoT 関連のキーワード}{%
+\comptable{用語 & 何のための技術 & 関連分野}{
+スマートメーター & 電力・ガスの自動計測 & 公益事業 \\
+コネクテッドカー & 車のネット接続 & 自動車 \\
+スマートスピーカー & 音声操作 & 家電 \\
+ウェアラブル & 身体装着型機器 & ヘルスケア \\
+PLC & \textbf{電力線通信} & IoT 接続 \\
+PoE & LAN ケーブルで給電 & ネットワーク
+}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：住宅などに設置され、電気・ガスなどの使用量を自動的に計測して送信するのは\textbf{スマートメーター}。
+カーナビ等の速度センサ、モバイル端末のリモート消去、歩数計とは目的・場所が違います。
+\hfill \textit{cf.} 令和5年度 問98
+\end{adviceinline}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：電力線に高周波信号を乗せて伝送路として使う技術は\textbf{PLC}（Power Line Communication）。
+PoE は LAN ケーブル経由の給電、エネルギーハーベスティングは環境発電、テザリングは携帯電話を中継した接続です。
+\hfill \textit{cf.} 令和5年度 問87
+\end{adviceinline}
+
+\section{ソフトウェアと OS}
+
+\subsection{OS の役割}
+
+\definitionbx{OS（Operating System）の役割}{
+\textbf{ハードウェアとアプリケーションの通訳}。
+具体的にはプロセス管理・メモリ管理・ファイル管理・入出力制御・利用者認証などを担う。
+}
+
+\pitfall{オートランで感染するとは？}{
+USB メモリなどを差したときに\textbf{自動でプログラムを実行する}機能を\termtag{オートラン}（Autorun）といいます。
+便利な一方で、感染したメディアを刺すだけで\textbf{マルウェアが実行される}リスクがあります。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：「USB メモリ等を接続した際にプログラムを自動的に実行する OS の機能」は\textbf{オートラン}。
+オートコレクト（自動修正）、オートコンプリート（自動補完）、オートフィルター（一覧絞込み）とは別物です。
+\hfill \textit{cf.} 令和5年度 問80
+\end{adviceinline}
+
+\subsection{オープンソース（OSS）}
+
+\definitionbx{OSS（Open Source Software）の自由}{
+\begin{itemize}
+  \item ソースコードを\textbf{自由に入手・改変・再配布}できる
+  \item ライセンスに従う限り\textbf{無償}で利用できる
+  \item 著作権は\textbf{放棄されておらず、ライセンスで条件が定められている}
+\end{itemize}
+}
+
+\pitfall{「OSS = 著作権放棄」ではない}{
+OSS のソースは無償で入手可能ですが、\textbf{著作権そのものは放棄されていません}。
+ライセンス（GPL／MIT 等）に従うことが利用条件であり、無断利用が可能というわけではありません。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：OSS について適切な記述は\textbf{「ソースコードに手を加えて再配布することができる」}のみ。
+「保守サポートが必須」「著作権放棄」は OSS の本質と異なります。
+\hfill \textit{cf.} 令和5年度 問82
+\end{adviceinline}
+
+\subsection{表計算の関数（IF・論理積・論理和）}
+
+Iパスでは表計算の式の読み取り問題が頻出します。基本は\textbf{IF と論理演算の組合せ}です。
+
+\definitionbx{表計算でよく使う論理関数}{
+\begin{itemize}
+  \item IF(条件式, 真の値, 偽の値)
+  \item 論理積(条件 1, 条件 2, ...) ＝ \textbf{AND}（すべて真で真）
+  \item 論理和(条件 1, 条件 2, ...) ＝ \textbf{OR}（少なくとも一つ真で真）
+\end{itemize}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：「合計が 120 点以上」\textbf{または}「いずれかが 100 点」のとき合格、それ以外を不合格、と表示する式は、
+\textbf{IF(論理和(...), '合格', '不合格')}。
+論理積（AND）では「合計が高くかつ満点科目あり」となり、条件が厳しすぎて誤答になります。
+\hfill \textit{cf.} 令和5年度 問75
+\end{adviceinline}
+
 \section{ネットワークの考え方}
 
-\pitfall{「IP」と「MAC」と「URL」の役割がごちゃごちゃ}{
-これは住所のたとえで一気にほどけます。
+\pitfall{「IP」「MAC」「URL」「DNS」がごちゃごちゃ}{
+住所のたとえで一気にほどけます。
 \begin{itemize}
   \item \termtag{MAC アドレス}：機器に焼き付いた\textbf{機器固有の番号}（身分証番号）
   \item \termtag{IP アドレス}：ネットワーク上の\textbf{現在の居場所}（住民票の住所）
@@ -27,6 +239,8 @@ URL → IP に変換する仕組みが\termtag{DNS}、IP → MAC に変換する
   \input{assets/diagrams/network_layers}%
 }
 
+\subsection{TCP／UDP と TCP/IP の階層}
+
 \comparisonbx{TCP と UDP}{%
 \comptable{観点 & TCP & UDP}{
 信頼性 & 高い（再送・順序制御） & 低い（届かないことがある） \\
@@ -37,8 +251,80 @@ URL → IP に変換する仕組みが\termtag{DNS}、IP → MAC に変換する
 
 \advice{%
 \textbf{「確実だが遅い TCP」「速いが雑な UDP」}と覚えれば、典型問題の 8 割は解けます。
-「通信品質を保証する必要がある業務系 → TCP」「リアルタイム性が必要 → UDP」の反射を作りましょう。
+\textbf{業務系 → TCP、リアルタイム系 → UDP} の反射を作りましょう。
 }
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：TCP の特徴を問う問題では、
+\textbf{「再送制御と順序制御を備え、信頼性を確保する」}が正解。
+接続なし送信は UDP、IP$\to$MAC 変換は ARP、ドメイン名$\to$IP 変換は DNS の説明です。
+\hfill \textit{cf.} 令和5年度 問68
+\end{adviceinline}
+
+\subsection{サブネットマスクと IP の切り分け}
+
+\definitionbx{サブネットマスク}{
+IP アドレスを\textbf{ネットワーク部}と\textbf{ホスト部}に分ける「物差し」。
+先頭から何ビットをネットワーク部に使うかを定義する。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：サブネットマスクの役割は\textbf{「IP アドレスの先頭から何ビットをネットワークアドレスに使用するかを定義する」}。
+ARP（IP→MAC）、DHCP（自動設定取得）、DNS（ドメイン名→IP）の機能と取り違えないように。
+\hfill \textit{cf.} 令和5年度 問97
+\end{adviceinline}
+
+\subsection{無線 LAN（WPA2／PSK）}
+
+\definitionbx{PSK（Pre-Shared Key）}{
+無線 LAN ルータと PC の間で事前に共有する\textbf{パスフレーズ}。
+PSK から暗号鍵が生成され、PC ごとに異なる暗号鍵で通信される。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：WPA2 で設定する PSK の説明として適切なのは、
+\textbf{「アクセスポイントへの接続を認証するときに用いるパスフレーズで、この符号に基づき接続する PC ごとに通信の暗号化に用いる鍵が生成される」}。
+SSID（識別名）や IP アドレス割当てとは役割が異なります。
+\hfill \textit{cf.} 令和5年度 問65
+\end{adviceinline}
+
+\subsection{インターネット応用：VoIP・電子メール}
+
+\definitionbx{電子メールのプロトコル}{
+\textbf{送信は SMTP}、\textbf{受信は POP3 または IMAP}。
+メーリングリストでは\textbf{宛先に登録メンバー全員のアドレスが書かれない}（リスト宛 1 つ）。
+}
+
+\pitfall{「@ の左側」と「@ の右側」を取り違える}{
+メールアドレス \texttt{user@example.com} の\textbf{左側がユーザ名、右側がドメイン名}。
+転送先のサーバを決めるのはドメイン名（右側）です。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：電子メールに関する適切な記述は、
+\textbf{「メール転送サービスを利用すると、自分名義の複数のメールアドレス宛に届いた電子メールを一つのメールボックスに保存することができる」}。
+SMTP/POP の対応や @ の左右の役割は典型ひっかけです。
+\hfill \textit{cf.} 令和5年度 問92
+\end{adviceinline}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：「相互に同じアプリケーションを使ってインターネット越しに音声通話を行う技術」は\textbf{VoIP}。
+MVNO は通信契約形態、NFC は近距離無線、NTP は時刻同期で目的が違います。
+\hfill \textit{cf.} 令和5年度 問83
+\end{adviceinline}
+
+\subsection{クラスタリング}
+
+\definitionbx{クラスタリング}{
+複数のコンピュータを連携させ、\textbf{利用者から見ると 1 台のシステム}のように動作させる技法。
+信頼性・処理能力を同時に高められる。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：「複数のコンピュータを連携させて全体として一つのコンピュータであるかのように動作させる技法」は\textbf{クラスタリング}。
+スプーリング（出力の一時保存）、バッファリング、ミラーリング（複製）と区別。
+\hfill \textit{cf.} 令和5年度 問70
+\end{adviceinline}
 
 \section{データベースの基本}
 
@@ -47,8 +333,46 @@ URL → IP に変換する仕組みが\termtag{DNS}、IP → MAC に変換する
 SQL で操作する。一貫性を守る性質を\termtag{ACID} 特性という。
 }
 
+\subsection{主キーと外部キー}
+
+\pitfall{主キーと外部キーを取り違える}{
+\termtag{主キー}は「その表で一意に決まる列（本人確認）」、
+\termtag{外部キー}は「他の表の主キーを参照する列（つながり）」です。
+\textbf{「自分を指す vs 相手を指す」}が本質的な違いです。
+}
+
+\comparisonbx{主キーの設定ルール}{%
+\comptable{条件 & 可否 & 補足}{
+他レコードと\textbf{重複}する値 & 不可 & 一意性が崩れる \\
+\textbf{NULL} & 不可 & 識別できない \\
+\textbf{複数列の組合せ} & 可能（複合主キー） & 多対多の中間表で頻出 \\
+数値以外（文字列等） & 可能 & 数値である必要はない
+}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：主キーの設定について適切な組合せは、
+\textbf{「重複値は使えない」}＋\textbf{「複数フィールドで構成できる」}。
+インデックスとの重複制限や数値限定の記述は誤りです。
+\hfill \textit{cf.} 令和5年度 問78
+\end{adviceinline}
+
+\subsection{正規化}
+
+\definitionbx{正規化}{
+重複や更新時の不整合をなくすため、表を\textbf{意味のまとまりごとに分割}する設計手法。
+1NF→2NF→3NF と段階的に進む。
+}
+
+\advice{%
+正規化問題は「\textbf{誰が誰の主キーを参照するか}」を線で結ぶと解けます。
+中間表（多対多を解消する表）には、両側の主キーを持たせて複合主キーにするのが定番です。
+}
+
+\subsection{SQL の基本動詞とトランザクション}
+
 \comparisonbx{SQL の基本動詞}{%
-\comptable{動詞 & 意味 & 生活でのたとえ}{
+\comptable{動詞 & 意味 & 生活のたとえ}{
 SELECT & 取り出す & 冷蔵庫から材料を選ぶ \\
 INSERT & 入れる & 買ってきたものをしまう \\
 UPDATE & 書き換える & ラベルを貼り直す \\
@@ -56,77 +380,441 @@ DELETE & 消す & 期限切れを捨てる
 }
 }
 
-\pitfall{主キーと外部キーをとり違える}{
-\termtag{主キー}は「その表で一意に決まる列（本人確認）」、
-\termtag{外部キー}は「他の表の主キーを参照する列（つながり）」です。
-\textbf{「自分を指す vs 相手を指す」}が本質的な違いです。
+\definitionbx{トランザクションのコミット／ロールバック}{
+\begin{itemize}
+  \item \termtag{コミット}：トランザクションが正常に処理されたとき、データベースへの更新を\textbf{確定}させる
+  \item \termtag{ロールバック}：途中で異常が起きたとき、\textbf{開始前の状態に戻す}
+  \item \termtag{排他制御}：他のトランザクションからの更新を\textbf{禁止}する
+\end{itemize}
 }
 
-\section{セキュリティの基本}
+\begin{adviceinline}
+\textbf{本試験の問われ方}：コミットの説明は\textbf{「トランザクションが正常に処理されたときに、データベースへの更新を確定させること」}。
+排他制御・ロールバック・結合と取り違えないように。
+\hfill \textit{cf.} 令和5年度 問66
+\end{adviceinline}
+
+\subsection{結合操作と関係演算}
+
+\comparisonbx{関係データベースの基本演算}{%
+\comptable{演算 & 何をするか & SQL でいうと}{
+選択 & 条件を満たす行を抜く & WHERE \\
+射影 & 特定の列を抜く & SELECT 列名 \\
+結合 & 2 表を関連付けて連結 & JOIN \\
+和／積／差 & 集合演算 & UNION／INTERSECT／EXCEPT
+}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：「結合操作」は\textbf{「二つの表から、フィールドの値によって関連付けした表を作る」}。
+選択（条件で行抜き）、射影（列抜き）、共通レコード抽出（積）と区別します。
+\hfill \textit{cf.} 令和5年度 問100
+\end{adviceinline}
+
+\section{セキュリティの基本（重要分野）}
+
+セキュリティはテクノロジ系の中でも出題比重が高く、\textbf{専用に時間を割く価値}があります。
+\textbf{脅威（攻撃側）}と\textbf{対策（守備側）}を対応図で押さえるのが王道。
 
 \figurebox{代表的な脅威と対策の対応}{fig:sec-map}{%
   \input{assets/diagrams/security_map}%
 }
 
-\definitionbx{情報セキュリティの 3 要素（CIA）}{
+\subsection{情報セキュリティの 3 要素（CIA）}
+
+\definitionbx{情報セキュリティの 3 要素 (CIA)}{
 \termtag{Confidentiality（機密性）}：見るべき人だけが見られる。
 \termtag{Integrity（完全性）}：内容が正しく、改ざんされていない。
 \termtag{Availability（可用性）}：必要なときに使える。
 }
 
-\pitfall{「認証」「認可」「識別」の違い}{
-この 3 つは英単語も似ていて混乱します。
-\begin{itemize}
-  \item \termtag{識別 (Identification)}：あなたは誰？（名乗る）
-  \item \termtag{認証 (Authentication)}：本当にその人？（証明する）
-  \item \termtag{認可 (Authorization)}：その人に何を許す？（権限）
-\end{itemize}
-空港で言えば、パスポート提示が識別、顔照合が認証、セキュリティエリアの立ち入り許可が認可です。
+\pitfall{「完全性が確保されない例」を見抜く}{
+完全性が損なわれる例は\textbf{「データの矛盾・改ざん」}に絞られます。
+\textbf{システム障害でアクセスできない}＝可用性、\textbf{個人情報漏えい}＝機密性。
+具体例の主語が「\textbf{データの正しさ}」かどうかを見て判断します。
 }
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：完全性が確保されなかった例を選ぶ問題で、
+\textbf{「オペレーターが誤ったデータを入力し、顧客名簿に矛盾が生じた」}が該当。
+「サイトが一時的に利用できない」は可用性、「個人情報が漏洩」は機密性。
+\hfill \textit{cf.} 令和5年度 問95
+\end{adviceinline}
+
+\subsection{認証の 3 要素：知識・所持・生体}
+
+\pitfall{「認証要素」と「個人情報」は別物}{
+認証要素は「\textbf{本人確認の根拠}」のことで、\textbf{知識・所持・生体}の 3 種類。
+個人情報は\textbf{識別}の話であり、認証要素には含まれません。
+}
+
+\comparisonbx{認証の 3 要素}{%
+\comptable{要素 & 例 & 強み・弱み}{
+知識 (Something you know) & パスワード・PIN・秘密の質問 & 漏えいに弱い \\
+所持 (Something you have) & IC カード・スマホ・トークン & 紛失リスク \\
+生体 (Something you are) & 指紋・顔・虹彩・声紋 & 偽造困難・装置必須
+}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：認証要素の 3 種類として適切なのは\textbf{「所持情報・生体情報・知識情報」}。
+個人情報を含む選択肢は、認証ではなく識別の話に置き換わっており不適切。
+\hfill \textit{cf.} 令和5年度 問62
+\end{adviceinline}
+
+\subsection{バイオメトリクス（生体）認証}
+
+\definitionbx{バイオメトリクス認証}{
+身体的特徴（指紋・顔・虹彩・静脈）や行動的特徴（筆跡・声紋・キーストローク）を用いた認証。
+\textbf{動作の特徴}も対象になる。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：バイオメトリクス認証の例は\textbf{「タッチペンなどを用いて署名する際の筆跡や筆圧など、動作の特徴を読み取ることによって認証する」}。
+画像 CAPTCHA・パスワード入力・秘密の質問は知識認証であり、生体認証ではありません。
+\hfill \textit{cf.} 令和5年度 問99
+\end{adviceinline}
+
+\subsection{暗号方式：共通鍵・公開鍵・ハイブリッド}
 
 \comparisonbx{暗号方式のざっくり整理}{%
 \comptable{方式 & 鍵の扱い & 用途例}{
-共通鍵暗号 & 暗号化と復号が\textbf{同じ鍵} & 大容量の暗号化(AES) \\
-公開鍵暗号 & \textbf{別々の鍵}を使う & 鍵配送・電子署名(RSA) \\
-ハイブリッド & 公開鍵で共通鍵を配って、中身は共通鍵で & TLS(HTTPS)
+共通鍵暗号 & 暗号化と復号が\textbf{同じ鍵} & 大容量の暗号化 (AES) \\
+公開鍵暗号 & \textbf{別々の鍵}を使う & 鍵配送・電子署名 (RSA) \\
+ハイブリッド & 公開鍵で共通鍵を配り、本文は共通鍵で & TLS (HTTPS)
 }
 }
+
+\definitionbx{ハイブリッド暗号方式の役割分担}{
+\begin{enumerate}
+  \item 受信者の\textbf{公開鍵}で\textbf{共通鍵}を暗号化して送る
+  \item 本文は\textbf{共通鍵}で暗号化する（速いから）
+  \item 受信者は自分の\textbf{秘密鍵}で共通鍵を取り出し、本文を復号する
+\end{enumerate}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：ハイブリッド暗号方式の手順を表す図の空欄では、
+本文の暗号化に使う鍵は\textbf{共通鍵}、その共通鍵を暗号化するのは\textbf{受信者の公開鍵}。
+「公開鍵で本文を暗号化」する選択肢は速度面で非現実的なため不正解です。
+\hfill \textit{cf.} 令和5年度 問86
+\end{adviceinline}
+
+\subsection{デジタル署名とセキュアブート}
+
+\definitionbx{デジタル署名}{
+送信者の\textbf{秘密鍵}で\textbf{メッセージダイジェスト（ハッシュ値）}を暗号化したもの。
+受信者は送信者の\textbf{公開鍵}で復号し、再計算したハッシュと一致すれば\textbf{改ざんされていない}と確認できる。
+}
+
+\pitfall{「署名すれば本文も暗号化される」と誤解しやすい}{
+デジタル署名は\textbf{改ざん検知と本人性証明}の仕組みであり、本文の\textbf{暗号化（機密性）まではカバーしません}。
+本文の機密性が必要なら、別途暗号化を併用します。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：デジタル署名付き電子メールについて適切な記述は、
+\textbf{「電子メール本文の改ざんの防止はできないが、デジタル署名をすることによって、受信者は改ざんが行われたことを検知することはできる」}。
+本文の暗号化や、送信側\textbf{サーバ証明書}での検証ではないことに注意。
+\hfill \textit{cf.} 令和5年度 問84
+\end{adviceinline}
+
+\definitionbx{セキュアブート}{
+OS やファームウェアの起動時に\textbf{デジタル署名を検証}し、正当と確認できた場合のみ実行を許す技術。
+IoT 機器の改ざん対策にも用いられる。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：「OS やファームウェアの起動時にデジタル署名を検証し、正当と判定された場合だけ実行する技術」は\textbf{セキュアブート}。
+GPU・RAID・リブートとは目的が違います。
+\hfill \textit{cf.} 令和5年度 問85
+\end{adviceinline}
+
+\subsection{攻撃手法の整理}
+
+\comparisonbx{頻出の攻撃手法}{%
+\comptable{攻撃 & 手口 & 対策}{
+DDoS & 大量アクセスでサービス停止 & 通信量制限・CDN \\
+SQL インジェクション & 入力欄から DB 命令を混入 & 入力検証・プレースホルダ \\
+ドライブバイダウンロード & 訪問するだけで感染 & ブラウザ更新・拡張機能注意 \\
+フィッシング & 偽サイトで情報を釣る & URL 確認・多要素認証 \\
+バックドア & 再侵入用の隠し口 & 検出ツール・パッチ \\
+ソーシャルエンジニアリング & 人を騙して情報入手 & 教育・廃棄手順
+}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：「Web サイトに不正なソフトを潜ませ、利用者がアクセスしただけで脆弱性を突いてマルウェアを送り込む攻撃」は\textbf{ドライブバイダウンロード}。
+DDoS（停止）、SQL インジェクション（DB 改ざん）、フィッシング（偽サイト）と区別。
+\hfill \textit{cf.} 令和5年度 問58
+\end{adviceinline}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：「攻撃者がコンピュータに不正侵入後、再侵入を容易にするためにプログラムや設定を変更する手口」は\textbf{バックドア}。
+盗聴、フィッシング、ポートスキャンとは目的の段階が異なります。
+\hfill \textit{cf.} 令和5年度 問73
+\end{adviceinline}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：「企業の従業員になりすまして ID やパスワードを聞き出したり、ゴミ箱から機密情報を入手したりする、技術的手法を用いない攻撃」は\textbf{ソーシャルエンジニアリング}。
+ゼロデイ攻撃やトロイの木馬とは攻撃カテゴリが違います。
+\hfill \textit{cf.} 令和5年度 問89
+\end{adviceinline}
+
+\subsection{IDS／IPS／侵入防御}
+
+\definitionbx{IDS（Intrusion Detection System）}{
+ネットワーク等への\textbf{不正アクセスを検知}し、\textbf{管理者に通知}するシステム。
+通知のみで遮断はしない。遮断まで行うのは IPS。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：IDS の役割は\textbf{「ネットワークなどに対する不正アクセスやその予兆を検知し、管理者に通知する」}。
+IP$\leftrightarrow$ドメイン変換は DNS、時刻同期は NTP、メール配送は SMTP/POP の役割。
+\hfill \textit{cf.} 令和5年度 問67
+\end{adviceinline}
+
+\subsection{セキュリティマネジメント（ISMS／PDCA）}
+
+\definitionbx{ISMS（情報セキュリティマネジメントシステム）}{
+組織として情報セキュリティを継続的に維持・改善する仕組み。
+\textbf{PDCA サイクル}（Plan-Do-Check-Act）に基づいて運用する。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：マルウェア検知が機能している一方で、社外秘資料添付の誤送信リスクが残っているという調査報告は、
+\textbf{現行の運用状況の評価}にあたり、PDCA の\textbf{C（Check）}で実施されます。
+\hfill \textit{cf.} 令和5年度 問79
+\end{adviceinline}
+
+\subsection{情報セキュリティ方針と組織のルール}
+
+\definitionbx{情報セキュリティ方針}{
+組織の情報セキュリティに対する\textbf{意図と方向}を示し、トップマネジメントが\textbf{承認・公表}する文書。
+製品設定値や個別手順書とは別の階層にある「最上位ルール」。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：ISMS における情報セキュリティ方針として適切なのは、
+\textbf{「情報セキュリティに対する組織の意図を示し、方向付けしたもの」}。
+製品設定や手順、契約合意の範囲とは違う、組織全体の「宣言」です。
+\hfill \textit{cf.} 令和5年度 問94
+\end{adviceinline}
+
+\subsection{リスクマネジメントの 4 つの選択肢}
+
+\comparisonbx{リスク対応の 4 分類}{%
+\comptable{選択 & 内容 & 例}{
+回避 & 活動自体を止める／要因を排除 & 個人情報を扱わない \\
+低減 & 発生確率や損害を減らす対策 & データセンター分散 \\
+共有（移転） & 他組織へ\textbf{移転・分散} & 保険・外部委託 \\
+受容（保有） & 対策せず受け入れる & 影響が小さい場合
+}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：リスク共有の説明は\textbf{「保険への加入など、リスクを一定の合意の下に別の組織へ移転又は分散すること」}。
+回避（活動停止）・低減（発生確率を下げる）・受容（受け入れる）と取り違えないように。
+\hfill \textit{cf.} 令和5年度 問72
+\end{adviceinline}
+
+\subsection{物理的・環境的セキュリティ}
+
+\definitionbx{クリアデスクとクリアスクリーン}{
+\begin{itemize}
+  \item \termtag{クリアデスク}：書類等を\textbf{机の上に放置せず}、離席時は片付ける
+  \item \termtag{クリアスクリーン}：離席時に\textbf{画面ロック}する
+\end{itemize}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：クリアデスクの実施例として適切なのは、
+\textbf{「情報を記録した書類などを机の上に放置したまま離席しない」}。
+フリーアドレス・ケーブル撤去・PC ロックは別の概念です。
+\hfill \textit{cf.} 令和5年度 問90
+\end{adviceinline}
+
+\subsection{IoT デバイスのセキュリティ対策}
+
+\comparisonbx{IoT 機器に対する典型的な対策}{%
+\comptable{対策 & 守る対象 & 観点}{
+ロックアウト & 接続認証の連続失敗時 & 不正ログイン \\
+通信暗号化 & データの中身 & 機密性 \\
+オンラインアップデート & ソフトウェアの脆弱性 & 完全性／可用性 \\
+\textbf{難読化（耐タンパ性）} & 内蔵ソフトの解読 & 改ざん防止
+}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：IoT デバイスに「\textbf{耐タンパ性}」を持たせる対策として適切なのは、
+\textbf{「内蔵ソフトウェアを難読化し、解読に要する時間を増大させる」}。
+ロックアウト・暗号化・オンラインアップデートは\textbf{別の脆弱性}に対する対策です。
+\hfill \textit{cf.} 令和5年度 問57
+\end{adviceinline}
+
+\subsection{HDD 廃棄時の情報漏えい対策}
+
+\comparisonbx{HDD 廃棄の安全度}{%
+\comptable{方法 & 安全度 & 補足}{
+論理フォーマット & 低 & データは復元可能 \\
+データ消去ソフトでランダムデータ複数回上書き & 高 & 復元極めて困難 \\
+物理破壊（ドリル・破砕） & 最高 & 確実だが不可逆
+}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：HDD 廃棄時の情報漏えい防止策として適切なのは、
+\textbf{「データ消去ソフトでランダム値を全領域に複数回書き込む」}と\textbf{「物理的に破壊する」}の 2 つ。
+論理フォーマットだけでは不十分です。
+\hfill \textit{cf.} 令和5年度 問81
+\end{adviceinline}
+
+\subsection{設計段階からのセキュリティ}
+
+\definitionbx{セキュリティバイデザイン}{
+システムの\textbf{企画・設計段階から}情報セキュリティを組み込む基本原則。
+後付けでは穴が残るため、最初から考える。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：「IoT システム等の設計・構築・運用に際しての基本原則とされ、企画・設計段階から情報セキュリティを確保するための方策」は\textbf{セキュリティバイデザイン}。
+セキュアブート（起動時の検証）、ユニバーサルデザイン（万人向け）、リブートとは概念が違います。
+\hfill \textit{cf.} 令和5年度 問61
+\end{adviceinline}
+
+\subsection{クラウド固有の認証}
+
+\definitionbx{ISMS クラウドセキュリティ認証}{
+\textbf{クラウドサービス固有}の管理策が、\textbf{適切に導入・実施されている}ことを認証する制度。
+クラウドの提供者・利用者の双方が対象になりうる。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：ISMS クラウドセキュリティ認証について適切な記述は、
+\textbf{「クラウドサービス固有の管理策が適切に導入、実施されていることを認証するもの」}。
+PaaS／SaaS 限定、提供側のみ、プライバシーマーク同義などは誤りです。
+\hfill \textit{cf.} 令和5年度 問56
+\end{adviceinline}
 
 \section{AI と最新技術}
 
-\pitfall{「AI」と「機械学習」と「生成 AI」の関係}{
+\pitfall{「AI」「機械学習」「ディープラーニング」「生成 AI」の関係}{
 AI ⊃ 機械学習 ⊃ ディープラーニング ⊃ 生成 AI、という\termtag{入れ子}関係です。
-AI は傘の名前、機械学習はその中心的な手法、生成 AI は直近で話題の応用領域、と整理しましょう。
+AI は傘の名前、機械学習はその中心的な手法、ディープラーニングは多層ニューラルネットを使う手法、
+生成 AI は直近で話題の応用領域、と整理しましょう。
 }
 
-\comparisonbx{AI 関連の用語整理}{%
-\comptable{用語 & 意味 & 試験での狙われ方}{
-特化型 AI & 特定タスク向け & 汎用 AI との対比 \\
-汎用 AI & 幅広いタスク対応 & 実現していない点が論点 \\
-生成 AI & 画像・文章を生成 & 学習済みモデルの応用 \\
-ハルシネーション & AI が事実と異なる生成 & リスクの典型例 \\
-XAI & 判断理由を説明できる AI & 透明性・説明責任 \\
-HITL & 人間が学習に関与 & 倫理・品質担保
-}
+\subsection{ニューラルネットワークと活性化関数}
+
+\definitionbx{ニューラルネットワーク}{
+脳神経系の仕組みをモデル化した\textbf{計算モデル}。
+入力層・中間層・出力層からなり、各層のニューロン間に重みを持つ。
 }
 
-\pitfall{「IoT」と「M2M」と「エッジコンピューティング」の混同}{
+\definitionbx{活性化関数}{
+1 つのニューロンにおいて、入力された値をもとに計算し、\textbf{次のニューロンに渡す値を出力する}関数。
+シグモイド・ReLU 等が代表。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：活性化関数の説明は\textbf{「一つのニューロンにおいて、入力された値を基に計算し、次のニューロンに渡す値を出力する」}。
+ニューロン数の自動決定や信頼度計算とは役割が違います。
+\hfill \textit{cf.} 令和5年度 問91
+\end{adviceinline}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：ニューラルネットワークの説明として最も適切なのは、
+\textbf{「ディープラーニングなどで用いられる、脳神経系の仕組みをコンピュータで模したモデル」}。
+ユビキタス、SINET、住民基本台帳ネットワークは別の概念です。
+\hfill \textit{cf.} 令和5年度 問74
+\end{adviceinline}
+
+\subsection{機械学習モデルの評価指標}
+
+\definitionbx{再現率（Recall）}{
+\textbf{実際に正例（不良品など）であるもののうち、モデルが正しく正例と判定した割合}。
+\[ \text{再現率} = \frac{\text{TP}}{\text{TP} + \text{FN}} \]
+見落としの少なさを重視するときに用いる。
+}
+
+\advice{%
+\textbf{再現率と適合率は混同されやすい}：
 \begin{itemize}
-  \item \termtag{IoT}：あらゆるモノがネットにつながる\textbf{概念}
-  \item \termtag{M2M}：機器同士が\textbf{自律的に}データをやり取りする仕組み
-  \item \termtag{エッジコンピューティング}：データ処理を\textbf{デバイスの近く}で行う方式
+  \item 再現率：実際の正例から見て「\textbf{取りこぼしの少なさ}」
+  \item 適合率：判定された正例から見て「\textbf{取り違えの少なさ}」
 \end{itemize}
-IoT が広い概念、その中の通信形態の一つが M2M、処理の置き場所の話がエッジ、という層の違いを押さえます。
 }
 
-\comparisonbx{モビリティ・都市の最新キーワード}{%
-\comptable{用語 & 一言で & 関連する章}{
-CASE & 自動車の 4 変化（C/A/S/E） & ビジネス戦略 \\
-MaaS & 交通をサービスとして統合 & ビジネスモデル \\
-スマートシティ & ICT で都市を最適化 & 社会システム \\
-デジタルツイン & 現実をデジタルで再現 & シミュレーション \\
-CPS & サイバーと現実の統合 & IoT 応用
+\begin{adviceinline}
+\textbf{本試験の問われ方}：品質管理担当者が不良品と判定した\textbf{10 枚}のうち、機械学習モデルも不良品と判定した\textbf{5 枚}の割合は、
+$5 \div 10 = 0.50$（再現率）。
+\hfill \textit{cf.} 令和5年度 問76
+\end{adviceinline}
+
+\subsection{偏差値と統計の基礎}
+
+\definitionbx{偏差値}{
+ある得点が平均からどれだけ離れているかを、\textbf{標準偏差を単位に}表した値。
+\[ \text{偏差値} = 50 + \frac{(\text{得点} - \text{平均})}{\text{標準偏差}} \times 10 \]
 }
+
+\advice{%
+4 教科とも 71 点なら、\textbf{標準偏差が小さいほど偏差値が大きく}なります。
+平均が低く、標準偏差が小さい教科ほど 71 点の希少性が高いということです。
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：4 教科とも 71 点で偏差値最大の教科は、
+\textbf{平均が低く標準偏差が小さい教科}。代表的な選択肢では\textbf{国語（平均 62、標準偏差 5）}が該当します。
+\hfill \textit{cf.} 令和5年度 問77
+\end{adviceinline}
+
+\subsection{エッジコンピューティングとクラウドの違い}
+
+\comparisonbx{処理の置き場所}{%
+\comptable{方式 & 処理の場所 & 強み}{
+クラウド & 中央データセンタ & 大量データ処理 \\
+エッジ & デバイスの近く & 低遅延・通信量削減 \\
+フォグ & クラウドとエッジの中間 & 階層化処理
+}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：IoT におけるエッジコンピューティングの説明は、
+\textbf{「IoT デバイスの増加による IoT サーバの負荷を軽減するために、IoT デバイスに近いところで可能な限りのデータ処理を行う」}。
+ブロックチェーン的な仕組み、クラウドコンピューティング、機械学習とは別概念です。
+\hfill \textit{cf.} 令和5年度 問71
+\end{adviceinline}
+
+\subsection{フールプルーフ・フェールセーフ・フォールトトレラント}
+
+\comparisonbx{信頼性設計の代表的考え方}{%
+\comptable{用語 & 意図 & 例}{
+フールプルーフ & \textbf{誤操作}を防ぐ & 削除前確認ダイアログ \\
+フェールセーフ & \textbf{故障時}に安全側に & 信号機の停止表示 \\
+フェールソフト & 故障時も縮退運転 & 一部機能のみ継続 \\
+フォールトトレラント & 故障しても運転継続 & RAID／二重化
+}
+}
+
+\begin{adviceinline}
+\textbf{本試験の問われ方}：フールプルーフの例は\textbf{「ファイル削除時に削除確認のメッセージを表示する」}。
+RAID 構成・二重化・縮退運用は別の信頼性概念です。
+\hfill \textit{cf.} 令和5年度 問93
+\end{adviceinline}
+
+\section{章末の 1 枚まとめ}
+
+\onelinesummary[テクノロジ系の 1 枚まとめ]{%
+\textbf{テクノロジ系は階層で整理する}。
+\begin{itemize}
+  \item \textbf{基礎理論}：数の表現／論理／計算量を3 桁・$O$ 記法で押さえる
+  \item \textbf{HW／SW}：地層構造（HW $\to$ OS $\to$ ミドルウェア $\to$ アプリ）
+  \item \textbf{NW}：MAC／IP／URL の対応＋OSI 7 層と TCP/IP 4 層
+  \item \textbf{DB}：主キー vs 外部キー／正規化／トランザクション
+  \item \textbf{SEC}：CIA 三要素＋認証 3 要素＋脅威・対策の対応図
+  \item \textbf{AI}：入れ子関係（AI⊃機械学習⊃DL⊃生成 AI）
+\end{itemize}
 }
 
 \checkquestion{通信プロトコルのうち、再送制御によって信頼性の高い通信を実現するものはどれか。}
@@ -145,10 +833,12 @@ CPS & サイバーと現実の統合 & IoT 応用
   {A}
   {B はアクセス制御の 3 段階、C はプロジェクトの三制約、D は経営分析のフレームです。\textbf{CIA}（機密性・完全性・可用性）が情報セキュリティの基本三要素です。}
 
-\onelinesummary{%
-テクノロジ系は\textbf{「何でできているか」}を問う分野。
-個別用語を暗記するのではなく、
-\termtag{階層・対応・3 要素}のような「形のある整理枠」に当てはめて覚えると、忘れにくくなる。
-}
+\checkquestion{公開鍵暗号方式の説明として最も適切なものはどれか。}
+  {暗号化と復号に同じ鍵を使う方式}
+  {暗号化と復号に異なる鍵を使い、一方を公開する方式}
+  {使い捨ての鍵を毎回生成する方式}
+  {鍵を使わずハッシュ関数だけを用いる方式}
+  {B}
+  {A は共通鍵暗号、C はワンタイムパッド的、D はハッシュ関数そのもの。公開鍵は「公開鍵」と「秘密鍵」のペアを使います。}
 
 \supportqr{quiz}{章末テスト：テクノロジ系}
