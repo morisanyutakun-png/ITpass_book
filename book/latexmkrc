@@ -1,14 +1,4 @@
-#!/usr/bin/env perl
-# LuaLaTeX + luatexja を前提にした latexmk 設定
-
-$pdf_mode = 4;  # 4 = lualatex
+$pdf_mode = 4;
 $lualatex = 'lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error %O %S';
 $max_repeat = 5;
-$pdf_previewer = 'open -a Preview';
-
-# 補助ファイル出力先
-# 同一ディレクトリで運用する（CI でも素直に通るため）
 $out_dir = '.';
-
-# 削除対象
-$clean_ext = 'synctex.gz aux log out toc lof lot fls fdb_latexmk bbl blg bcf run.xml nav snm vrb idx ilg ind';

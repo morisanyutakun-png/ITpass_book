@@ -1,0 +1,256 @@
+% =============================================================
+% 06_network.tex — ネットワークとデータベース
+% =============================================================
+\chapter{ネットワークとデータベース}
+
+\chaptermeta{%
+  \item TCP/IPの4層モデルを説明できる
+  \item 主要プロトコルの役割を即答できる
+  \item SQLの基本構文（SELECT/WHERE/ORDER BY）が読める
+  \item 正規化の目的と第1〜第3正規形を区別できる
+}{90分}{3}{第5章}
+
+テクノロジ系の中盤は「つながる仕組み」と「データの管理」です。
+TCP/IPの階層は\textbf{プロトコルの分類問題}で頻出し、
+SQLは\textbf{文法を読めるかどうか}がそのまま得点に直結します。
+
+% =============================================================
+\section{TCP/IPの4層モデル}
+% =============================================================
+
+\begin{teigi}[TCP/IP 4層]
+\begin{enumerate}
+  \item \termtag{アプリケーション層}：HTTP, HTTPS, SMTP, POP3, FTP, DNS, DHCP, NTP
+  \item \termtag{トランスポート層}：TCP, UDP
+  \item \termtag{インターネット層}：IP, ICMP, ARP
+  \item \termtag{ネットワークインターフェース層}：Ethernet, Wi-Fi
+\end{enumerate}
+OSI参照モデル（7層）との対応も問われるが、Iパスでは4層が中心。
+\end{teigi}
+
+\begin{hikaku}[主要プロトコルの整理]
+\comptable{プロトコル & 層 & 役割}{
+HTTP/HTTPS & アプリケーション & Webページの送受信（Sは暗号化あり） \\
+SMTP & アプリケーション & メール送信 \\
+POP3/IMAP & アプリケーション & メール受信（POP3=DL型、IMAP=サーバ参照型） \\
+FTP & アプリケーション & ファイル転送 \\
+DNS & アプリケーション & ドメイン名 ↔ IPアドレスの変換 \\
+DHCP & アプリケーション & IPアドレスの自動割り当て \\
+NTP & アプリケーション & 時刻同期 \\
+TCP & トランスポート & 信頼性のある通信（コネクション型） \\
+UDP & トランスポート & 高速だが信頼性なし（コネクションレス型）
+}
+\end{hikaku}
+
+% =============================================================
+\section{TCPとUDP}
+% =============================================================
+
+\begin{hikaku}[TCP vs UDP]
+\comptable{特性 & TCP & UDP}{
+通信方式 & コネクション型 & コネクションレス型 \\
+信頼性 & 高い（再送制御あり） & 低い（再送なし） \\
+速度 & 相対的に遅い & 高速 \\
+用途 & Web・メール・ファイル転送 & 動画配信・VoIP・DNS問い合わせ
+}
+\end{hikaku}
+
+% --- 例題 ---
+\begin{reidai}{TCPとUDPの識別}
+リアルタイムの動画配信に適したトランスポート層のプロトコルはどれか。
+信頼性よりも速度を重視する場合を考えよ。
+
+\sentakushi{FTP}{HTTP}{TCP}{UDP}
+\end{reidai}
+
+\begin{shishin}
+「リアルタイム」「速度重視」がキーワード。FTPとHTTPはアプリケーション層で、トランスポート層ではない。
+TCPは信頼性重視で再送制御がある分、遅延が発生しやすい。
+UDPは再送せず高速だが、データが欠落することがある。
+動画配信では多少の欠落よりリアルタイム性を優先する。
+\end{shishin}
+
+\begin{kaitou}
+\textbf{正解：エ（UDP）}
+
+UDPはコネクションレス型で再送制御がなく高速。
+リアルタイム配信・VoIP・オンラインゲームなど、遅延より速度を重視する場面で使われる。
+\end{kaitou}
+
+% =============================================================
+\section{DNS・DHCP}
+% =============================================================
+
+\begin{teigi}[DNSとDHCP]
+\begin{itemize}
+  \item \termtag{DNS}（Domain Name System）：ドメイン名（www.example.com）をIPアドレス（192.168.1.1）に変換する「電話帳」
+  \item \termtag{DHCP}（Dynamic Host Configuration Protocol）：ネットワーク接続時にIPアドレスを自動的に割り当てる
+\end{itemize}
+\end{teigi}
+
+\begin{pitfall}[DNSとDHCPの混同]
+\begin{itemize}
+  \item DNS → \textbf{名前解決}（ドメイン名 ↔ IPアドレスの変換）
+  \item DHCP → \textbf{アドレス配布}（IPアドレスの自動割り当て）
+  \item 「DNSは翻訳、DHCPは配布」と覚える
+\end{itemize}
+\end{pitfall}
+
+% =============================================================
+\section{サブネットマスク}
+% =============================================================
+
+\begin{teigi}[IPアドレスとサブネットマスク]
+\begin{itemize}
+  \item \termtag{IPアドレス}：ネットワーク上の機器を識別する番号（IPv4は32ビット）
+  \item \termtag{サブネットマスク}：IPアドレスの「ネットワーク部」と「ホスト部」の境界を示す
+  \item 例：255.255.255.0 → 上位24ビットがネットワーク部、下位8ビットがホスト部
+  \item 同じネットワーク部を持つ機器同士が「同一ネットワーク」
+\end{itemize}
+\end{teigi}
+
+\begin{pitfall}[サブネットマスクの計算ミス]
+サブネットマスク255.255.255.0の場合、ホスト部は8ビット。
+使えるアドレス数は $2^8 - 2 = 254$（ネットワークアドレスとブロードキャストを除く）。
+「$-2$」を忘れがち。
+\end{pitfall}
+
+% =============================================================
+\section{RDB（関係データベース）の基礎}
+% =============================================================
+
+\begin{teigi}[RDBの基本用語]
+\begin{itemize}
+  \item \termtag{テーブル（表）}：データを行と列で格納する
+  \item \termtag{レコード（行/タプル）}：1件分のデータ
+  \item \termtag{フィールド（列/属性）}：データの項目
+  \item \termtag{主キー}：各レコードを一意に識別するフィールド（NULLや重複不可）
+  \item \termtag{外部キー}：他のテーブルの主キーを参照するフィールド（参照整合性の確保）
+\end{itemize}
+\end{teigi}
+
+\begin{hikaku}[主キーと外部キー]
+\comptable{項目 & 主キー & 外部キー}{
+役割 & 自テーブルのレコードを一意に識別 & 他テーブルの主キーを参照 \\
+NULL & 不可 & 許可される場合あり \\
+重複 & 不可 & 許可される場合あり \\
+目的 & レコードの特定 & テーブル間の関連づけ
+}
+\end{hikaku}
+
+% =============================================================
+\section{SQL}
+% =============================================================
+
+\begin{teigi}[SQLの基本構文]
+\begin{itemize}
+  \item \termtag{SELECT}：取得する列を指定
+  \item \termtag{FROM}：対象テーブルを指定
+  \item \termtag{WHERE}：条件で絞り込み
+  \item \termtag{ORDER BY}：並び替え（ASC=昇順、DESC=降順）
+  \item \termtag{GROUP BY}：グループ化（集計関数 COUNT, SUM, AVG, MAX, MIN と併用）
+  \item \termtag{HAVING}：GROUP BYの結果に対する条件
+\end{itemize}
+\end{teigi}
+
+\begin{advice}[SQLは「読めればOK」]
+Iパスでは SQL を書く問題は出ず、\textbf{SELECT文を読んで結果を選ぶ}形式。
+WHERE の条件と ORDER BY の並び順を追えれば正解できる。
+\end{advice}
+
+% =============================================================
+\section{正規化}
+% =============================================================
+
+\begin{teigi}[正規化の3段階]
+\begin{itemize}
+  \item \termtag{第1正規形}：繰り返し項目を排除（1つのセルに1つの値）
+  \item \termtag{第2正規形}：部分関数従属を排除（主キーの一部だけに依存する列を別テーブルに分離）
+  \item \termtag{第3正規形}：推移的関数従属を排除（主キー以外の列に依存する列を別テーブルに分離）
+\end{itemize}
+正規化の目的は\textbf{データの冗長性を排除}し、\textbf{更新時の矛盾を防ぐ}こと。
+\end{teigi}
+
+\begin{pitfall}[正規化のレベルを混同]
+\begin{itemize}
+  \item 第1：「繰り返しがない」だけではまだ第1
+  \item 第2：「主キー全体に依存」＝部分関数従属がない
+  \item 第3：「主キー以外への依存もない」＝推移的関数従属がない
+  \item 「1→繰り返し除去、2→部分除去、3→推移除去」の語呂で覚える
+\end{itemize}
+\end{pitfall}
+
+% =============================================================
+\section{過去問ドリル}
+% =============================================================
+
+\shoumatsuhead{過去問ドリル：ネットワークとDB}
+
+\begin{itpmon}[\sourcebadge{original}\enspace\diffbadge{標}]{%
+次のSQL文を実行した結果として得られるものはどれか。
+
+\texttt{SELECT 氏名, 点数 FROM 成績表 WHERE 点数 >= 80 ORDER BY 点数 DESC}}
+\sentakushi
+  {成績表から点数が80以上のレコードを点数の昇順で取得する。}
+  {成績表から点数が80以上のレコードを点数の降順で取得する。}
+  {成績表から点数が80未満のレコードを点数の昇順で取得する。}
+  {成績表からすべてのレコードを点数の降順で取得する。}
+\end{itpmon}
+\begin{kaisetsu}{イ}
+WHERE 点数 >= 80 で80点以上を絞り込み、ORDER BY 点数 \textbf{DESC}（降順）で並べ替え。DESCは大きい順、ASCは小さい順。
+\end{kaisetsu}
+
+\begin{itpmon}[\sourcebadge{original}\enspace\diffbadge{標}]{%
+RDB（関係データベース）における主キーと外部キーの説明として、最も適切なものはどれか。}
+\sentakushi
+  {主キーはNULLを許容し、外部キーはNULLを許容しない。}
+  {主キーはレコードを一意に識別し、外部キーは他テーブルの主キーを参照する。}
+  {主キーも外部キーも、同一テーブル内でのみ使用される。}
+  {外部キーは主キーの代わりに使うことができる。}
+\end{itpmon}
+\begin{kaisetsu}{イ}
+\textbf{主キー}はレコードの一意識別（NULL・重複不可）、\textbf{外部キー}は他テーブルの主キーを参照してテーブル間を関連づける。アは逆。
+\end{kaisetsu}
+
+\begin{itpmon}[\sourcebadge{original}\enspace\diffbadge{強}]{%
+サブネットマスクが255.255.255.0のネットワークで、ホストに割り当てられるIPアドレスの最大数はどれか。}
+\sentakushi
+  {252}
+  {254}
+  {255}
+  {256}
+\end{itpmon}
+\begin{kaisetsu}{イ}
+ホスト部は8ビットで $2^8 = 256$ 通りだが、ネットワークアドレス（全0）とブロードキャストアドレス（全1）を除くため $256 - 2 = \textbf{254}$。
+\end{kaisetsu}
+
+% =============================================================
+\section{よくあるミスと到達確認}
+% =============================================================
+
+\begin{yokumiss}[この章でよくあるミス]
+\begin{enumerate}[leftmargin=1.6em, itemsep=5pt]
+  \item \textbf{TCPとUDPを逆にする}——TCP=信頼性重視、UDP=速度重視。「Tは丁寧（Teinei）」で覚える。
+  \item \textbf{DNSとDHCPを混同する}——DNS=名前解決、DHCP=アドレス自動配布。
+  \item \textbf{SQLのDESC/ASCを逆に覚える}——DESC=降順（大→小）、ASC=昇順（小→大）。
+  \item \textbf{主キーにNULLが許される}と思い込む——主キーはNULL禁止・重複禁止。
+  \item \textbf{サブネットマスクの計算で$-2$を忘れる}——ネットワークアドレスとブロードキャストは除外。
+  \item \textbf{正規化のレベルを混同する}——1=繰り返し除去、2=部分従属除去、3=推移従属除去。
+\end{enumerate}
+\end{yokumiss}
+
+\begin{tatsaku}
+  \item TCP/IP 4層と各層のプロトコルを3つ以上言える
+  \item TCPとUDPの違いを3点挙げられる
+  \item DNS/DHCPの役割を即答できる
+  \item サブネットマスクからホスト数を計算できる
+  \item SQLのSELECT文を読んで結果を予測できる
+  \item 主キーと外部キーの違いを説明できる
+  \item 正規化の第1〜第3正規形を区別できる
+  \item POP3とIMAPの違いを説明できる
+\end{tatsaku}
+
+\nextchapter{%
+セキュリティとAIに進みます。CIA三要素、暗号方式、マルウェア対策、そしてAI/ML/DL——
+テクノロジ系の最重要テーマを攻略します。
+}

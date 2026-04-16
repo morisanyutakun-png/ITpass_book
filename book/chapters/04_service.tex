@@ -1,0 +1,225 @@
+% =============================================================
+% 04_service.tex — サービスマネジメントと監査
+% =============================================================
+\chapter{サービスマネジメントと監査}
+
+\chaptermeta{%
+  \item SLAとSLMの違いを即答できる
+  \item ITILのサービス管理プロセスを整理できる
+  \item MTBF/MTTRから稼働率を計算できる
+  \item システム監査の独立性を説明できる
+  \item 内部統制の目的と構成要素を押さえる
+}{60分}{2}{第3章}
+
+マネジメント系の後半は「運用する側」の話です。
+作ったシステムをどう維持し、どう監査するか——
+\textbf{計算問題}が出る稼働率と、\textbf{概念の識別}が出るSLA/監査を中心に学びます。
+
+% =============================================================
+\section{SLA/SLM}
+% =============================================================
+
+\begin{teigi}[SLAとSLM]
+\begin{itemize}
+  \item \termtag{SLA}（Service Level Agreement）：サービス提供者と利用者の間で合意した\textbf{サービス品質の取り決め}。稼働率99.9\%、応答時間3秒以内、といった具体的な数値で定義する。
+  \item \termtag{SLM}（Service Level Management）：SLAで定めたサービスレベルを\textbf{継続的に管理・改善するプロセス}。
+\end{itemize}
+SLAは「約束（文書）」、SLMは「約束を守る活動（プロセス）」。
+\end{teigi}
+
+\begin{pitfall}[SLAとSLMを逆にしがち]
+\begin{itemize}
+  \item SLA → \textbf{A}greement = 合意 = 文書
+  \item SLM → \textbf{M}anagement = 管理 = プロセス
+  \item 「Aは文書、Mは活動」と頭文字で区別
+\end{itemize}
+\end{pitfall}
+
+% =============================================================
+\section{サービスデスクとITIL}
+% =============================================================
+
+\begin{teigi}[ITILとサービスデスク]
+\begin{itemize}
+  \item \termtag{ITIL}：ITサービスマネジメントのベストプラクティス集
+  \item \termtag{サービスデスク}：利用者からの問い合わせを受ける単一の窓口（SPOC）
+  \item \termtag{インシデント管理}：サービスの中断や品質低下に迅速に対応し、正常状態に戻す
+  \item \termtag{問題管理}：インシデントの根本原因を特定し、再発を防止する
+  \item \termtag{変更管理}：ITサービスへの変更を管理し、リスクを最小化する
+\end{itemize}
+\end{teigi}
+
+\begin{hikaku}[インシデント管理と問題管理]
+\comptable{項目 & インシデント管理 & 問題管理}{
+目的 & サービスの早期復旧 & 根本原因の除去 \\
+時間軸 & 短期（今すぐ対処） & 中長期（再発防止） \\
+例え & 応急処置 & 根治治療
+}
+\end{hikaku}
+
+\begin{pitfall}[インシデント管理で「原因究明」を選びがち]
+インシデント管理の目的は\textbf{迅速な復旧}。原因究明は問題管理の役割。
+「まず直す（インシデント）→ 次に原因を探る（問題）」の順。
+\end{pitfall}
+
+% =============================================================
+\section{稼働率の計算}
+% =============================================================
+
+\begin{teigi}[MTBF/MTTR/稼働率]
+\begin{itemize}
+  \item \termtag{MTBF}（Mean Time Between Failures）：平均故障間隔（動いている時間）
+  \item \termtag{MTTR}（Mean Time To Repair）：平均修理時間（止まっている時間）
+  \item \termtag{稼働率} $= \dfrac{\text{MTBF}}{\text{MTBF} + \text{MTTR}}$
+\end{itemize}
+\end{teigi}
+
+% --- 例題 ---
+\begin{reidai}{稼働率の計算}
+あるサーバのMTBFが900時間、MTTRが100時間であるとき、稼働率はいくらか。
+
+\sentakushi{0.1}{0.8}{0.9}{0.99}
+\end{reidai}
+
+\begin{shishin}
+公式に当てはめる。稼働率 $= \text{MTBF} \div (\text{MTBF} + \text{MTTR})$。
+$= 900 \div (900 + 100) = 900 \div 1{,}000 = 0.9$。
+\end{shishin}
+
+\begin{kaitou}
+\textbf{正解：ウ（0.9）}
+
+稼働率 $= 900 \div (900 + 100) = 0.9$（90\%）。
+MTBFとMTTRを足すと全体の時間（MTBF + MTTR）になり、
+そのうちMTBFの割合が稼働率。
+\end{kaitou}
+
+\begin{minuki}[見抜き方]
+\begin{itemize}
+  \item 稼働率の公式は「動いている時間 ÷ 全体の時間」と覚える
+  \item 直列システムの稼働率 $=$ 各稼働率の積
+  \item 並列システムの稼働率 $= 1 - (1 - A_1)(1 - A_2)$
+  \item 直列は「どちらも動く」、並列は「どちらかが動けばOK」
+\end{itemize}
+\end{minuki}
+
+\subsection{直列・並列システムの稼働率}
+
+\begin{hikaku}[直列と並列の稼働率]
+\comptable{構成 & 計算式 & 特徴}{
+直列 & $A_1 \times A_2$ & 全部動かないとダメ → 稼働率が下がる \\
+並列（冗長化） & $1 - (1-A_1)(1-A_2)$ & 片方動けばOK → 稼働率が上がる
+}
+\end{hikaku}
+
+% =============================================================
+\section{システム監査}
+% =============================================================
+
+\begin{teigi}[システム監査の基本]
+\begin{itemize}
+  \item \termtag{システム監査}：情報システムの信頼性・安全性・効率性を独立した立場で検証・評価すること
+  \item \termtag{監査人の独立性}：被監査部門から独立していること（利害関係がないこと）
+  \item \termtag{監査の流れ}：計画 → 実施 → 報告 → フォローアップ
+\end{itemize}
+\end{teigi}
+
+\begin{pitfall}[「監査人が改善を実施する」は誤り]
+監査人は\textbf{助言・勧告}を行うが、改善の\textbf{実施は被監査部門}が行う。
+監査人が自ら改善すると独立性が失われる。
+\end{pitfall}
+
+% =============================================================
+\section{内部統制}
+% =============================================================
+
+\begin{teigi}[内部統制の4つの目的と6つの構成要素]
+\textbf{4つの目的}：
+\begin{enumerate}
+  \item 業務の有効性・効率性
+  \item 財務報告の信頼性
+  \item 法令遵守（コンプライアンス）
+  \item 資産の保全
+\end{enumerate}
+\textbf{6つの構成要素}：統制環境、リスクの評価と対応、統制活動、情報と伝達、モニタリング、ITへの対応。
+\end{teigi}
+
+\begin{teigi}[職務分掌（SoD）]
+\termtag{職務分掌}（Segregation of Duties）：不正やミスを防ぐために、一つの業務を複数の担当者に分離すること。
+\begin{itemize}
+  \item 例：発注者と検収者を分ける、プログラマとテスタを分ける
+  \item 「一人で完結できない」仕組みが不正を抑止する
+\end{itemize}
+\end{teigi}
+
+% =============================================================
+\section{過去問ドリル}
+% =============================================================
+
+\shoumatsuhead{過去問ドリル：サービスと監査}
+
+\begin{itpmon}[\sourcebadge{original}\enspace\diffbadge{標}]{%
+SLAの説明として、最も適切なものはどれか。}
+\sentakushi
+  {ITサービスマネジメントのベストプラクティスをまとめた文書}
+  {サービス提供者と利用者の間で合意したサービス品質の取り決め}
+  {サービスの品質を継続的に管理・改善するプロセス}
+  {利用者からの問い合わせを受け付ける単一の窓口}
+\end{itpmon}
+\begin{kaisetsu}{イ}
+\textbf{SLA}はサービスレベルの合意文書。アはITIL、ウはSLM、エはサービスデスク（SPOC）の説明。
+\end{kaisetsu}
+
+\begin{itpmon}[\sourcebadge{original}\enspace\diffbadge{標}]{%
+DevOpsの説明として、最も適切なものはどれか。}
+\sentakushi
+  {開発工程を上流から下流へ順番に進め、後戻りしない手法}
+  {開発チームと運用チームが連携し、継続的にサービスを提供する取組み}
+  {プロジェクトの作業を階層的に分解して管理する手法}
+  {短いスプリントで反復開発を行うフレームワーク}
+\end{itpmon}
+\begin{kaisetsu}{イ}
+\textbf{DevOps} = Development + Operations。開発と運用が協力してCI/CDを実現する。アはウォーターフォール、ウはWBS、エはスクラム。
+\end{kaisetsu}
+
+\begin{itpmon}[\sourcebadge{original}\enspace\diffbadge{強}]{%
+システム監査において、監査人が守るべき原則として最も適切なものはどれか。}
+\sentakushi
+  {監査対象のシステムの開発に自ら参加し、改善提案を行う。}
+  {被監査部門の業務改善を監査人が直接実施する。}
+  {被監査部門から独立した立場で客観的に評価を行う。}
+  {監査結果を被監査部門の上長にのみ報告し、経営者には報告しない。}
+\end{itpmon}
+\begin{kaisetsu}{ウ}
+システム監査の基本原則は\textbf{独立性}。監査人は被監査部門から独立した立場で評価する。ア・イは独立性に反し、エは経営者への報告が必要。
+\end{kaisetsu}
+
+% =============================================================
+\section{よくあるミスと到達確認}
+% =============================================================
+
+\begin{yokumiss}[この章でよくあるミス]
+\begin{enumerate}[leftmargin=1.6em, itemsep=5pt]
+  \item \textbf{SLAとSLMを逆に覚える}——AはAgreement（合意文書）、MはManagement（管理プロセス）。
+  \item \textbf{インシデント管理で「根本原因を除去」を選ぶ}——それは問題管理の目的。
+  \item \textbf{稼働率の公式でMTTRを分子にする}——分子はMTBF（動いている時間）。
+  \item \textbf{並列の稼働率を「足し算」で計算する}——$1-(1-A_1)(1-A_2)$が正しい。
+  \item \textbf{監査人が改善を「実施する」と答える}——監査人は助言・勧告まで。実施は被監査部門。
+\end{enumerate}
+\end{yokumiss}
+
+\begin{tatsaku}
+  \item SLAとSLMの違いを即答できる
+  \item インシデント管理と問題管理の違いを説明できる
+  \item MTBF/MTTRの意味と稼働率の計算ができる
+  \item 直列・並列システムの稼働率を計算できる
+  \item ITILの主要プロセスを3つ以上言える
+  \item システム監査の独立性を説明できる
+  \item 内部統制の4つの目的を言える
+  \item 職務分掌の意味と目的を説明できる
+\end{tatsaku}
+
+\nextchapter{%
+テクノロジ系に入ります。2進数変換、CPU/メモリの階層構造、RAID——
+コンピュータの「中身」を理解してITの土台を固めます。
+}

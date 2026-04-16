@@ -1,0 +1,195 @@
+% =============================================================
+% mistakes.tex — 付録A：よくあるミス集
+% =============================================================
+\chapter*{付録A：よくあるミス集}
+\addcontentsline{toc}{chapter}{付録A：よくあるミス集}
+
+全章で学んだ「よくあるミス」を分野横断で整理しました。
+試験直前に目を通して、ひっかけパターンを最終確認しましょう。
+
+% =============================================================
+% ストラテジ系のミス
+% =============================================================
+\section*{ストラテジ系のミス}
+
+\begin{yokumiss}[SWOTとVRIOの混同]
+SWOT分析は「内部（強み・弱み）×外部（機会・脅威）」の4象限。
+VRIO分析は「強みの質」を4つの問い（経済価値・希少性・模倣困難性・組織）で深堀りする。
+\textbf{目的が違う}——SWOTは「健康診断」、VRIOは「強みの精密検査」。
+\end{yokumiss}
+
+\begin{yokumiss}[PoCとMVPの混同]
+\begin{itemize}
+  \item \textbf{PoC}（Proof of Concept）= 技術的な実現可能性を確認する小規模な検証
+  \item \textbf{MVP}（Minimum Viable Product）= 市場仮説を検証するための最小限の製品
+\end{itemize}
+PoCは「作れるか？」、MVPは「売れるか？」を確かめる。段階が違う。
+\end{yokumiss}
+
+\begin{yokumiss}[PLの5段階利益の順序ミス]
+売上総利益→営業利益→経常利益→税引前当期純利益→当期純利益の順。
+\begin{itemize}
+  \item 営業利益と経常利益を逆にしがち
+  \item 「本業の儲け（営業）→ 通常の経営力（経常）」と覚える
+  \item 営業外損益（利息、配当など）を含むのが経常利益
+\end{itemize}
+\end{yokumiss}
+
+\begin{yokumiss}[損益分岐点の公式ミス]
+\textbf{正しい公式}：BEP $= \text{固定費} \div (1 - \text{変動費率})$
+
+よくある間違い：
+\begin{itemize}
+  \item 分母を「変動費率」にしてしまう（逆）
+  \item 限界利益率 $= 1 - \text{変動費率}$ を忘れる
+  \item 変動費率と固定費率を混同する
+\end{itemize}
+\end{yokumiss}
+
+\begin{yokumiss}[特許権と著作権の取得方法の混同]
+\begin{itemize}
+  \item \textbf{特許権}：出願→審査→登録が必要（方式主義）
+  \item \textbf{著作権}：創作した時点で自動発生（無方式主義）
+\end{itemize}
+「著作権は登録が必要」は\textbf{誤り}。特に「プログラムの著作権」と「ソフトウェア特許」は別物。
+\end{yokumiss}
+
+\begin{yokumiss}[請負と派遣の指揮命令権]
+\begin{itemize}
+  \item \textbf{請負}：受注者が指揮命令（発注者は指示しない）
+  \item \textbf{準委任}：受注者が指揮命令（請負と同じ）
+  \item \textbf{派遣}：派遣先が指揮命令（ここだけ違う）
+\end{itemize}
+発注者が直接指示 $+$ 請負契約 $=$ \textbf{偽装請負}（違法）。
+\end{yokumiss}
+
+% =============================================================
+% マネジメント系のミス
+% =============================================================
+\section*{マネジメント系のミス}
+
+\begin{yokumiss}[V字モデルの対応関係の逆転]
+\begin{itemize}
+  \item 要件定義 ↔ 運用テスト
+  \item 外部設計 ↔ システムテスト
+  \item 内部設計 ↔ 結合テスト
+  \item プログラミング ↔ 単体テスト
+\end{itemize}
+「一番上同士、一番下同士」が対応する。外部設計と結合テストを結びつけるのは\textbf{誤り}。
+\end{yokumiss}
+
+\begin{yokumiss}[SLAとSLMの逆転]
+\begin{itemize}
+  \item SLA = Service Level \textbf{Agreement}（合意文書）
+  \item SLM = Service Level \textbf{Management}（管理プロセス）
+\end{itemize}
+「Aは文書、Mは活動」。末尾のアルファベットで区別する。
+\end{yokumiss}
+
+\begin{yokumiss}[インシデント管理と問題管理の混同]
+\begin{itemize}
+  \item インシデント管理 = \textbf{迅速な復旧}（応急処置）
+  \item 問題管理 = \textbf{根本原因の除去}（根治治療）
+\end{itemize}
+「インシデント管理で根本原因を除去する」は\textbf{誤り}。
+\end{yokumiss}
+
+\begin{yokumiss}[監査人が「改善を実施する」は誤り]
+\begin{itemize}
+  \item 監査人の役割：\textbf{助言・勧告}まで
+  \item 改善の実施：\textbf{被監査部門}が行う
+\end{itemize}
+監査人が自ら改善すると\textbf{独立性}が失われる。
+\end{yokumiss}
+
+% =============================================================
+% テクノロジ系のミス
+% =============================================================
+\section*{テクノロジ系のミス}
+
+\begin{yokumiss}[2進数変換の余りの読み方]
+10進数→2進数の変換で2で割っていく方法。
+余りは\textbf{下から上に}読む（最後の余りが最上位ビット）。
+上から下に読むと正反対の値になるので注意。
+\end{yokumiss}
+
+\begin{yokumiss}[ORとXORの結果の違い]
+\begin{itemize}
+  \item $1 \text{ OR } 1 = 1$（どちらかが1ならOK）
+  \item $1 \text{ XOR } 1 = 0$（同じなら0、違えば1）
+\end{itemize}
+この違いを問う選択肢が頻出。「排他的」＝「同じならダメ」と覚える。
+\end{yokumiss}
+
+\begin{yokumiss}[RAID 0に冗長性があると思い込む]
+\begin{itemize}
+  \item RAID 0（ストライピング）：\textbf{冗長性なし}。1台故障で全滅
+  \item RAID 1（ミラーリング）：2台に同じデータ。1台故障OK
+  \item RAID 5（パリティ分散）：3台以上。1台故障まで復旧可能
+\end{itemize}
+「RAID = 冗長化」ではない。RAID 0はあくまで高速化のため。
+\end{yokumiss}
+
+\begin{yokumiss}[公開鍵暗号とデジタル署名の鍵の混同]
+\begin{itemize}
+  \item \textbf{暗号化通信}：受信者の公開鍵で暗号化 → 受信者の秘密鍵で復号
+  \item \textbf{デジタル署名}：送信者の秘密鍵で署名 → 送信者の公開鍵で検証
+\end{itemize}
+「暗号は受信者の公開鍵、署名は送信者の秘密鍵」——主役が入れ替わる。
+\end{yokumiss}
+
+\begin{yokumiss}[フェール○○の混同]
+\begin{itemize}
+  \item フェール\textbf{セーフ}：故障→\textbf{安全停止}（例：踏切の遮断機）
+  \item フェール\textbf{ソフト}：故障→\textbf{機能縮退}で継続（例：エンジン1基停止→残りで飛行）
+  \item フォールト\textbf{トレランス}：故障→\textbf{全体は正常動作}（例：RAID）
+  \item フール\textbf{プルーフ}：\textbf{人間のミス防止}（例：コンセントの形状）
+\end{itemize}
+「セーフ＝安全停止」「ソフト＝縮退継続」「トレランス＝耐障害」「プルーフ＝防愚」。
+\end{yokumiss}
+
+% =============================================================
+% 横断的なミス
+% =============================================================
+\section*{横断的なミス}
+
+\begin{yokumiss}[「すべて」「必ず」の断定に引っかかる]
+選択肢に「すべて」「必ず」「常に」「絶対に」があったら疑う。
+\begin{itemize}
+  \item 「OSSはすべて無料」→ 誤り（商用サポートは有償可）
+  \item 「暗号化すれば必ず安全」→ 誤り（鍵管理が不十分なら意味がない）
+  \item 「特許を取れば永久に保護される」→ 誤り（20年の期限あり）
+\end{itemize}
+\end{yokumiss}
+
+\begin{yokumiss}[似た略語の入れ替え]
+試験でよく入れ替えられる組合せ：
+\begin{itemize}
+  \item SLA ↔ SLM
+  \item DNS ↔ DHCP
+  \item TCP ↔ UDP
+  \item SRAM ↔ DRAM
+  \item CIO ↔ CTO
+  \item PoC ↔ PoV ↔ MVP
+\end{itemize}
+それぞれの「一文字の違い」が何を意味するかを押さえておく。
+\end{yokumiss}
+
+% =============================================================
+% 試験前ミスチェック
+% =============================================================
+
+\begin{tatsaku}[試験前ミスチェック]
+  \item SWOTとVRIOの目的の違いを言える
+  \item PLの5段階利益を順番に言える
+  \item BEPの公式を正しく書ける
+  \item 特許権（方式主義）と著作権（無方式主義）を区別できる
+  \item 請負・準委任・派遣の指揮命令権を即答できる
+  \item V字モデルの4組の対応関係を全部言える
+  \item SLAとSLMの違いを頭文字で区別できる
+  \item インシデント管理（復旧）と問題管理（原因除去）を混同しない
+  \item 2進数変換の余りを下から読むことを忘れない
+  \item 公開鍵暗号とデジタル署名の鍵の使い分けを即答できる
+  \item フェールセーフ/ソフト/トレランス/プルーフを区別できる
+  \item 「すべて」「必ず」の断定を疑う習慣がある
+\end{tatsaku}

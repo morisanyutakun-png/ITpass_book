@@ -1,105 +1,93 @@
 % =============================================================
-% main.tex
-% 図でつながる ITパスポート
-% ビルド: LuaLaTeX + luatexja (latexmk main.tex)
+% main.tex — 図でつながる ITパスポート
+% B5 / LuaLaTeX / jlreq
 % =============================================================
-\documentclass[a5paper,11pt,openany,oneside]{ltjsbook}
+\documentclass[
+  paper=b5j,
+  fontsize=10pt,
+  book,
+  head_space=25mm,
+  foot_space=25mm,
+  gutter=22mm,
+  fore-edge=18mm,
+  twoside,
+  openany,
+]{jlreq}
 
-% preamble 内で theme.tex を読み込む構成
-\input{styles/preamble.tex}
-\input{styles/macros.tex}
-
-\title{\Huge 図でつながる ITパスポート\\[6pt]\large 大学生・新社会人のための、理解で受かる参考書}
-\author{図でつながる ITパスポート 編集部}
-\date{初版}
+% ── スタイル読み込み ──
+\input{styles/colors}
+\input{styles/layout}
+\input{styles/environments}
+\input{styles/commands}
 
 \begin{document}
 
 % =============================================================
-% 表紙（参考書らしい清潔な扉）
+% 表紙
 % =============================================================
 \begin{titlepage}
-  \thispagestyle{empty}
-  \noindent
-  % 上帯（太）
-  \noindent{\color{chapChip}\rule{\linewidth}{6pt}}\par
-  \vspace{2pt}
-  {\color{chapTagLine}\rule{0.4\linewidth}{2pt}}
-  \vspace{40mm}
+\thispagestyle{empty}
+\noindent
+{\color{TopBar}\rule{\linewidth}{6pt}}\par
+\vspace{2pt}
+{\color{AccentBar}\rule{0.4\linewidth}{2pt}}\par
+\vspace{30mm}
 
-  % シリーズラベル
-  \noindent
-  \tikz[baseline=0]{
-    \node[fill=chapChip, text=white,
-          inner xsep=10pt, inner ysep=4pt,
-          font=\sffamily\small\bfseries, rounded corners=1pt]
-      {\ ITパスポート 対策参考書\ };
-  }\par
-  \vspace{18mm}
+\noindent
+\badge{Navy}{ITパスポート\ 問題集}
+\par\vspace{14mm}
 
-  % メインタイトル
-  {\raggedright
-    \fontsize{32pt}{40pt}\selectfont\bfseries\color{themeMain}
-    図でつながる\par
-    \vspace{6pt}
-    ITパスポート\par
-  }
-  \vspace{10mm}
-  {\color{themeAccent}\rule{0.28\linewidth}{3pt}}\par
-  \vspace{8mm}
-  {\large\color{themeSub}
-    ―― 大学生・新社会人のための、\\[2pt]
-    \hspace*{1.2em}理解で受かる参考書\par
-  }
-  \vfill
+{\raggedright
+  \fontsize{30pt}{38pt}\selectfont\bfseries\color{Navy}
+  図でつながる\par
+  \vspace{4pt}
+  ITパスポート\par
+}
+\vspace{8mm}
+{\color{AccentBar}\rule{0.25\linewidth}{3pt}}\par
+\vspace{6mm}
+{\large\color{SubBlue}
+  ―― 過去問と図解で理解し、\\[2pt]
+  \hspace*{1.2em}その場で解ける問題集\par
+}
+\vfill
 
-  % 下段：コンセプト＋QR
-  \noindent
-  \begin{minipage}[b]{0.55\linewidth}
-    \small\color{themeMuted}
-    図で理解する。用語の関係性で覚える。\\
-    ひっかけの理由までわかる。\\[6pt]
-    本書は、暗記ではなく\textbf{\color{themeMain}構造の理解}で合格を目指す
-    ITパスポート参考書です。
-  \end{minipage}%
-  \hfill
-  \begin{minipage}[b]{0.38\linewidth}
-    \raggedleft
-    \qrcode[height=20mm]{\supportbaseurl}\par
-    \vspace{2pt}
-    {\tiny\sffamily\color{themeMuted}サポートサイト}
-  \end{minipage}
-  \vspace{6mm}
+\noindent
+\begin{minipage}[b]{0.6\linewidth}
+  \small\color{Muted}
+  図で理解する。すぐ解く。解説でひっかけを潰す。\\[4pt]
+  本書は暗記ではなく\textbf{\color{Navy}見分け方の理解}で\\
+  合格を目指す問題集です。\\[4pt]
+  令和6年度・令和7年度 公開問題収録
+\end{minipage}%
+\hfill
+\begin{minipage}[b]{0.35\linewidth}
+  \raggedleft
+  {\footnotesize\sffamily\color{Muted}2026年版}
+\end{minipage}
+\vspace{6mm}
 
-  % 下帯
-  \noindent{\color{chapTagLine}\rule{0.4\linewidth}{2pt}}\par
-  \vspace{2pt}
-  \noindent{\color{chapChip}\rule{\linewidth}{6pt}}
+{\color{AccentBar}\rule{0.4\linewidth}{2pt}}\par
+\vspace{2pt}
+{\color{TopBar}\rule{\linewidth}{6pt}}
 \end{titlepage}
 
 % =============================================================
 % 目次
 % =============================================================
-\frontmatter
+\pagenumbering{roman}
 \pagestyle{empty}
 \cleardoublepage
 
-% 目次タイトルを装飾的に
-\vspace*{10mm}
-\noindent
-\tikz[baseline=0]{
-  \node[fill=chapChip, text=white,
-        inner xsep=10pt, inner ysep=4pt,
-        font=\sffamily\small\bfseries, rounded corners=1pt]
-    {\ CONTENTS\ };
-}\par
+\vspace*{8mm}
+\noindent\badge{Navy}{CONTENTS}\par
+\vspace{4pt}
+{\color{TopBar}\rule{0.24\linewidth}{3pt}}%
+{\color{AccentBar}\rule{0.14\linewidth}{3pt}}\par
 \vspace{6pt}
-{\color{chapChip}\rule{0.26\linewidth}{3pt}}%
-{\color{chapTagLine}\rule{0.16\linewidth}{3pt}}
-\vspace{8pt}\par
-{\raggedright\Huge\bfseries\color{themeMain}目\,次\par}
+{\raggedright\Huge\bfseries\color{Navy}目\,次\par}
 \vspace{2pt}
-\noindent{\color{themeHair}\rule{\linewidth}{0.4pt}}
+{\color{HairLine}\rule{\linewidth}{0.4pt}}\par
 \vspace{8mm}
 
 \makeatletter
@@ -113,32 +101,37 @@
 % =============================================================
 % 本文
 % =============================================================
-\mainmatter
-\include{chapters/00_intro}
-\include{chapters/01_strategy}
-\include{chapters/02_management}
-\include{chapters/03_technology}
-\include{chapters/04_cross_review}
-\include{chapters/05_mock_exam}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\include{chapters/00_howto}
+
+% ── PART I: ストラテジ系 ──
+\partpage{I}{ストラテジ系}
+\include{chapters/01_enterprise}
+\include{chapters/02_accounting}
+
+% ── PART II: マネジメント系 ──
+\partpage{II}{マネジメント系}
+\include{chapters/03_development}
+\include{chapters/04_service}
+
+% ── PART III: テクノロジ系 ──
+\partpage{III}{テクノロジ系}
+\include{chapters/05_foundation}
+\include{chapters/06_network}
+\include{chapters/07_security}
+
+% ── PART IV: 総仕上げ ──
+\partpage{IV}{総仕上げ}
+\include{chapters/08_crossdomain}
+\include{chapters/09_mock}
 
 % =============================================================
-% 巻末：サポートサイトの歩き方
+% 付録
 % =============================================================
-\backmatter
-\chapter*{サポートサイトの歩き方}
-\addcontentsline{toc}{chapter}{サポートサイトの歩き方}
-
-本書には、学習を補助する静的サポートサイトが付属します。
-サイトは教材の「主役」ではなく、本の「付録置き場」と「更新の窓口」です。
-
-\supportqr{downloads}{図解PDF・直前チェック資料}
-\supportqr{quiz}{クライアントサイド確認テスト}
-\supportqr{errata}{正誤表}
-\supportqr{changelog}{更新履歴}
-
-\vspace{6mm}
-\noindent{\small\color{themeMuted}%
-サイトURL: {\ttfamily\supportbaseurl}\\
-公開URLは予告なく変更される場合があります。最新の情報はサポートサイトでご確認ください。}
+\appendix
+\include{appendix/mistakes}
+\include{appendix/reference}
 
 \end{document}

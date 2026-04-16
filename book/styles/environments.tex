@@ -1,0 +1,266 @@
+% =============================================================
+% environments.tex — 全 tcolorbox 環境
+% =============================================================
+
+% ── 共通バー幅 ──
+\newcommand{\BarW}{3.6pt}
+\newcommand{\ArcR}{1.5pt}
+
+% ── 汎用ラベル付き左バーボックス ──
+\NewDocumentCommand{\MakeActorBox}{m m m m m}{%
+  % #1=env name, #2=default label, #3=bar color, #4=bg color, #5=title bg
+  \newtcolorbox{#1}[1][#2]{%
+    enhanced, breakable,
+    colback=#4, colframe=#4, boxrule=0pt,
+    leftrule=\BarW,
+    colbacktitle=#5, coltitle=white,
+    fonttitle=\sffamily\footnotesize\bfseries,
+    title=\,##1\,,
+    attach boxed title to top left={xshift=-\BarW, yshift=-6pt},
+    boxed title style={colframe=#5, boxrule=0pt, sharp corners, arc=0pt,
+      left=6pt, right=6pt, top=2pt, bottom=2pt},
+    overlay unbroken and first={
+      \draw[#3, line width=\BarW] (frame.north west) -- (frame.south west);
+    },
+    arc=\ArcR, outer arc=0pt, sharp corners=northwest,
+    left=12pt, right=10pt, top=14pt, bottom=8pt,
+    fontupper=\color{Ink}\small,
+    before skip=10pt, after skip=10pt,
+  }%
+}
+
+% ── 定義/要点 ──
+\MakeActorBox{teigi}{要点}{TeigiBar}{TeigiBG}{TeigiBar}
+
+% ── つまずき ──
+\MakeActorBox{pitfall}{つまずき}{PitBar}{PitBG}{PitBar}
+
+% ── 比較 ──
+\MakeActorBox{hikaku}{比較}{HikakuBar}{HikakuBG}{HikakuBar}
+
+% ── 見抜き方 ──
+\MakeActorBox{minuki}{見抜き方}{MinukiBar}{MinukiBG}{MinukiBar}
+
+% ── よくあるミス ──
+\MakeActorBox{yokumiss}{よくあるミス}{MissBar}{MissBG}{MissBar}
+
+% ── 解説 ──
+\MakeActorBox{kaisetsubox}{解答・解説}{KaiBar}{KaiBG}{KaiBar}
+
+% ── アドバイス ──
+\MakeActorBox{advice}{学習アドバイス}{Muted}{LeadBG}{Muted}
+
+% ── 本試験パターン ──
+\MakeActorBox{honshiken}{本試験}{MinukiBar}{MinukiBG}{MinukiBar}
+
+% =============================================================
+% 例題 (reidai): 紺ヘッダーバー＋問題
+% =============================================================
+\newcounter{reidaictr}
+\renewcommand{\thereidaictr}{\arabic{reidaictr}}
+
+\NewDocumentEnvironment{reidai}{m}{%
+  \refstepcounter{reidaictr}%
+  \par\addvspace{14pt}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=ReidaiBG, colframe=ReidaiBar,
+    boxrule=0pt, toprule=3pt,
+    arc=0pt, outer arc=0pt,
+    left=12pt, right=12pt, top=10pt, bottom=8pt,
+    before skip=10pt, after skip=4pt,
+    title={\sffamily\small\bfseries 例題 \thereidaictr\quad #1},
+    colbacktitle=ReidaiBar, coltitle=white,
+    attach boxed title to top left={yshift=0pt, xshift=0pt},
+    boxed title style={colframe=ReidaiBar, boxrule=0pt, arc=0pt,
+      left=10pt, right=10pt, top=4pt, bottom=4pt},
+  ]
+  \color{Ink}\small
+}{%
+  \end{tcolorbox}
+  \par\addvspace{4pt}%
+}
+
+% ── 指針 ──
+\NewDocumentEnvironment{shishin}{}{%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=ShishinBG, colframe=ShishinBG, boxrule=0pt,
+    leftrule=\BarW,
+    overlay unbroken and first={
+      \draw[ShishinBar, line width=\BarW] (frame.north west) -- (frame.south west);
+    },
+    arc=\ArcR, outer arc=0pt,
+    left=12pt, right=10pt, top=10pt, bottom=8pt,
+    before skip=4pt, after skip=4pt,
+    fontupper=\color{Ink}\small,
+    title={\sffamily\footnotesize\bfseries\color{ShishinBar} 指針},
+    coltitle=ShishinBar, colbacktitle=ShishinBG,
+    attach boxed title to top left={xshift=8pt, yshift=-2pt},
+    boxed title style={colframe=ShishinBG, boxrule=0pt, arc=0pt,
+      left=0pt, right=0pt, top=0pt, bottom=0pt},
+  ]
+}{%
+  \end{tcolorbox}
+}
+
+% ── 解答（緑左バー）──
+\NewDocumentEnvironment{kaitou}{}{%
+  \par\addvspace{4pt}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=KaitouBG, colframe=KaitouBG, boxrule=0pt,
+    leftrule=\BarW,
+    colbacktitle=KaitouBar, coltitle=white,
+    fonttitle=\sffamily\footnotesize\bfseries,
+    title=\,解答\,,
+    attach boxed title to top left={xshift=-\BarW, yshift=-6pt},
+    boxed title style={colframe=KaitouBar, boxrule=0pt, sharp corners, arc=0pt,
+      left=6pt, right=6pt, top=2pt, bottom=2pt},
+    overlay unbroken and first={
+      \draw[KaitouBar, line width=\BarW] (frame.north west) -- (frame.south west);
+    },
+    arc=\ArcR, outer arc=0pt,
+    left=12pt, right=10pt, top=14pt, bottom=8pt,
+    fontupper=\color{Ink}\small,
+    before skip=4pt, after skip=10pt,
+  ]
+}{%
+  \end{tcolorbox}
+}
+
+% =============================================================
+% 4択問題 (itpmon): ア/イ/ウ/エ 本試験準拠
+% =============================================================
+\newcounter{itpmonctr}
+\renewcommand{\theitpmonctr}{\arabic{itpmonctr}}
+
+% #1 = key-value options, #2 = problem text
+\NewDocumentEnvironment{itpmon}{O{} m}{%
+  \refstepcounter{itpmonctr}%
+  \par\addvspace{8pt}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white, colframe=HairLine,
+    boxrule=0.5pt, arc=0pt, outer arc=0pt,
+    left=10pt, right=10pt, top=10pt, bottom=8pt,
+    before skip=8pt, after skip=4pt,
+  ]
+    \noindent
+    \tikz[baseline=(q.base)]{
+      \node[fill=QuizBar, text=white, inner xsep=7pt, inner ysep=2pt,
+            font=\sffamily\scriptsize\bfseries, rounded corners=1pt] (q)
+        {Q\arabic{itpmonctr}};
+    }%
+    \hspace{4pt}%
+    {\small\color{Muted}#1}%
+    \par\vspace{5pt}%
+    \textbf{\color{Navy}#2}\par
+    \vspace{4pt}%
+}{%
+  \end{tcolorbox}
+}
+
+% 選択肢マクロ: 4つの選択肢を表示
+\NewDocumentCommand{\sentakushi}{m m m m}{%
+  \begin{enumerate}[label=\textbf{\color{SubBlue}\ifcase\value{enumi}\or ア\or イ\or ウ\or エ\fi.},
+                   leftmargin=2.2em, itemsep=3pt, topsep=4pt]
+    \item #1
+    \item #2
+    \item #3
+    \item #4
+  \end{enumerate}
+}
+
+% 解説マクロ: 正解＋解説
+% #1 = 正解 (ア/イ/ウ/エ)
+\NewDocumentEnvironment{kaisetsu}{m}{%
+  \begin{kaisetsubox}
+    \textbf{\color{KaiBar}正解}\quad\textbf{#1}\par
+    \vspace{3pt}%
+}{%
+  \end{kaisetsubox}
+}
+
+% =============================================================
+% 到達確認チェックリスト
+% =============================================================
+\NewDocumentEnvironment{tatsaku}{O{到達確認チェックリスト}}{%
+  \par\addvspace{12pt}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white, colframe=Teal,
+    boxrule=0.6pt, arc=2pt, leftrule=4pt,
+    left=12pt, right=10pt, top=10pt, bottom=10pt,
+    before skip=12pt, after skip=12pt,
+    title={\sffamily\small\bfseries #1},
+    colbacktitle=Teal, coltitle=white,
+    attach boxed title to top left={xshift=-4pt, yshift=-6pt},
+    boxed title style={colframe=Teal, boxrule=0pt, sharp corners, arc=0pt,
+      left=8pt, right=8pt, top=2pt, bottom=2pt},
+  ]
+  \small\color{Ink}%
+  \begin{itemize}[leftmargin=1.8em, itemsep=3pt, topsep=2pt,
+    label={\color{Teal}$\square$}]
+}{%
+  \end{itemize}
+  \end{tcolorbox}
+}
+
+% =============================================================
+% タイムアタック
+% =============================================================
+\NewDocumentEnvironment{timeattack}{m m m}{%
+  \par\addvspace{14pt}%
+  \noindent
+  \tikz[baseline=(t.base)]{\node[fill=Navy, text=white, inner xsep=8pt, inner ysep=3pt,
+    font=\sffamily\scriptsize\bfseries, rounded corners=1pt] (t) {TIME ATTACK};}%
+  \hspace{4pt}%
+  \tikz[baseline=(u.base)]{\node[fill=Teal, text=white, inner xsep=6pt, inner ysep=2pt,
+    font=\sffamily\scriptsize\bfseries, rounded corners=1pt] (u) {#2};}%
+  \hspace{4pt}%
+  \tikz[baseline=(v.base)]{\node[fill=BadgeHyojun, text=white, inner xsep=6pt, inner ysep=2pt,
+    font=\sffamily\scriptsize\bfseries, rounded corners=1pt] (v) {目標 #3};}%
+  \par\vspace{6pt}%
+  {\Large\bfseries\color{Navy}#1\par}%
+  \vspace{3pt}%
+  {\color{HairLine}\rule{\linewidth}{0.4pt}}\par
+  \vspace{6pt}%
+}{%
+  \par\vspace{6pt}%
+  {\color{HairLine}\rule{\linewidth}{0.4pt}}\par
+  \vspace{10pt}%
+}
+
+% =============================================================
+% 模試形式セット
+% =============================================================
+\NewDocumentEnvironment{mogishi}{m m m}{%
+  \clearpage
+  \noindent
+  \tikz[baseline=(m.base)]{\node[fill=Navy, text=white, inner xsep=10pt, inner ysep=4pt,
+    font=\sffamily\small\bfseries, rounded corners=1pt] (m) {模試形式};}%
+  \hspace{4pt}%
+  \tikz[baseline=(n.base)]{\node[fill=Teal, text=white, inner xsep=8pt, inner ysep=3pt,
+    font=\sffamily\scriptsize\bfseries, rounded corners=1pt] (n) {#2};}%
+  \hspace{4pt}%
+  \tikz[baseline=(o.base)]{\node[fill=BadgeHyojun, text=white, inner xsep=8pt, inner ysep=3pt,
+    font=\sffamily\scriptsize\bfseries, rounded corners=1pt] (o) {目標 #3};}%
+  \par\vspace{8pt}%
+  {\color{TopBar}\rule{0.4\linewidth}{4pt}}%
+  {\color{AccentBar}\rule{0.2\linewidth}{4pt}}\par
+  \vspace{8pt}%
+  {\LARGE\bfseries\color{Navy}#1\par}%
+  \vspace{6pt}%
+  {\color{HairLine}\rule{\linewidth}{0.4pt}}\par
+  \vspace{8pt}%
+}{%
+  \par\vspace{10pt}%
+  {\color{TopBar}\rule{\linewidth}{1pt}}\par
+  \vspace{12pt}%
+}
+
+% =============================================================
+% まとめボックス
+% =============================================================
+\MakeActorBox{matome}{この章のまとめ}{Navy}{LeadBG}{Navy}
