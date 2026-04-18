@@ -1,0 +1,152 @@
+% ==============================================
+% 第1章 導入と全体像
+% ==============================================
+\chapter{導入と全体像}
+
+\section{ITパスポート試験の概要}
+
+ITパスポート試験は、\textbf{ITを使って仕事をするすべての人}のための国家試験です。
+
+\begin{keypoint}
+\begin{itemize}
+  \item 国家試験（経済産業省所管、IPA実施）
+  \item CBT方式（パソコンで受験、随時開催）
+  \item 100問・120分
+  \item 合格基準：総合600点以上 ＋ 各分野300点以上（1000点満点）
+  \item 出題分野：ストラテジ系・マネジメント系・テクノロジ系の3分野
+\end{itemize}
+\end{keypoint}
+
+\pitfallmemo{「600点取ればいい」と思いがちだが、各分野で300点以上が必要。3分野バランスよくが大前提。}
+
+\section{3つの分野の関係図}
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=2.5cm,
+  every node/.style={
+    rounded corners=2pt,
+    minimum width=4.5cm,
+    minimum height=1.2cm,
+    align=center,
+    font=\sffamily\bfseries,
+    draw=DarkGray,
+    line width=0.4pt
+  }
+]
+  \node (st) {ストラテジ系\\{\normalfont\small 経営・法務・戦略}};
+  \node[right=of st] (mg) {マネジメント系\\{\normalfont\small 開発・運用・プロマネ}};
+  \node[below right=1.5cm and -1cm of st] (tc) {テクノロジ系\\{\normalfont\small HW・NW・DB・セキュリティ}};
+
+  \draw[-{Stealth}, thick] (st) -- node[above, font=\small] {要件を出す} (mg);
+  \draw[-{Stealth}, thick] (mg) -- node[right, font=\small] {技術で実現} (tc);
+  \draw[-{Stealth}, thick] (tc) -- node[left, font=\small] {戦略に活かす} (st);
+\end{tikzpicture}
+\end{center}
+
+\section{この本の使い方}
+
+この本は、1テーマを\textbf{見開き}で完結させています。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  & \textbf{左ページ} & \textbf{右ページ} \\
+  \midrule
+  役割 & 要点整理＋問題 & 解答・解説 \\
+  使い方 & 要点を確認してから問題を解く & 解答を見て、誤答の理由まで確認 \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection*{おすすめの進め方}
+
+\begin{enumerate}
+  \item \textbf{1周目}（スピード重視）：左ページの要点を読む → 問題を解く → 右ページで答え合わせ
+  \item \textbf{2周目}（比較重視）：間違えた問題の解説を精読 → 比較表を意識
+  \item \textbf{3周目}（仕上げ）：章末ミニ模試 → 巻末模試 → 弱点テーマに戻る
+\end{enumerate}
+
+\section{学習前の自己診断}
+
+「分からない」が多い分野を優先して進めてください。
+
+\subsection*{ストラテジ系}
+\begin{itemize}
+  \diagnosisitem{「損益計算書」と「貸借対照表」の違いを説明できる}
+  \diagnosisitem{「請負契約」と「準委任契約」の違いを説明できる}
+  \diagnosisitem{「SWOT分析」の4要素を言える}
+\end{itemize}
+
+\subsection*{マネジメント系}
+\begin{itemize}
+  \diagnosisitem{「ウォーターフォール」と「アジャイル」の違いが分かる}
+  \diagnosisitem{「ITIL」と「SLA」の関係が分かる}
+  \diagnosisitem{「WBS」が何のためにあるか言える}
+\end{itemize}
+
+\subsection*{テクノロジ系}
+\begin{itemize}
+  \diagnosisitem{「TCP」と「UDP」の違いが分かる}
+  \diagnosisitem{「公開鍵暗号」と「共通鍵暗号」の違いを説明できる}
+  \diagnosisitem{「機密性」「完全性」「可用性」が何か言える}
+\end{itemize}
+
+% ==============================================
+%  ウォーミングアップ問題 — 見開き分離
+% ==============================================
+\section{ウォーミングアップ問題}
+
+本格的に始める前に、3分野から1問ずつ解いてみましょう。
+
+\mondaipage
+
+\begin{mondai}{ITパスポート試験の出題分野として正しい組合せはどれか。}{basic}
+  \choice{ストラテジ系・マネジメント系・テクノロジ系}
+  \choice{基本情報系・応用情報系・高度情報系}
+  \choice{経営系・開発系・インフラ系}
+  \choice{理論系・実践系・応用系}
+\end{mondai}
+
+\begin{mondai}{プロジェクトマネジメントで管理する QCD の「C」は何か。}{basic}
+  \choice{Capacity（容量）}
+  \choice{Cost（費用）}
+  \choice{Communication（連絡）}
+  \choice{Control（制御）}
+\end{mondai}
+
+\begin{mondai}{情報セキュリティの3要素（CIA）に\textbf{含まれないもの}はどれか。}{standard}
+  \choice{機密性（Confidentiality）}
+  \choice{完全性（Integrity）}
+  \choice{可用性（Availability）}
+  \choice{真正性（Authenticity）}
+\end{mondai}
+
+\kaitoupage
+
+\answer{A}
+\begin{kaisetsu}
+ITパスポート試験は\textbf{ストラテジ系・マネジメント系・テクノロジ系}の3分野から出題されます。イは情報処理技術者試験の試験区分の話、ウ・エは本試験の公式分類ではありません。
+\end{kaisetsu}
+
+\answer{B}
+\begin{kaisetsu}
+QCD は \textbf{Quality（品質）・Cost（費用）・Delivery（納期）}の頭文字です。
+\end{kaisetsu}
+
+\answer{D}
+\begin{kaisetsu}
+CIA は \textbf{Confidentiality（機密性）・Integrity（完全性）・Availability（可用性）}の3つです。真正性は「拡張7要素」に含まれますが基本の3要素ではありません。
+\end{kaisetsu}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item ア「機密性」→ CIAのC。含まれる
+  \item イ「完全性」→ CIAのI。含まれる
+  \item ウ「可用性」→ CIAのA。含まれる
+  \item エ「真正性」→ 7要素には入るが3要素ではない。\textbf{これが正解}
+\end{itemize}
+「含まれないもの」を選ぶ問題は、否定形の設問に注意。正しいものを選びそうになるひっかけ。
+\end{goutoubun}
+
+\qrchapter{1}

@@ -293,6 +293,18 @@ ul.list-plain li {
 .quiz__explanation.is-visible {
   display: block;
 }
+.quiz__wrong-analysis {
+  margin-top: 10px;
+  background: var(--color-pit-bg);
+  border: 1px solid var(--color-alert);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  display: none;
+}
+.quiz__wrong-analysis.is-visible {
+  display: block;
+}
 .quiz__controls {
   margin-top: 16px;
   display: flex;
@@ -373,6 +385,23 @@ ul.list-plain li {
 .badge--fix    { background: var(--color-alert); }
 .badge--add    { background: var(--color-accent); }
 .badge--update { background: var(--color-sub);   }
+
+/* ---- Quiz Filter ---- */
+.quiz-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.quiz-filter__btn {
+  font-size: 0.9rem;
+  padding: 6px 14px;
+}
+.quiz-filter__btn.is-active {
+  background: var(--color-main);
+  color: #fff;
+  border-color: var(--color-main);
+}
 
 /* ---- Footer ---- */
 .site-footer {

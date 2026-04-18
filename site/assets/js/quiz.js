@@ -1,16 +1,19 @@
 // ==============================================
-// クライアントサイド確認テスト
+// テーマ別練習問題エンジン
 // - data/quiz.json を読み込み、4 択で出題
-// - 回答後に正誤と解説を表示し、次の問題へ
+// - 分野フィルタ対応（QRコードのパラメータにも対応）
+// - 回答後に正誤・解説・誤答分析を表示
 // - スコアをローカル集計
 // ==============================================
 
 const state = {
   questions: [],
+  filtered: [],
   order: [],
   index: 0,
   answered: false,
   score: 0,
+  category: "all",
 };
 
 function shuffle(arr) {
@@ -27,16 +30,24 @@ function el(sel) {
 }
 
 function renderQuestion() {
-  const q = state.questions[state.order[state.index]];
+  const q = state.filtered[state.order[state.index]];
   if (!q) return renderResult();
 
   state.answered = false;
+
+  const levelLabel = q.level === "basic" ? "基礎"
+    : q.level === "trick" ? "ひっかけ"
+    : "標準";
+  const levelClass = q.level === "basic" ? "is-correct"
+    : q.level === "trick" ? "is-wrong"
+    : "";
 
   el("#quiz-root").innerHTML = `
     <div class="quiz">
       <div class="quiz__meta">
         <span>問題 ${state.index + 1} / ${state.order.length}</span>
         <span>分野: ${q.category || "総合"}</span>
+        ${q.level ? `<span class="${levelClass}" style="font-size:0.82rem;padding:2px 6px;border-radius:4px;">${levelLabel}</span>` : ""}
       </div>
       <p class="quiz__question">${escapeHTML(q.question)}</p>
       <ul class="quiz__choices" id="quiz-choices">
@@ -50,6 +61,7 @@ function renderQuestion() {
           .join("")}
       </ul>
       <div class="quiz__explanation" id="quiz-explanation"></div>
+      <div class="quiz__wrong-analysis" id="quiz-wrong-analysis"></div>
       <div class="quiz__controls">
         <span id="quiz-status" style="color:var(--color-muted);font-size:0.9rem;">選択肢を選んでください。</span>
         <button class="btn" id="quiz-next" disabled>次の問題へ</button>
@@ -73,7 +85,7 @@ function renderQuestion() {
 function onAnswer(e) {
   if (state.answered) return;
   state.answered = true;
-  const q = state.questions[state.order[state.index]];
+  const q = state.filtered[state.order[state.index]];
   const chosen = Number(e.currentTarget.dataset.idx);
   const correct = q.answer;
 
@@ -92,9 +104,14 @@ function onAnswer(e) {
 
   const exp = el("#quiz-explanation");
   exp.classList.add("is-visible");
-  exp.innerHTML = `<strong>解説</strong><br>${escapeHTML(q.explanation || "")}${
-    q.source ? `<br><small style="color:var(--color-muted)">出典: ${escapeHTML(q.source)}</small>` : ""
-  }`;
+  exp.innerHTML = `<strong>解説</strong><br>${escapeHTML(q.explanation || "")}`;
+
+  // 誤答分析があれば表示
+  if (q.wrong_analysis) {
+    const wa = el("#quiz-wrong-analysis");
+    wa.classList.add("is-visible");
+    wa.innerHTML = `<strong>なぜ他の選択肢はダメ？</strong><br>${escapeHTML(q.wrong_analysis)}`;
+  }
 
   el("#quiz-next").removeAttribute("disabled");
 }
@@ -106,8 +123,8 @@ function renderResult() {
     rate >= 80
       ? "合格ラインに十分手が届きそうです。"
       : rate >= 60
-      ? "もう一歩。弱い分野を章末まとめで復習しましょう。"
-      : "基礎にひと通り戻って、各章の「1 枚まとめ」を先に読み直しましょう。";
+      ? "もう一歩。間違えたテーマに戻って復習しましょう。"
+      : "基礎を固め直しましょう。本書の左ページを先に読み直すのがおすすめです。";
   el("#quiz-root").innerHTML = `
     <div class="quiz quiz__result">
       <h3>お疲れさまでした</h3>
@@ -125,10 +142,24 @@ function renderResult() {
   });
 }
 
+function applyFilter(category) {
+  state.category = category;
+  if (category === "all") {
+    state.filtered = state.questions;
+  } else {
+    state.filtered = state.questions.filter(q => q.category === category);
+  }
+}
+
 function startQuiz() {
-  state.order = shuffle([...Array(state.questions.length).keys()]);
+  applyFilter(state.category);
+  state.order = shuffle([...Array(state.filtered.length).keys()]);
   state.index = 0;
   state.score = 0;
+  if (state.filtered.length === 0) {
+    el("#quiz-root").innerHTML = '<p style="color:var(--color-muted)">この分野の問題はまだ用意されていません。</p>';
+    return;
+  }
   renderQuestion();
 }
 
@@ -141,14 +172,54 @@ function escapeHTML(s) {
     .replace(/'/g, "&#39;");
 }
 
+function setupFilters() {
+  const filterContainer = el("#quiz-filter");
+  if (!filterContainer) return;
+
+  filterContainer.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-category]");
+    if (!btn) return;
+
+    filterContainer.querySelectorAll(".quiz-filter__btn").forEach(b => {
+      b.classList.remove("is-active");
+      b.classList.add("btn--ghost");
+    });
+    btn.classList.add("is-active");
+    btn.classList.remove("btn--ghost");
+
+    state.category = btn.dataset.category;
+    startQuiz();
+  });
+}
+
+function parseUrlParams() {
+  const params = new URLSearchParams(window.location.search);
+  const ch = params.get("ch");
+  if (ch) {
+    const categoryMap = {
+      "1": "all",
+      "2": "ストラテジ",
+      "3": "マネジメント",
+      "4": "テクノロジ",
+      "5": "横断",
+      "6": "all",
+    };
+    state.category = categoryMap[ch] || "all";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   const mount = el("#quiz-root");
   if (!mount) return;
+
+  parseUrlParams();
+  setupFilters();
+
   try {
     const data = await fetchJSON("data/quiz.json");
     state.questions = Array.isArray(data.questions) ? data.questions : [];
     if (state.questions.length === 0) {
-      mount.innerHTML = '<p style="color:var(--color-muted)">確認テストの問題データがまだ用意されていません。</p>';
+      mount.innerHTML = '<p style="color:var(--color-muted)">練習問題がまだ用意されていません。</p>';
       return;
     }
     startQuiz();

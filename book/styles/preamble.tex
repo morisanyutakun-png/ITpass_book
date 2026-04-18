@@ -1,0 +1,94 @@
+% ==============================================
+% preamble.tex — パッケージ読み込み
+% 図で解ける ITパスポート
+% ==============================================
+
+% --- 日本語組版 ---
+\usepackage{luatexja}
+\usepackage{luatexja-fontspec}
+
+% --- フォント ---
+\setmainjfont{Hiragino Mincho ProN}
+\setsansjfont{Hiragino Kaku Gothic ProN}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}
+
+% --- ページレイアウト ---
+\usepackage[
+  b5paper,
+  top=20mm,
+  bottom=20mm,
+  inner=20mm,
+  outer=15mm,
+  headheight=14pt,
+  headsep=10mm,
+  footskip=12mm
+]{geometry}
+
+% --- 色 ---
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+
+% --- 図・表 ---
+\usepackage{tikz}
+\usetikzlibrary{
+  arrows.meta,
+  positioning,
+  shapes.geometric,
+  shapes.misc,
+  calc,
+  fit,
+  backgrounds,
+  decorations.pathreplacing
+}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{longtable}
+
+% --- 箱・装飾 ---
+\usepackage{tcolorbox}
+\tcbuselibrary{
+  skins,
+  breakable,
+  theorems,
+  listings
+}
+
+% --- 見出し ---
+\usepackage{titlesec}
+
+% --- ヘッダ・フッタ ---
+\usepackage{fancyhdr}
+
+% --- リスト ---
+\usepackage{enumitem}
+
+% --- QRコード ---
+\usepackage{qrcode}
+
+% --- ハイパーリンク ---
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=NavyBlue,
+  urlcolor=Teal,
+  bookmarksnumbered=true,
+  pdfusetitle
+}
+
+% --- その他 ---
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}    % \ding{51} チェック, \ding{55} バツ
+\usepackage{multicol}
+\usepackage{xparse}
+\usepackage{etoolbox}
+\usepackage{calc}
+
+% --- 目次の体裁 ---
+\usepackage{tocloft}
+\renewcommand{\cftchapfont}{\sffamily\bfseries}
+\renewcommand{\cftsecfont}{\sffamily}

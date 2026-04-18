@@ -1,0 +1,808 @@
+% ==============================================
+% 第3章 マネジメント系
+% ==============================================
+\chapter{マネジメント系}
+
+マネジメント系は「システム開発・プロジェクト管理・サービス管理」の分野です。
+出題数は全100問中 約20問と少なめですが、\textbf{用語の正確な理解}を問われる問題が多く、
+あいまいな知識では得点できません。開発の流れやプロジェクト管理の基本を「自分ごと」として捉えましょう。
+
+\begin{keypoint}
+マネジメント系の主なテーマ：
+\begin{itemize}
+  \item システム開発（ウォーターフォール、アジャイル、テスト技法）
+  \item プロジェクトマネジメント（WBS、スケジュール管理、PMBOK）
+  \item サービスマネジメント（ITIL、サービスデスク、SLA）
+\end{itemize}
+\end{keypoint}
+
+% ====================================================
+%  3.1 ウォーターフォールとアジャイル
+% ====================================================
+\section{システム開発}
+
+\mondaipage
+\unittheme{ウォーターフォールとアジャイル}{waterfall-agile}
+
+\begin{stumble}
+「ウォーターフォールとアジャイルの違い」は頻出だが、
+\textbf{「アジャイル＝速い」「ウォーターフォール＝遅い」}という雑な理解で止まっている人が多い。
+本質は\textbf{変化への対応方針の違い}。
+ウォーターフォールは「最初にすべて決める」、アジャイルは「少しずつ決めながら進む」。
+\end{stumble}
+
+\begin{analogy}
+旅行の計画に例えると：
+\begin{itemize}
+  \item \textbf{ウォーターフォール} = パックツアー。出発前に全日程のホテル・観光地・食事を確定。途中変更は高くつく
+  \item \textbf{アジャイル} = バックパッカー旅行。大まかな方向だけ決めて、現地で柔軟にプランを変える。短い周期で「次の目的地」を決める
+\end{itemize}
+\end{analogy}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  & \textbf{ウォーターフォール} & \textbf{アジャイル} \\
+  \midrule
+  進め方 & 上流から下流へ順番に & 短い反復（イテレーション）で \\
+  要件変更 & 原則として戻らない & 変更を前提とする \\
+  成果物 & 最後にまとめて納品 & 反復ごとに動くソフトを提供 \\
+  向いている案件 & 要件が明確・大規模 & 要件が変わりやすい・小〜中規模 \\
+  代表的手法 & — & スクラム、XP（エクストリームプログラミング） \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{アジャイルの代表手法「スクラム」では、1〜4週間の反復を\textbf{スプリント}と呼ぶ。「イテレーション」との混同に注意}
+
+\begin{mondai}{ウォーターフォールモデルの特徴として最も適切なものはどれか。}{basic}
+  \choice{短い反復で開発を繰り返す}
+  \choice{各工程を順番に進め、原則として前の工程に戻らない}
+  \choice{プロトタイプを作って要件を確認する}
+  \choice{ペアプログラミングを必須とする}
+\end{mondai}
+
+\begin{mondai}{アジャイル開発の特徴として最も適切なものはどれか。}{standard}
+  \choice{全工程の計画を最初に詳細に決め、変更を認めない}
+  \choice{短い期間で設計・実装・テストを繰り返し、動くソフトウェアを段階的にリリースする}
+  \choice{開発の初期段階で全機能のテストを完了させる}
+  \choice{発注者の承認なしに開発を進めることができる}
+\end{mondai}
+
+\begin{mondai}{アジャイル開発手法の一つであるスクラムにおいて、開発チームが1〜4週間の固定期間で作業を行う単位を何と呼ぶか。}{trick}
+  \choice{マイルストーン}
+  \choice{イテレーション}
+  \choice{スプリント}
+  \choice{フェーズ}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+\begin{kaisetsu}
+ウォーターフォールは\textbf{滝（waterfall）のように上流→下流へ順番に}工程を進めるモデルです。
+A はアジャイル、C はプロトタイピングモデル、D は XP（エクストリームプログラミング）の特徴です。
+\end{kaisetsu}
+
+\answer{B}
+\begin{kaisetsu}
+アジャイル開発は\textbf{短い反復（イテレーション / スプリント）}で設計〜テストを繰り返し、
+\textbf{動くソフトウェア}を段階的に提供します。
+A はウォーターフォールの考え方、C・D はどちらの手法にも当てはまりません。
+\end{kaisetsu}
+\begin{goutoubun}
+\begin{itemize}
+  \item A → ウォーターフォールでも変更管理は存在する。「変更を一切認めない」は誤り
+  \item B → \textbf{これが正解}。反復・段階的リリースがアジャイルの本質
+  \item C → テストは各反復で行うが、「初期段階で全機能のテスト」は非現実的
+  \item D → アジャイルでも\textbf{プロダクトオーナー}（発注者側の代表）が優先順位を決める
+\end{itemize}
+\end{goutoubun}
+
+\answer{C}
+\begin{trickwarn}
+「イテレーション」はアジャイル全般で使う反復の総称。
+\textbf{スクラムでは「スプリント」}と呼ぶ。
+試験では「スクラムにおいて」と限定されている場合、\textbf{スプリント}が正解。
+「イテレーション」を選ばせるひっかけに注意。
+\end{trickwarn}
+
+\hitokoto{ウォーターフォール＝計画重視で順番に、アジャイル＝変化前提で繰り返す。}
+
+\related{要件定義・設計・テスト（\pageref{unit:dev-process}）、テスト技法（\pageref{unit:testing}）}
+
+\qrunit{3}{1}
+
+% ====================================================
+%  3.2 要件定義・設計・テスト
+% ====================================================
+\mondaipage
+\unittheme{要件定義・設計・テスト}{dev-process}
+
+\begin{stumble}
+システム開発の工程名を「順番通りに並べよ」という問題が頻出。
+とくに\textbf{「外部設計」と「内部設計」}、\textbf{「結合テスト」と「システムテスト」}の順序を逆にしてしまう人が多い。
+\textbf{上流で決めたことを下流でテストする}（V字モデル）を意識しよう。
+\end{stumble}
+
+\begin{keypoint}
+開発工程とV字モデルの対応：
+\begin{center}
+\begin{tabularx}{0.9\textwidth}{lXl}
+  \toprule
+  \textbf{上流工程} & \textbf{内容} & \textbf{対応するテスト} \\
+  \midrule
+  要件定義 & 何を作るか（顧客の要望） & 受入テスト \\
+  外部設計（基本設計） & 画面・帳票・インタフェース & システムテスト \\
+  内部設計（詳細設計） & プログラム内部の構造 & 結合テスト \\
+  プログラミング & コードの実装 & 単体テスト \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+\end{keypoint}
+
+\begin{analogy}
+家づくりに例えると：
+\begin{itemize}
+  \item \textbf{要件定義} = 「3LDK、駐車場付き」という希望を出す
+  \item \textbf{外部設計} = 間取り図（見た目・使い勝手）
+  \item \textbf{内部設計} = 配管・配線の設計図（内部構造）
+  \item \textbf{プログラミング} = 実際の建築工事
+  \item \textbf{単体テスト} = 各部屋の設備チェック
+  \item \textbf{結合テスト} = 配管同士がつながるか確認
+  \item \textbf{システムテスト} = 家全体の完成検査
+  \item \textbf{受入テスト} = 施主（顧客）の内覧チェック
+\end{itemize}
+\end{analogy}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  \textbf{テストの種類} & \textbf{テスト対象} & \textbf{実施者} \\
+  \midrule
+  単体テスト & モジュール単体 & 開発者 \\
+  結合テスト & モジュール間の連携 & 開発者 \\
+  システムテスト & システム全体 & 開発側 \\
+  受入テスト（運用テスト） & 業務要件との適合 & \textbf{発注者（ユーザ）} \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{受入テストの実施者は\textbf{ユーザ（発注者）}。開発者ではない。ここが出る}
+
+\begin{mondai}{システム開発における工程の順序として正しいものはどれか。}{basic}
+  \choice{要件定義 → 内部設計 → 外部設計 → プログラミング}
+  \choice{外部設計 → 要件定義 → 内部設計 → プログラミング}
+  \choice{要件定義 → 外部設計 → 内部設計 → プログラミング}
+  \choice{内部設計 → 外部設計 → 要件定義 → プログラミング}
+\end{mondai}
+
+\begin{mondai}{V字モデルにおいて、外部設計に対応するテスト工程はどれか。}{standard}
+  \choice{単体テスト}
+  \choice{結合テスト}
+  \choice{システムテスト}
+  \choice{受入テスト}
+\end{mondai}
+
+\begin{mondai}{受入テストの実施主体として最も適切なものはどれか。}{trick}
+  \choice{開発チームのプログラマ}
+  \choice{開発チームのテスト担当者}
+  \choice{プロジェクトマネージャ}
+  \choice{発注者（ユーザ）}
+\end{mondai}
+
+\kaitoupage
+
+\answer{C}
+\begin{kaisetsu}
+正しい順序は\textbf{要件定義 → 外部設計（基本設計） → 内部設計（詳細設計） → プログラミング}。
+大きな方針（何を作るか）から細部（どう作るか）へ段階的に詳細化していきます。
+\end{kaisetsu}
+
+\answer{C}
+\begin{kaisetsu}
+V字モデルでは、上流工程と対応するテスト工程がペアになります。
+\textbf{外部設計 ↔ システムテスト}です。
+外部設計で決めた画面や機能がシステム全体として正しく動くかを確認するのがシステムテスト。
+\end{kaisetsu}
+\begin{goutoubun}
+\begin{itemize}
+  \item A「単体テスト」→ プログラミング（コーディング）に対応
+  \item B「結合テスト」→ 内部設計に対応
+  \item C「システムテスト」→ 外部設計に対応。\textbf{これが正解}
+  \item D「受入テスト」→ 要件定義に対応
+\end{itemize}
+\end{goutoubun}
+
+\answer{D}
+\begin{trickwarn}
+受入テスト（運用テスト）は\textbf{発注者側（ユーザ企業）}が実施する。
+「テスト＝開発者がやるもの」と思い込んでいると A や B を選んでしまう。
+受入テストは「要件定義で決めた要望を満たしているか」を\textbf{ユーザが確認する}テスト。
+\end{trickwarn}
+
+\hitokoto{V字モデル：上流で決めたことを、下流で逆順にテストする。}
+
+\related{ウォーターフォールとアジャイル（\pageref{unit:waterfall-agile}）、テスト技法（\pageref{unit:testing}）}
+
+\qrunit{3}{2}
+
+% ====================================================
+%  3.3 テスト技法（ブラックボックス・ホワイトボックス）
+% ====================================================
+\mondaipage
+\unittheme{テスト技法（ブラックボックス・ホワイトボックス）}{testing}
+
+\begin{stumble}
+ブラックボックステストとホワイトボックステストは名前が似ていて混同しやすい。
+\textbf{ブラック = 中身が見えない}（内部構造を意識しない）。
+\textbf{ホワイト = 中身が見える}（内部構造を確認する）。
+箱の色でイメージしよう。
+\end{stumble}
+
+\begin{analogy}
+自動販売機に例えると：
+\begin{itemize}
+  \item \textbf{ブラックボックステスト} = お金を入れてボタンを押す → 正しいジュースが出てくるか確認。中の仕組みは見ない
+  \item \textbf{ホワイトボックステスト} = 自販機の裏蓋を開けて、コインの判別装置やモーターの動きを直接確認する
+\end{itemize}
+\end{analogy}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  & \textbf{ブラックボックステスト} & \textbf{ホワイトボックステスト} \\
+  \midrule
+  確認するもの & 入力と出力の関係 & プログラム内部の論理構造 \\
+  内部構造 & \textbf{意識しない} & \textbf{意識する} \\
+  代表技法 & 同値分割、境界値分析 & 命令網羅、分岐網羅 \\
+  主な適用 & 結合テスト以降 & 単体テスト \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\begin{keypoint}
+ブラックボックステストの代表的な技法：
+\begin{itemize}
+  \item \textbf{同値分割}：入力を「有効な値」と「無効な値」のグループに分けて、各グループから代表値をテスト
+  \item \textbf{境界値分析}：グループの境界にある値（境界値とその前後）を重点的にテスト。バグは境界に潜みやすい
+\end{itemize}
+ホワイトボックステストの代表的な技法：
+\begin{itemize}
+  \item \textbf{命令網羅}：すべての命令（ステートメント）を最低1回は実行
+  \item \textbf{分岐網羅（判定条件網羅）}：すべての分岐（if文の真・偽）を最低1回は通過
+\end{itemize}
+\end{keypoint}
+
+\pitfallmemo{「境界値分析」はブラックボックステストの技法。内部構造を見ずに、入力の境界付近を集中テストする}
+
+\begin{mondai}{ブラックボックステストの説明として最も適切なものはどれか。}{basic}
+  \choice{プログラムの内部構造に基づいてテストケースを作成する}
+  \choice{プログラムの外部仕様（入力と出力の関係）に基づいてテストケースを作成する}
+  \choice{すべての命令を最低1回実行するようにテストする}
+  \choice{プログラムの実行速度を計測するテストである}
+\end{mondai}
+
+\begin{mondai}{1〜100の整数を入力として受け付けるプログラムに対し、境界値分析でテストすべき値として最も適切な組合せはどれか。}{standard}
+  \choice{1, 50, 100}
+  \choice{0, 1, 100, 101}
+  \choice{10, 20, 30, 40}
+  \choice{-1, 0, 50, 200}
+\end{mondai}
+
+\begin{mondai}{ホワイトボックステストにおける「分岐網羅（判定条件網羅）」の説明として正しいものはどれか。}{trick}
+  \choice{すべての入力データの組合せをテストする}
+  \choice{すべての命令文を最低1回は実行するようにテストする}
+  \choice{すべての分岐で真と偽の両方を最低1回は通過するようにテストする}
+  \choice{すべての条件の組合せを網羅するようにテストする}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+\begin{kaisetsu}
+ブラックボックステストは\textbf{外部仕様}に基づくテストです。
+内部のコードは「黒い箱」として見ずに、入力に対して正しい出力が返るかを確認します。
+A・C はホワイトボックステスト、D は性能テストの説明です。
+\end{kaisetsu}
+
+\answer{B}
+\begin{kaisetsu}
+境界値分析は\textbf{有効範囲の境界とその前後}をテストします。
+有効範囲が 1〜100 なら、境界は「1」と「100」。
+その前後である \textbf{0, 1, 100, 101} が最も適切なテスト値です。
+\end{kaisetsu}
+\begin{goutoubun}
+\begin{itemize}
+  \item A → 50 は中央値であり、境界値ではない
+  \item B → 0（境界の直前）、1（下限境界）、100（上限境界）、101（境界の直後）。\textbf{これが正解}
+  \item C → すべて有効範囲内の任意の値。境界をテストしていない
+  \item D → $-1$ や 200 は範囲外だが、境界（0, 1, 100, 101）を網羅していない
+\end{itemize}
+\end{goutoubun}
+
+\answer{C}
+\begin{trickwarn}
+選択肢 B「すべての命令文を1回実行」は\textbf{命令網羅（ステートメントカバレッジ）}。
+\textbf{分岐網羅 = すべての分岐で真・偽の両方}を通すこと。
+命令網羅と分岐網羅を入れ替えるひっかけは定番。
+D はさらに上位の「条件網羅」であり、分岐網羅よりテストケースが多くなる。
+\end{trickwarn}
+
+\hitokoto{ブラック＝外から見る（入力→出力）、ホワイト＝中を見る（ロジック確認）。}
+
+\related{要件定義・設計・テスト（\pageref{unit:dev-process}）、ウォーターフォールとアジャイル（\pageref{unit:waterfall-agile}）}
+
+\qrunit{3}{3}
+
+% ====================================================
+%  3.4 WBS とスケジュール管理
+% ====================================================
+\section{プロジェクトマネジメント}
+
+\mondaipage
+\unittheme{WBSとスケジュール管理}{wbs}
+
+\begin{stumble}
+WBS（Work Breakdown Structure）は「作業を分解する」というのは知っていても、
+\textbf{何のために分解するのか}を理解していない人が多い。
+分解するのは\textbf{スケジュール・コスト・担当の見積もりを正確にする}ため。
+漠然とした大きな作業は見積もれない。だから小さく分ける。
+\end{stumble}
+
+\begin{analogy}
+文化祭の準備に例えると：
+\begin{itemize}
+  \item 「文化祭を成功させる」←\,これだけでは何をすればいいか分からない
+  \item WBS で分解：「企画書作成」「材料購入」「装飾制作」「リハーサル」「当日運営」
+  \item さらに分解：「材料購入」→「必要リスト作成」→「見積もり取得」→「購入」
+  \item 最小単位（ワークパッケージ）になれば、担当・期間・費用が見積もれる
+\end{itemize}
+\end{analogy}
+
+\begin{keypoint}
+スケジュール管理の代表的な手法：
+\begin{itemize}
+  \item \textbf{WBS}：作業を階層的に分解し、最小単位（ワークパッケージ）まで落とす
+  \item \textbf{ガントチャート}：横軸に時間、縦軸に作業を並べた棒グラフ。進捗が一目で分かる
+  \item \textbf{アローダイアグラム}：作業の依存関係と所要時間を矢印で示す。\textbf{クリティカルパス}（最長経路）を求める
+  \item \textbf{クリティカルパス}：全体の最短完了日を決定する経路。ここが遅れると全体が遅れる
+\end{itemize}
+\end{keypoint}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  \textbf{手法} & \textbf{特徴} & \textbf{主な用途} \\
+  \midrule
+  WBS & 作業を階層的に分解 & 作業の洗い出し・見積もり \\
+  ガントチャート & 棒グラフで進捗を表現 & スケジュールの可視化 \\
+  アローダイアグラム & 矢印で依存関係を表現 & クリティカルパスの特定 \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{ガントチャートは「進捗の可視化」には強いが、作業間の「依存関係」は見えにくい。依存関係はアローダイアグラム}
+
+\begin{mondai}{WBS（Work Breakdown Structure）の説明として最も適切なものはどれか。}{basic}
+  \choice{プロジェクトの作業を階層的に分解して構造化したもの}
+  \choice{作業の進捗状況を棒グラフで表したもの}
+  \choice{作業間の依存関係を矢印で表したもの}
+  \choice{プロジェクトのリスクを一覧にしたもの}
+\end{mondai}
+
+\begin{mondai}{アローダイアグラムにおいて、プロジェクト全体の所要期間を決定する経路を何と呼ぶか。}{standard}
+  \choice{マイルストーン}
+  \choice{ワークパッケージ}
+  \choice{クリティカルパス}
+  \choice{ベースライン}
+\end{mondai}
+
+\begin{mondai}{ガントチャートで確認できることとして最も適切なものはどれか。}{trick}
+  \choice{各作業の進捗状況と予定期間}
+  \choice{作業間の依存関係と最長経路}
+  \choice{プロジェクトのコスト内訳}
+  \choice{リスクの発生確率と影響度}
+\end{mondai}
+
+\kaitoupage
+
+\answer{A}
+\begin{kaisetsu}
+WBS は \textbf{Work Breakdown Structure}（作業分解構造）。
+プロジェクトの作業を\textbf{階層的に分解}して、管理可能な単位にします。
+B はガントチャート、C はアローダイアグラム、D はリスク管理表です。
+\end{kaisetsu}
+
+\answer{C}
+\begin{kaisetsu}
+\textbf{クリティカルパス}は、アローダイアグラムにおける\textbf{最長経路}。
+この経路上の作業が遅れると、プロジェクト全体の完了が遅れます。
+A はプロジェクトの重要な節目、B は WBS の最小単位、D は計画の基準値。
+\end{kaisetsu}
+\begin{goutoubun}
+\begin{itemize}
+  \item A「マイルストーン」→ 中間の節目（例：「設計完了」「テスト開始」）。経路ではない
+  \item B「ワークパッケージ」→ WBS の最下位の作業単位
+  \item C「クリティカルパス」→ 最長経路＝全体の所要期間を決める。\textbf{これが正解}
+  \item D「ベースライン」→ 計画の基準。進捗とのずれを測る基準線
+\end{itemize}
+\end{goutoubun}
+
+\answer{A}
+\begin{trickwarn}
+ガントチャートで見えるのは\textbf{「いつ、何を、どこまで進めたか」}。
+B の「依存関係と最長経路」はアローダイアグラムで確認する。
+ガントチャートは進捗管理には便利だが、\textbf{作業間の前後関係（依存）は表現しにくい}。
+\end{trickwarn}
+
+\hitokoto{WBS で分解 → ガントチャートで進捗管理 → アローダイアグラムで依存関係とクリティカルパス。}
+
+\related{PMBOK（\pageref{unit:pmbok}）、ウォーターフォールとアジャイル（\pageref{unit:waterfall-agile}）}
+
+\qrunit{3}{4}
+
+% ====================================================
+%  3.5 PMBOK
+% ====================================================
+\mondaipage
+\unittheme{PMBOK}{pmbok}
+
+\begin{stumble}
+PMBOK（Project Management Body of Knowledge）の「10の知識エリア」を全部暗記しようとして挫折する人が多い。
+ITパスポートでは\textbf{10個すべてを覚える必要はない}。
+頻出の知識エリア（スコープ、タイム、コスト、品質、リスク）を重点的に押さえよう。
+\end{stumble}
+
+\begin{keypoint}
+PMBOKの基本構造：
+\begin{itemize}
+  \item \textbf{PMBOK} = プロジェクトマネジメントの知識体系（ガイドブックのようなもの）
+  \item \textbf{5つのプロセス群}：立上げ → 計画 → 実行 → 監視・コントロール → 終結
+  \item \textbf{10の知識エリア}（頻出のものを太字に）：
+    \begin{itemize}
+      \item \textbf{スコープ管理}（何を作るか）
+      \item \textbf{スケジュール管理}（いつまでに）
+      \item \textbf{コスト管理}（いくらで）
+      \item \textbf{品質管理}（どの品質で）
+      \item \textbf{リスク管理}（何が起きたら）
+      \item 統合管理、資源管理、コミュニケーション管理、調達管理、ステークホルダ管理
+    \end{itemize}
+\end{itemize}
+\end{keypoint}
+
+\begin{analogy}
+結婚式の準備に例えると：
+\begin{itemize}
+  \item \textbf{スコープ管理} = 式の内容を決める（挙式・披露宴・二次会の範囲）
+  \item \textbf{スケジュール管理} = 日取りと準備スケジュール
+  \item \textbf{コスト管理} = 予算管理
+  \item \textbf{品質管理} = 料理の質、演出のクオリティ
+  \item \textbf{リスク管理} = 雨天時のプランB
+\end{itemize}
+\end{analogy}
+
+\pitfallmemo{PMBOK は「手法」ではなく「知識体系（ガイド）」。プロジェクトマネジメントの\textbf{ベストプラクティス集}}
+
+\begin{mondai}{PMBOKにおけるプロジェクトマネジメントの5つのプロセス群の順序として正しいものはどれか。}{basic}
+  \choice{計画 → 立上げ → 実行 → 監視・コントロール → 終結}
+  \choice{立上げ → 計画 → 実行 → 監視・コントロール → 終結}
+  \choice{立上げ → 実行 → 計画 → 終結 → 監視・コントロール}
+  \choice{計画 → 実行 → 立上げ → 終結 → 監視・コントロール}
+\end{mondai}
+
+\begin{mondai}{PMBOKの知識エリアのうち、プロジェクトの成果物の範囲を明確にし、必要な作業を定義する管理は何か。}{standard}
+  \choice{コスト管理}
+  \choice{スコープ管理}
+  \choice{品質管理}
+  \choice{リスク管理}
+\end{mondai}
+
+\begin{mondai}{プロジェクトにおいて、あらかじめリスクを洗い出し、発生確率と影響度を評価して対策を立てる活動は、PMBOKのどの知識エリアに該当するか。}{trick}
+  \choice{品質管理}
+  \choice{スケジュール管理}
+  \choice{コスト管理}
+  \choice{リスク管理}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+\begin{kaisetsu}
+PMBOKの5つのプロセス群は
+\textbf{立上げ → 計画 → 実行 → 監視・コントロール → 終結}の順番です。
+まずプロジェクトを立ち上げ、計画を立て、実行し、監視・コントロールしながら、最後に終結します。
+なお「監視・コントロール」は実行中ずっと並行して行われます。
+\end{kaisetsu}
+
+\answer{B}
+\begin{kaisetsu}
+\textbf{スコープ管理}は、プロジェクトの\textbf{成果物と作業の範囲}を明確にする管理です。
+「何を作るか」「何を作らないか」を定義して、\textbf{スコープクリープ}（範囲の膨張）を防ぎます。
+A は予算管理、C は成果物の品質管理、D はリスクの特定・対策です。
+\end{kaisetsu}
+
+\answer{D}
+\begin{trickwarn}
+「発生確率と影響度」がキーワード。これは\textbf{リスク管理}の手法。
+品質管理と混同しやすいが、品質管理は「成果物の品質基準を定め、それを満たしているか確認する」活動。
+リスク管理は「何か悪いことが起きる可能性に備える」活動。目的が異なる。
+\end{trickwarn}
+
+\hitokoto{PMBOK = PM の知識体系。5プロセス群と10の知識エリアで構成。}
+
+\related{WBSとスケジュール管理（\pageref{unit:wbs}）、SLA（\pageref{unit:sla}）}
+
+\qrunit{3}{5}
+
+% ====================================================
+%  3.6 ITIL とサービスデスク
+% ====================================================
+\section{サービスマネジメント}
+
+\mondaipage
+\unittheme{ITILとサービスデスク}{itil}
+
+\begin{stumble}
+ITILの用語で「インシデント管理」と「問題管理」を混同する人が非常に多い。
+\textbf{インシデント管理 = 応急処置}（とにかくサービスを復旧させる）。
+\textbf{問題管理 = 根本原因の究明}（なぜ起きたかを調べて再発防止する）。
+「いま燃えている火を消す」のがインシデント管理、「火事の原因を調べる」のが問題管理。
+\end{stumble}
+
+\begin{analogy}
+体調不良に例えると：
+\begin{itemize}
+  \item \textbf{インシデント管理} = 熱が出たのでとりあえず解熱剤を飲む（症状を緩和）
+  \item \textbf{問題管理} = 病院に行って原因を検査し、治療方針を立てる（根本治療）
+  \item \textbf{変更管理} = 治療のために生活習慣を変える手続き（変更による影響を管理）
+  \item \textbf{サービスデスク} = 病院の受付。まず相談する窓口（単一窓口 = SPOC）
+\end{itemize}
+\end{analogy}
+
+\begin{keypoint}
+ITILの主要プロセス：
+\begin{itemize}
+  \item \textbf{インシデント管理}：サービスの中断・品質低下をできるだけ早く復旧させる
+  \item \textbf{問題管理}：インシデントの根本原因を特定し、再発を防止する
+  \item \textbf{変更管理}：ITサービスへの変更をリスクを最小化しながら実施する
+  \item \textbf{リリース管理}：テスト済みの変更を本番環境に展開する
+  \item \textbf{構成管理}：ITサービスの構成要素（CI）の情報を正確に管理する
+\end{itemize}
+\end{keypoint}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  \textbf{プロセス} & \textbf{目的} & \textbf{たとえ} \\
+  \midrule
+  インシデント管理 & できるだけ早く復旧 & 火を消す \\
+  問題管理 & 根本原因を究明・再発防止 & 火事の原因調査 \\
+  変更管理 & 変更のリスクを最小化 & 防火設備を導入する手続き \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{サービスデスクは SPOC（Single Point of Contact）= \textbf{単一の窓口}。ユーザはまずここに連絡する}
+
+\begin{mondai}{ITILにおけるインシデント管理の目的として最も適切なものはどれか。}{basic}
+  \choice{インシデントの根本原因を特定して再発を防止する}
+  \choice{できるだけ早くサービスを復旧させる}
+  \choice{ITサービスの構成情報を正確に記録する}
+  \choice{変更によるリスクを最小化する}
+\end{mondai}
+
+\begin{mondai}{あるシステムで障害が発生し、サービスが停止した。暫定対応でサービスを復旧させた後、同じ障害が二度と起きないように根本原因を調査し対策を講じるのは、ITILのどのプロセスか。}{standard}
+  \choice{インシデント管理}
+  \choice{問題管理}
+  \choice{変更管理}
+  \choice{リリース管理}
+\end{mondai}
+
+\begin{mondai}{サービスデスクの説明として適切なものはどれか。}{trick}
+  \choice{ユーザからの問い合わせを受け付ける部門であり、問い合わせ内容に応じて複数の窓口を設ける}
+  \choice{ユーザからの問い合わせや障害報告を一元的に受け付ける単一窓口（SPOC）}
+  \choice{システムの根本原因を分析する専門チーム}
+  \choice{変更要求を承認するための審議機関}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+\begin{kaisetsu}
+インシデント管理の目的は\textbf{サービスの迅速な復旧}です。
+根本原因の追究は二の次。まず「元に戻す」ことが最優先。
+A は問題管理、C は構成管理、D は変更管理の目的です。
+\end{kaisetsu}
+
+\answer{B}
+\begin{kaisetsu}
+暫定対応（復旧）はインシデント管理の範囲ですが、「根本原因を調査して再発防止」するのは
+\textbf{問題管理}の範囲です。
+インシデント管理 → 問題管理 → 変更管理 → リリース管理、という流れを意識しましょう。
+\end{kaisetsu}
+\begin{goutoubun}
+\begin{itemize}
+  \item A「インシデント管理」→ 暫定対応・復旧まで。根本原因の究明は範囲外
+  \item B「問題管理」→ 根本原因の特定と再発防止策。\textbf{これが正解}
+  \item C「変更管理」→ 対策として変更を行う際のリスク管理
+  \item D「リリース管理」→ 変更を本番環境に展開する管理
+\end{itemize}
+\end{goutoubun}
+
+\answer{B}
+\begin{trickwarn}
+サービスデスクは \textbf{SPOC（Single Point of Contact）= 単一窓口}。
+A の「複数の窓口」は誤り。ユーザがたらい回しにならないように\textbf{一つの窓口に集約}する。
+C は問題管理チーム、D は CAB（変更諮問委員会）の説明。
+\end{trickwarn}
+
+\hitokoto{インシデント管理＝応急処置、問題管理＝根本治療。サービスデスクは単一窓口（SPOC）。}
+
+\related{SLA（\pageref{unit:sla}）、PMBOK（\pageref{unit:pmbok}）}
+
+\qrunit{3}{6}
+
+% ====================================================
+%  3.7 SLA
+% ====================================================
+\mondaipage
+\unittheme{SLA}{sla}
+
+\begin{stumble}
+SLA（Service Level Agreement）を「ただの契約書」と思っている人が多い。
+SLAのポイントは\textbf{サービスの品質を数値で明記する}こと。
+「頑張ります」ではなく「稼働率99.9\%を保証します」のように、
+\textbf{測定可能な指標}で合意するのがSLAの本質。
+\end{stumble}
+
+\begin{keypoint}
+SLAに含まれる代表的な指標：
+\begin{itemize}
+  \item \textbf{可用性}：稼働率（例：99.9\% → 年間ダウンタイム約8.7時間）
+  \item \textbf{応答時間}：問い合わせへの初回応答までの時間（例：30分以内）
+  \item \textbf{復旧時間}：障害発生から復旧までの時間（例：4時間以内）
+  \item \textbf{サポート時間}：対応可能な時間帯（例：平日 9:00〜18:00）
+\end{itemize}
+SLA を守れているかを定期的にレビューし、報告する仕組みが\textbf{SLM}（Service Level Management）。
+\end{keypoint}
+
+\begin{analogy}
+携帯電話の契約に例えると：
+\begin{itemize}
+  \item \textbf{SLA} = 「通信速度は下り最大100Mbps、月間稼働率99.5\%以上」という約束
+  \item \textbf{SLM} = 毎月の通信品質レポートを確認して、約束通りか管理すること
+  \item もし SLA を下回ったら → ペナルティ（返金・値引き等）の取り決めもある
+\end{itemize}
+\end{analogy}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  \textbf{用語} & \textbf{意味} & \textbf{ポイント} \\
+  \midrule
+  SLA & サービスレベル合意書 & サービスの品質目標を数値で明記 \\
+  SLM & サービスレベル管理 & SLA を維持・改善するための管理活動 \\
+  KPI & 重要業績評価指標 & SLA の達成度を測る個別の指標 \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{SLA は「提供者と利用者の合意」。一方的な宣言ではなく、双方で合意した文書}
+
+\begin{mondai}{SLA（Service Level Agreement）の説明として最も適切なものはどれか。}{basic}
+  \choice{システム開発のスケジュールを定めた計画書}
+  \choice{提供するITサービスの品質目標を数値で明記し、サービス提供者と利用者の間で合意した文書}
+  \choice{セキュリティポリシーを定めた社内規程}
+  \choice{プロジェクトの予算を承認する文書}
+\end{mondai}
+
+\begin{mondai}{SLAに記載される内容として最も適切なものはどれか。}{standard}
+  \choice{プログラムのソースコード}
+  \choice{システムの稼働率や障害復旧時間の目標値}
+  \choice{開発チームの人員配置計画}
+  \choice{プロジェクトの WBS}
+\end{mondai}
+
+\begin{mondai}{あるクラウドサービスのSLAに「月間稼働率99.9\%」と記載されていた。これが意味することとして最も適切なものはどれか。}{trick}
+  \choice{1か月のうち、ダウンタイムが約44分以内であることを保証する}
+  \choice{1か月のうち、ダウンタイムが約7.2時間以内であることを保証する}
+  \choice{障害が発生しないことを保証する}
+  \choice{障害発生時に99.9\%の確率で復旧できることを保証する}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+\begin{kaisetsu}
+SLA は \textbf{Service Level Agreement}（サービスレベル合意書）。
+サービスの品質を\textbf{数値で明記}し、提供者と利用者が\textbf{合意する}文書です。
+A はプロジェクト計画書、C はセキュリティポリシー、D は予算承認書。
+\end{kaisetsu}
+
+\answer{B}
+\begin{kaisetsu}
+SLA には\textbf{稼働率、応答時間、復旧時間}など、サービスの品質に関する\textbf{測定可能な目標値}が記載されます。
+A はソースコード管理、C・D はプロジェクトマネジメントの話であり、SLA の内容ではありません。
+\end{kaisetsu}
+\begin{goutoubun}
+\begin{itemize}
+  \item A → ソースコードは開発成果物であり、サービスレベルの合意内容ではない
+  \item B → 稼働率・復旧時間は SLA の代表的な項目。\textbf{これが正解}
+  \item C → 人員配置はプロジェクト計画の範囲
+  \item D → WBS はプロジェクトマネジメントの成果物
+\end{itemize}
+\end{goutoubun}
+
+\answer{A}
+\begin{trickwarn}
+月間稼働率 99.9\% = ダウンタイムは 0.1\% = 約43.2分/月（30日 × 24時間 × 60分 × 0.001）。
+B の「約7.2時間」は稼働率 99\% の場合。
+C は誤り。SLA は「障害ゼロ」を保証するものではなく、「許容されるダウンタイムの上限」を定めるもの。
+D も誤り。99.9\%は稼働率であり、復旧の確率ではない。
+\end{trickwarn}
+
+\hitokoto{SLA = サービス品質を数値で約束。「頑張ります」ではなく「99.9\%」。}
+
+\related{ITILとサービスデスク（\pageref{unit:itil}）、PMBOK（\pageref{unit:pmbok}）}
+
+\qrunit{3}{7}
+
+% ====================================================
+%  章末ミニ模試
+% ====================================================
+\section*{章末ミニ模試}
+\addcontentsline{toc}{section}{章末ミニ模試}
+
+\begin{minimoshi}{マネジメント系}
+
+以下の5問を制限時間 \textbf{8分} で解いてみましょう。
+
+\begin{mondai}{アジャイル開発手法の一つであるスクラムにおいて、プロダクトの機能に優先順位を付けて一覧化したものを何と呼ぶか。}{standard}
+  \choice{WBS}
+  \choice{プロダクトバックログ}
+  \choice{ガントチャート}
+  \choice{SLA}
+\end{mondai}
+
+\begin{mondai}{V字モデルにおいて、要件定義に対応するテスト工程はどれか。}{standard}
+  \choice{単体テスト}
+  \choice{結合テスト}
+  \choice{システムテスト}
+  \choice{受入テスト}
+\end{mondai}
+
+\begin{mondai}{ITILにおいて、インシデントの根本原因を特定し再発を防止するプロセスはどれか。}{standard}
+  \choice{インシデント管理}
+  \choice{問題管理}
+  \choice{変更管理}
+  \choice{構成管理}
+\end{mondai}
+
+\begin{mondai}{プロジェクトマネジメントにおいて、アローダイアグラムで求められるクリティカルパスの説明として正しいものはどれか。}{standard}
+  \choice{最もコストがかかる作業の経路}
+  \choice{最も所要時間が短い経路}
+  \choice{プロジェクト全体の所要期間を決定する最長経路}
+  \choice{最もリスクが高い作業の経路}
+\end{mondai}
+
+\begin{mondai}{SLAに記載する内容として最も適切でないものはどれか。}{trick}
+  \choice{サービスの稼働率の目標値}
+  \choice{障害発生時の復旧時間の上限}
+  \choice{開発チームのメンバ構成}
+  \choice{サポート対応時間帯}
+\end{mondai}
+
+\end{minimoshi}
+
+\subsection*{章末ミニ模試 解答}
+
+\begin{enumerate}
+  \item \textbf{B}（プロダクトバックログ）— スクラムで、プロダクトオーナーが機能に優先順位を付けて管理する一覧がプロダクトバックログ。A のWBSはプロジェクト全体の作業分解、C は棒グラフのスケジュール表。
+  \item \textbf{D}（受入テスト）— V字モデルでは、要件定義 ↔ 受入テスト、外部設計 ↔ システムテスト、内部設計 ↔ 結合テスト、プログラミング ↔ 単体テスト。
+  \item \textbf{B}（問題管理）— インシデント管理は「復旧」が目的。問題管理は「根本原因の特定と再発防止」が目的。この違いは超頻出。
+  \item \textbf{C}（最長経路）— クリティカルパスは最長経路。この経路上の作業が遅れるとプロジェクト全体が遅れる。「最短経路」ではないことに注意。
+  \item \textbf{C}（開発チームのメンバ構成）— SLAはサービスの品質目標を定めた合意書。稼働率・復旧時間・サポート時間帯は典型的な記載項目。メンバ構成はプロジェクト計画書の内容であり、SLAには通常含まれない。
+\end{enumerate}
+
+\qrchapter{3}

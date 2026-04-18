@@ -1,0 +1,68 @@
+% ==============================================
+% theme.tex — モノクロ・試験問題風デザイン
+% 図で解ける ITパスポート
+% ==============================================
+
+% --- カラーパレット（モノクロ基調） ---
+\definecolor{Black}{HTML}{1a1a1a}
+\definecolor{DarkGray}{HTML}{333333}
+\definecolor{MedGray}{HTML}{666666}
+\definecolor{LightGray}{HTML}{999999}
+\definecolor{RuleGray}{HTML}{cccccc}
+\definecolor{PaleGray}{HTML}{f0f0f0}
+\definecolor{White}{HTML}{ffffff}
+
+% 旧マクロとの互換用エイリアス
+\colorlet{MainBlue}{DarkGray}
+\colorlet{SubBlue}{MedGray}
+\colorlet{AccentTeal}{DarkGray}
+\colorlet{AlertOrange}{DarkGray}
+\colorlet{KeyBg}{PaleGray}
+\colorlet{CmpBg}{White}
+\colorlet{SumBg}{PaleGray}
+\colorlet{PitBg}{PaleGray}
+\colorlet{QuizBg}{White}
+\colorlet{ExplBg}{PaleGray}
+\colorlet{LightGrayBg}{PaleGray}
+
+% --- 章見出し（シンプル） ---
+\titleformat{\chapter}[display]
+  {\sffamily\bfseries\huge\color{Black}}
+  {\normalfont\sffamily\large\color{MedGray}第\thechapter 章}
+  {4pt}
+  {}
+  [\vspace{-4pt}{\color{RuleGray}\rule{\textwidth}{0.4pt}}]
+
+\titleformat{\section}
+  {\sffamily\bfseries\Large\color{Black}}
+  {\thesection}
+  {0.8em}
+  {}
+  [{\color{RuleGray}\rule{\textwidth}{0.2pt}}]
+
+\titleformat{\subsection}
+  {\sffamily\bfseries\large\color{DarkGray}}
+  {\thesubsection}
+  {0.6em}
+  {}
+
+% --- 見出し前後の間隔 ---
+\titlespacing*{\chapter}{0pt}{-20pt}{16pt}
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+% --- ヘッダ・フッタ（最小限） ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\sffamily\small\color{MedGray}\leftmark}
+\fancyhead[RO]{\sffamily\small\color{MedGray}\rightmark}
+\fancyfoot[C]{\sffamily\small\thepage}
+\renewcommand{\headrulewidth}{0.2pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% --- 本文組版 ---
+\setlength{\parindent}{1\zw}
+\setlength{\parskip}{2pt plus 1pt minus 1pt}
+
+% --- リストの詰め ---
+\setlist{noitemsep, topsep=3pt, leftmargin=1.5em}

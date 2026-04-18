@@ -1,0 +1,736 @@
+% ==============================================
+% 第5章 分野横断とひっかけ攻略
+% ==============================================
+\chapter{分野横断とひっかけ攻略}
+
+ITパスポート試験では、ストラテジ・マネジメント・テクノロジの3分野を\textbf{横断する問題}が多く出ます。
+「これはどの分野の知識？」と迷う問題こそ、合否を分けるポイントです。
+
+さらに、試験には\textbf{ひっかけパターン}があります。似た用語の混同、否定形の見落とし、範囲の取り違え——これらを事前に知っておけば、本番で「やられた！」を防げます。
+
+\begin{keypoint}
+この章で身につけること：
+\begin{itemize}
+  \item 複数分野の知識を組み合わせて解く「横断テーマ」への対応力
+  \item よくある誤答パターンを見抜く「ひっかけ耐性」
+  \item 似た用語を正確に使い分ける「比較力」
+\end{itemize}
+\end{keypoint}
+
+% ====================================================
+%  5.1 横断テーマ問題
+% ====================================================
+\section{横断テーマ問題}
+
+% ====================================================
+%  5.1.1 契約×開発×見積
+% ====================================================
+\mondaipage
+\unittheme{契約×開発×見積}{cross-contract}
+
+\begin{stumble}
+「請負契約でアジャイル開発は可能か？」「ファンクションポイント法はどの契約形態で使うか？」——
+こうした問題は、契約・開発モデル・見積手法の3つを\textbf{同時に理解していないと解けない}。
+個別に覚えた知識を「つなげる」ことが求められる。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXXX}
+  \toprule
+  & \textbf{請負契約} & \textbf{準委任契約} & \textbf{派遣契約} \\
+  \midrule
+  完成責任 & あり & なし & なし \\
+  相性の良い開発 & ウォーターフォール & アジャイル & --- \\
+  見積の考え方 & 成果物ベース（FP法等） & 工数ベース（人月等） & 時間ベース \\
+  報酬の根拠 & 納品物 & 作業時間・工数 & 労働時間 \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\begin{keypoint}
+\begin{itemize}
+  \item \textbf{請負 + ウォーターフォール}：要件が明確 → 成果物を定義しやすい → 完成責任を負える
+  \item \textbf{準委任 + アジャイル}：要件が変わる → 成果物の事前定義が困難 → プロセスで契約する方が合理的
+  \item \textbf{ファンクションポイント法}：機能の数と複雑さで規模を見積もる → 成果物が明確な請負向き
+  \item \textbf{人月見積}：「何人×何ヶ月」で見積もる → 工数ベースなので準委任とも相性が良い
+\end{itemize}
+\end{keypoint}
+
+\pitfallmemo{「請負でアジャイルは絶対にできない」は誤り。法律上は可能だが、要件変更が多いアジャイルで完成責任を負うのはリスクが大きい、という実務上の話}
+
+\begin{mondai}{請負契約でシステム開発を受注した。見積手法として最も適切なものはどれか。}{standard}
+  \choice{発注側が指定した工数で作業する}
+  \choice{機能の数と複雑さから規模を見積もるファンクションポイント法}
+  \choice{作業時間に応じて報酬を請求する}
+  \choice{毎スプリント終了時に都度見積もりを行う}
+\end{mondai}
+
+\begin{mondai}{アジャイル開発で段階的にシステムを構築する場合、契約形態として最も合理的なものはどれか。}{standard}
+  \choice{請負契約（全体を一括で）}
+  \choice{準委任契約（イテレーションごとに）}
+  \choice{派遣契約}
+  \choice{売買契約}
+\end{mondai}
+
+\begin{mondai}{ウォーターフォール開発を請負契約で受注した。プロジェクト途中で発注側が仕様変更を要求した場合、受注側の対応として最も適切なものはどれか。}{trick}
+  \choice{請負契約なので、仕様変更は一切受け付けない}
+  \choice{仕様変更に伴う費用・納期への影響を明確にし、変更管理手続きに従って対応する}
+  \choice{発注側の指示に無条件で従う}
+  \choice{仕様変更を受け入れるが、納期は変えない}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+
+\begin{kaisetsu}
+請負契約は\textbf{成果物の納品}が義務。成果物の規模を事前に見積もる必要があり、\textbf{ファンクションポイント法}が適している。A・C は工数・時間ベースで準委任向き、D はアジャイルの手法で準委任向き。
+\end{kaisetsu}
+
+\answer{B}
+
+\begin{kaisetsu}
+アジャイル開発は\textbf{要件が変化する}ことを前提とする。成果物を事前に確定しにくいため、\textbf{準委任契約}で「適切に作業する義務」を負う方が合理的。A は要件確定が前提の請負。
+\end{kaisetsu}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A「請負契約（一括）」→ 全体の成果物を最初に確定する必要があり、アジャイルの「変化を受け入れる」思想と矛盾する
+  \item B「準委任契約」→ イテレーションごとに作業を委任する形が合理的。\textbf{これが正解}
+  \item C「派遣契約」→ 指揮命令が発注側になり、開発チームの自律性が損なわれる
+  \item D「売買契約」→ 既成品の購入であり、開発の契約形態ではない
+\end{itemize}
+\end{goutoubun}
+
+\answer{B}
+
+\begin{kaisetsu}
+請負契約でも仕様変更は起こり得る。重要なのは\textbf{変更管理（Change Control）}。費用・納期への影響を評価し、双方合意のうえで対応する。A の「一切受け付けない」は極端すぎる。
+\end{kaisetsu}
+
+\begin{trickwarn}
+「請負契約 = 仕様変更は絶対に不可」と思い込むと A を選んでしまう。実際には変更管理プロセスを通じて対応する。\textbf{「契約形態」と「変更管理」は別の話}。
+\end{trickwarn}
+
+\hitokoto{請負 = 成果物で見積、準委任 = 工数で見積。契約と開発モデルの相性を押さえる。}
+
+\qrunit{5}{1}
+
+% ====================================================
+%  5.1.2 セキュリティ×法務
+% ====================================================
+\mondaipage
+\unittheme{セキュリティ×法務}{cross-sec-law}
+
+\begin{stumble}
+「個人情報保護法」と「情報セキュリティ」は別の分野だが、試験では\textbf{混ぜて出題される}。
+「個人情報を漏えいした → 法律上の罰則は？ → セキュリティ対策は？」のように、法務とテクノロジが一体になった問題に対応する力が必要。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  \textbf{テーマ} & \textbf{法務（ストラテジ系）} & \textbf{セキュリティ（テクノロジ系）} \\
+  \midrule
+  個人情報漏えい & 個人情報保護法違反・罰則 & 暗号化、アクセス制御、ログ監視 \\
+  不正アクセス & 不正アクセス禁止法 & ファイアウォール、IDS/IPS \\
+  著作権侵害 & 著作権法違反 & DRM（デジタル著作権管理） \\
+  営業秘密漏えい & 不正競争防止法 & 情報漏えい対策（DLP等） \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\begin{keypoint}
+\begin{itemize}
+  \item \textbf{個人情報保護法}：個人情報取扱事業者の義務（取得時の利用目的明示、安全管理措置、第三者提供の制限）
+  \item \textbf{不正アクセス禁止法}：他人のID/パスワードを無断使用する行為等を禁止
+  \item \textbf{著作権法}：プログラムのソースコードは著作物。ただしアルゴリズムや言語は対象外
+  \item \textbf{セキュリティ対策}は法令遵守（コンプライアンス）の「技術面」と位置づけられる
+\end{itemize}
+\end{keypoint}
+
+\pitfallmemo{「不正アクセス禁止法」で禁止されるのは「アクセス行為」そのもの。データを盗んだかどうかは関係ない。アクセスしただけで違法}
+
+\begin{mondai}{従業員が業務で扱う個人情報をUSBメモリに入れて持ち出し、紛失した。この事案に関係する法律と技術的対策の組合せとして最も適切なものはどれか。}{standard}
+  \choice{著作権法 — ファイアウォール}
+  \choice{個人情報保護法 — 暗号化とデバイス管理}
+  \choice{不正競争防止法 — ウイルス対策ソフト}
+  \choice{不正アクセス禁止法 — IDS}
+\end{mondai}
+
+\begin{mondai}{不正アクセス禁止法で禁止されている行為はどれか。}{standard}
+  \choice{自分のIDでログインしてデータを閲覧すること}
+  \choice{他人のIDとパスワードを無断で使用してシステムにログインすること}
+  \choice{公開されているWebサイトの情報を閲覧すること}
+  \choice{自社のサーバに脆弱性診断を実施すること}
+\end{mondai}
+
+\begin{mondai}{プログラムの著作権に関する記述のうち、\textbf{適切でないもの}はどれか。}{trick}
+  \choice{ソースコードは著作権法で保護される}
+  \choice{プログラム言語そのものは著作権の対象外である}
+  \choice{アルゴリズムは著作権法で保護される}
+  \choice{著作権は登録しなくても創作時点で自動的に発生する}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+
+\begin{kaisetsu}
+個人情報の漏えい → \textbf{個人情報保護法}に関わる。技術的対策は\textbf{USBメモリの暗号化やデバイス管理}（持ち出し制限）。A の著作権法は表現の保護、C の不正競争防止法は営業秘密等の保護、D の不正アクセス禁止法は不正なアクセス行為の禁止。
+\end{kaisetsu}
+
+\answer{B}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A → 自分のIDでの正当なアクセスは問題ない
+  \item B → 他人のID/パスワードの無断使用は\textbf{不正アクセス行為}。\textbf{これが正解}
+  \item C → 公開情報の閲覧は不正アクセスではない
+  \item D → 自社サーバへの自社による診断は正当行為
+\end{itemize}
+\end{goutoubun}
+
+\answer{C}
+
+\begin{kaisetsu}
+アルゴリズム（考え方・手順）は著作権では保護\textbf{されない}。著作権が保護するのは\textbf{表現}であり、アイデアや手順そのものは対象外。よって C が「適切でないもの」。
+\end{kaisetsu}
+
+\begin{trickwarn}
+\textbf{「適切でないもの」}を選ぶ問題。正しい記述を選びそうになるので注意。さらに「アルゴリズムも著作権で保護される」は一見もっともらしいが、著作権法は\textbf{表現}を保護するのであって\textbf{アイデア}は保護しない。
+\end{trickwarn}
+
+\hitokoto{法律は「何を守るか」、セキュリティは「どう守るか」。セットで覚える。}
+
+\qrunit{5}{2}
+
+% ====================================================
+%  5.1.3 DB×ネットワーク×セキュリティ
+% ====================================================
+\mondaipage
+\unittheme{DB×ネットワーク×セキュリティ}{cross-db-nw-sec}
+
+\begin{stumble}
+SQLインジェクションは「DB の話？ セキュリティの話？ Webアプリの話？」と迷う。
+答えは\textbf{3つ全部}。攻撃経路はネットワーク（Web）、狙われるのはDB、対策はセキュリティ。
+分野横断の代表例。
+\end{stumble}
+
+\begin{keypoint}
+\begin{itemize}
+  \item \textbf{SQLインジェクション}：Webフォームに不正なSQL文を入力 → DBが意図しない操作を実行
+  \item 対策：\textbf{プレースホルダ}（バインド機構）、入力値のエスケープ処理、WAF（Web Application Firewall）
+  \item \textbf{通信の暗号化}：ネットワーク上のデータ盗聴を防ぐ → SSL/TLS（HTTPS）
+  \item \textbf{DBのアクセス制御}：GRANT/REVOKE文で権限を管理 → 最小権限の原則
+\end{itemize}
+\end{keypoint}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXXX}
+  \toprule
+  \textbf{攻撃手法} & \textbf{DB への影響} & \textbf{NW の関わり} & \textbf{セキュリティ対策} \\
+  \midrule
+  SQLインジェクション & データ漏えい・改ざん & Webフォーム経由 & プレースホルダ、WAF \\
+  盗聴（スニッフィング） & 通信データ漏えい & パケットキャプチャ & SSL/TLS暗号化 \\
+  不正アクセス & DB内データ窃取 & リモートアクセス & アクセス制御、認証強化 \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{SQLインジェクションの対策として「ファイアウォール」は不十分。通常のファイアウォールはポート単位の制御であり、SQLインジェクションはHTTP通信に紛れるため\textbf{WAF}が必要}
+
+\begin{mondai}{Webアプリケーションの入力フォームに不正なSQL文を挿入し、データベースを不正に操作する攻撃はどれか。}{standard}
+  \choice{クロスサイトスクリプティング}
+  \choice{SQLインジェクション}
+  \choice{DoS攻撃}
+  \choice{フィッシング}
+\end{mondai}
+
+\begin{mondai}{SQLインジェクション対策として最も効果的なものはどれか。}{standard}
+  \choice{ファイアウォールでポートを制限する}
+  \choice{ウイルス対策ソフトを導入する}
+  \choice{プレースホルダ（バインド機構）を使用する}
+  \choice{パスワードを定期的に変更する}
+\end{mondai}
+
+\begin{mondai}{社内システムのデータベースに対し、従業員ごとにアクセスできるテーブルを制限したい。この対策に該当するセキュリティの考え方はどれか。}{trick}
+  \choice{可用性の確保}
+  \choice{完全性の確保}
+  \choice{最小権限の原則}
+  \choice{責任追跡性の確保}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+
+\begin{kaisetsu}
+\textbf{SQLインジェクション}は、入力フォームにSQL文を埋め込んでDBを不正操作する攻撃。A のクロスサイトスクリプティングはスクリプトを埋め込む攻撃、C のDoS攻撃はサーバに大量の要求を送る攻撃、D のフィッシングは偽サイトで情報を詐取する攻撃。
+\end{kaisetsu}
+
+\answer{C}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A「ファイアウォール」→ ポート制御では防げない。HTTP（80/443）は通常開放されている
+  \item B「ウイルス対策」→ SQLインジェクションはマルウェアではなくWebアプリの脆弱性を突く攻撃
+  \item C「プレースホルダ」→ 入力値をSQL文と分離して処理する。\textbf{これが正解}
+  \item D「パスワード変更」→ 認証の話でありSQLインジェクション対策ではない
+\end{itemize}
+\end{goutoubun}
+
+\answer{C}
+
+\begin{kaisetsu}
+必要最低限の権限のみを付与する考え方は\textbf{最小権限の原則}（Principle of Least Privilege）。A の可用性は「使いたいときに使える」、B の完全性は「データが正確で完全」、D の責任追跡性は「誰が何をしたか追跡できる」。
+\end{kaisetsu}
+
+\begin{trickwarn}
+「アクセス制限」と聞くと「機密性」を選びたくなるが、選択肢に「機密性」がない場合は\textbf{より具体的な原則}で答える。最小権限の原則は機密性を実現するための\textbf{手段}。「概念」と「手段」の使い分けに注意。
+\end{trickwarn}
+
+\hitokoto{SQLインジェクション = DB×NW×セキュリティの横断テーマ。対策はプレースホルダ。}
+
+\qrunit{5}{3}
+
+% ====================================================
+%  5.1.4 DX×経営戦略
+% ====================================================
+\mondaipage
+\unittheme{DX×経営戦略}{cross-dx}
+
+\begin{stumble}
+DX（デジタルトランスフォーメーション）は「ITツールを導入すること」だと思われがち。
+しかし試験では、DXを\textbf{経営戦略と結びつけた出題}が増えている。
+SWOT分析でDXを「機会」として捉える、PPMで新規デジタル事業を位置づける、といった問題がある。
+\end{stumble}
+
+\begin{keypoint}
+\begin{itemize}
+  \item \textbf{DX}：データとデジタル技術を活用して、ビジネスモデルや組織を\textbf{根本的に変革}すること
+  \item \textbf{IT化}との違い：IT化＝既存業務の効率化、DX＝ビジネスモデル自体の変革
+  \item DXに関連する技術：IoT、AI、ビッグデータ、クラウド、RPA
+  \item 経営戦略フレームワークとの組合せ：
+    \begin{itemize}
+      \item SWOT：AIの普及 → 「機会」、レガシーシステム → 「弱み」
+      \item 3C：顧客のデジタル化ニーズ、競合のDX推進状況、自社のIT基盤
+      \item PPM：デジタル新規事業 → 「問題児」or「花形」
+    \end{itemize}
+\end{itemize}
+\end{keypoint}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  & \textbf{IT化（デジタイゼーション）} & \textbf{DX（デジタルトランスフォーメーション）} \\
+  \midrule
+  目的 & 既存業務の効率化 & ビジネスモデルの変革 \\
+  範囲 & 一部の業務プロセス & 組織・文化・戦略全体 \\
+  例 & 紙の帳票を電子化 & データ分析で新サービスを創出 \\
+  経営への影響 & コスト削減 & 競争優位の確立 \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{「社内の紙を電子化した」はIT化であってDXではない。DXは「ビジネスモデルの変革」まで踏み込む}
+
+\begin{mondai}{DX（デジタルトランスフォーメーション）の説明として最も適切なものはどれか。}{standard}
+  \choice{社内の紙文書を電子ファイルに置き換えること}
+  \choice{デジタル技術を活用して、ビジネスモデルや組織を根本的に変革すること}
+  \choice{全社員にパソコンを配布すること}
+  \choice{既存システムを最新のサーバに移行すること}
+\end{mondai}
+
+\begin{mondai}{ある企業がSWOT分析を実施した。「AIを活用した新サービスの市場が拡大している」はSWOTのどれに分類されるか。}{standard}
+  \choice{強み（Strengths）}
+  \choice{弱み（Weaknesses）}
+  \choice{機会（Opportunities）}
+  \choice{脅威（Threats）}
+\end{mondai}
+
+\begin{mondai}{IoTを活用した新規事業を立ち上げた。市場成長率は高いが、まだ市場シェアは低い。PPMではどの象限に位置づけられるか。}{trick}
+  \choice{花形（Star）}
+  \choice{金のなる木（Cash Cow）}
+  \choice{問題児（Question Mark）}
+  \choice{負け犬（Dog）}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+
+\begin{kaisetsu}
+DXは\textbf{ビジネスモデルの変革}がポイント。A は電子化（デジタイゼーション）、C はIT環境整備、D はシステム移行であり、いずれもDXの本質ではない。
+\end{kaisetsu}
+
+\answer{C}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A「強み」→ 自社内部のプラス要因。市場の話ではない
+  \item B「弱み」→ 自社内部のマイナス要因。市場の話ではない
+  \item C「機会」→ 外部環境のプラス要因。\textbf{これが正解}。市場拡大は自社の外の話
+  \item D「脅威」→ 外部環境のマイナス要因。市場拡大はプラス
+\end{itemize}
+\end{goutoubun}
+
+\answer{C}
+
+\begin{kaisetsu}
+市場成長率が高い × 市場占有率が低い → \textbf{問題児（Question Mark）}。将来「花形」に成長する可能性もあるが、投資判断が重要。
+\end{kaisetsu}
+
+\begin{trickwarn}
+「IoT」「AI」といった先端技術の話が出ると「花形」を選びたくなる。しかしPPMの分類は\textbf{技術の新しさではなく、市場シェアと成長率}で決まる。問題文の「まだ市場シェアは低い」を見逃さないこと。
+\end{trickwarn}
+
+\hitokoto{DX = ビジネスモデルの変革。IT化（効率化）と混同しない。経営戦略の文脈で出る。}
+
+\qrunit{5}{4}
+
+% ====================================================
+%  5.2 よくある誤答パターン集
+% ====================================================
+\section{よくある誤答パターン集}
+
+% ====================================================
+%  5.2.1 似た用語の見分け方
+% ====================================================
+\mondaipage
+\unittheme{似た用語の見分け方}{similar-terms}
+
+\begin{stumble}
+ITパスポートには「似ているけれど意味が違う用語」が大量にある。
+試験はまさにそこを突いてくる。\textbf{「違いを言えるか？」}が合否を分ける。
+以下の比較表を頭に入れておくだけで、正答率が大きく上がる。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  \textbf{用語A} & \textbf{用語B} & \textbf{決定的な違い} \\
+  \midrule
+  認証（Authentication） & 認可（Authorization） & 認証＝「誰か」を確認 / 認可＝「何をしていいか」を許可 \\
+  機密性（Confidentiality） & 完全性（Integrity） & 機密性＝許可された人だけが見られる / 完全性＝データが正確で改ざんされていない \\
+  請負契約 & 準委任契約 & 請負＝完成責任あり / 準委任＝善管注意義務のみ \\
+  PL（損益計算書） & BS（貸借対照表） & PL＝期間の儲け / BS＝時点の財産 \\
+  ウォーターフォール & アジャイル & WF＝工程を順に進める / アジャイル＝短期間で反復 \\
+  TCP & UDP & TCP＝信頼性重視（確認あり） / UDP＝速度重視（確認なし） \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\begin{keypoint}
+似た用語を見分けるコツ：
+\begin{itemize}
+  \item \textbf{「何を保証するか」で分ける}：認証＝本人確認、認可＝権限付与
+  \item \textbf{「時間軸」で分ける}：PL＝期間、BS＝時点
+  \item \textbf{「責任の所在」で分ける}：請負＝結果責任、準委任＝プロセス責任
+  \item \textbf{「優先するもの」で分ける}：TCP＝信頼性、UDP＝速度
+\end{itemize}
+\end{keypoint}
+
+\pitfallmemo{「認証と認可」は特に混同しやすい。パスワードで「本人確認」するのが認証、ログイン後に「この機能は使える/使えない」を判断するのが認可}
+
+\begin{mondai}{社員がIDとパスワードでシステムにログインした。この操作は何に該当するか。}{basic}
+  \choice{認可}
+  \choice{認証}
+  \choice{暗号化}
+  \choice{監査}
+\end{mondai}
+
+\begin{mondai}{情報セキュリティにおける「完全性」の説明として最も適切なものはどれか。}{standard}
+  \choice{許可された者だけが情報にアクセスできること}
+  \choice{情報が正確であり、改ざんされていないこと}
+  \choice{必要なときに情報を利用できること}
+  \choice{情報の送信者が本人であることを確認できること}
+\end{mondai}
+
+\begin{mondai}{TCPとUDPの違いとして最も適切なものはどれか。}{trick}
+  \choice{TCPは暗号化を行い、UDPは暗号化を行わない}
+  \choice{TCPはデータの到達確認を行い、UDPは到達確認を行わない}
+  \choice{TCPはネットワーク層で動作し、UDPはトランスポート層で動作する}
+  \choice{TCPは無線通信、UDPは有線通信で使用される}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+
+\begin{kaisetsu}
+ID/パスワードで\textbf{本人確認}を行う行為は\textbf{認証（Authentication）}。認可はログイン後に「どの操作が許可されるか」を判断すること。
+\end{kaisetsu}
+
+\answer{B}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A → \textbf{機密性}（Confidentiality）の説明
+  \item B → \textbf{完全性}（Integrity）の説明。\textbf{これが正解}
+  \item C → \textbf{可用性}（Availability）の説明
+  \item D → \textbf{真正性}（Authenticity）の説明
+\end{itemize}
+CIAの3要素は「機密性＝見せない、完全性＝壊さない、可用性＝止めない」と覚える。
+\end{goutoubun}
+
+\answer{B}
+
+\begin{kaisetsu}
+TCP は\textbf{到達確認（ACK）}を行い信頼性を確保する。UDP は確認を省略して\textbf{高速性}を重視する。A の暗号化はTCP/UDPの機能ではなくSSL/TLS等の話。C は両方ともトランスポート層。D は通信媒体とプロトコルは無関係。
+\end{kaisetsu}
+
+\begin{trickwarn}
+「TCPは暗号化、UDPは暗号化しない」は最もよくある誤解。暗号化はSSL/TLSの役割であり、TCP/UDPの\textbf{違いは「到達確認の有無」}。レイヤーの役割を混同しないこと。
+\end{trickwarn}
+
+\hitokoto{似た用語は「何が違うか」を1行で言えるようにする。それが最強のひっかけ対策。}
+
+\qrunit{5}{5}
+
+% ====================================================
+%  5.2.2 否定形問題のワナ
+% ====================================================
+\mondaipage
+\unittheme{否定形問題のワナ}{negative-q}
+
+\begin{stumble}
+「\textbf{含まれないもの}はどれか」「\textbf{適切でないもの}はどれか」——
+この否定形の設問を見落として、\textbf{正しいものを選んでしまう}のが最大の失点パターン。
+ITパスポートでは全100問中10問以上がこの形式で出る。
+\end{stumble}
+
+\begin{keypoint}
+否定形問題の攻略法：
+\begin{itemize}
+  \item \textbf{設問を読んだら、まず「否定形か肯定形か」を確認}する
+  \item 否定形を見つけたら、問題用紙（画面）の設問に\textbf{下線を引く}（CBTならメモに書く）
+  \item 各選択肢を「正しい（○）/ 誤り（×）」で判定し、\textbf{×のものを選ぶ}
+  \item 否定形の設問パターン：
+    \begin{itemize}
+      \item 「含まれ\textbf{ない}ものはどれか」
+      \item 「適切\textbf{でない}ものはどれか」
+      \item 「該当\textbf{しない}ものはどれか」
+      \item 「誤っているものはどれか」
+    \end{itemize}
+\end{itemize}
+\end{keypoint}
+
+\pitfallmemo{否定形問題で「自信を持って正しいと思った選択肢」を選んでしまうのが典型的な失敗。正しいものは「選んではいけない」}
+
+\begin{mondai}{情報セキュリティの3要素（CIA）に\textbf{含まれないもの}はどれか。}{standard}
+  \choice{機密性（Confidentiality）}
+  \choice{完全性（Integrity）}
+  \choice{責任追跡性（Accountability）}
+  \choice{可用性（Availability）}
+\end{mondai}
+
+\begin{mondai}{ウォーターフォール開発の特徴として\textbf{適切でないもの}はどれか。}{standard}
+  \choice{工程を順番に進め、原則として前の工程に戻らない}
+  \choice{要件定義を最初に確定させる}
+  \choice{短い期間で反復的にリリースを行う}
+  \choice{大規模プロジェクトに向いている}
+\end{mondai}
+
+\begin{mondai}{個人情報保護法における個人情報取扱事業者の義務として\textbf{適切でないもの}はどれか。}{trick}
+  \choice{利用目的をできる限り特定すること}
+  \choice{安全管理のために必要な措置を講じること}
+  \choice{本人の同意なく個人データを第三者に提供しないこと}
+  \choice{個人情報を取得した場合、直ちに暗号化すること}
+\end{mondai}
+
+\kaitoupage
+
+\answer{C}
+
+\begin{kaisetsu}
+CIAの3要素は\textbf{機密性・完全性・可用性}。責任追跡性は「拡張7要素」に含まれるが、基本の3要素ではない。「含まれないもの」なので、3要素に\textbf{入っていない}C が正解。
+\end{kaisetsu}
+
+\answer{C}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A → ウォーターフォールの基本。正しい（○）
+  \item B → 最初に要件を確定させる。正しい（○）
+  \item C → これは\textbf{アジャイル}の特徴。ウォーターフォールには当てはまらない（×）。\textbf{これが正解}
+  \item D → 大規模・要件確定済みのプロジェクト向き。正しい（○）
+\end{itemize}
+「適切でないもの」→ ○が3つ、×が1つ → ×を選ぶ。
+\end{goutoubun}
+
+\answer{D}
+
+\begin{kaisetsu}
+個人情報保護法は「暗号化の義務」を定めていない。暗号化はセキュリティ対策としては有効だが、法律上の\textbf{義務}ではない。A・B・C はいずれも個人情報保護法の義務。
+\end{kaisetsu}
+
+\begin{trickwarn}
+「暗号化は良いことだから正しい」と感じてしまうのがワナ。問題は「法律上の義務かどうか」を聞いている。\textbf{「セキュリティ的に正しい」と「法律上の義務」は別の話}。さらに否定形なので、義務で\textbf{ない}ものを選ぶ。二重のひっかけ。
+\end{trickwarn}
+
+\hitokoto{否定形は「まず設問にマーク」。正しいものを選びそうになったら、もう一度設問を読む。}
+
+\qrunit{5}{6}
+
+% ====================================================
+%  5.2.3 範囲の取り違え
+% ====================================================
+\mondaipage
+\unittheme{範囲の取り違え}{scope-mix}
+
+\begin{stumble}
+「SLA はシステム開発の契約だ」「ITIL はプロジェクトマネジメントの手法だ」——
+用語が\textbf{どの範囲（スコープ）の話か}を取り違えると、正しい知識があっても間違える。
+用語を覚えるときは\textbf{「何の話か」}を必ずセットで覚える。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  \textbf{用語} & \textbf{正しい範囲} & \textbf{よくある取り違え} \\
+  \midrule
+  SLA & ITサービスの品質保証（\textbf{運用}） & 開発の品質基準と混同 \\
+  ITIL & ITサービスマネジメントのベストプラクティス（\textbf{運用}） & プロジェクトマネジメントと混同 \\
+  PMBOK & プロジェクトマネジメントの知識体系（\textbf{開発}） & 運用管理と混同 \\
+  WBS & プロジェクトの作業分解（\textbf{開発}） & 組織構造と混同 \\
+  BCP & 事業継続計画（\textbf{経営}） & バックアップの手法と混同 \\
+  DX & ビジネスモデルの変革（\textbf{経営}） & IT化・効率化と混同 \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\begin{keypoint}
+範囲を正しく捉えるフレームワーク：
+\begin{itemize}
+  \item \textbf{経営の話}（ストラテジ系）：BCP、DX、SWOT、3C、4P
+  \item \textbf{開発の話}（マネジメント系）：PMBOK、WBS、ウォーターフォール、アジャイル
+  \item \textbf{運用の話}（マネジメント系）：ITIL、SLA、インシデント管理
+  \item \textbf{技術の話}（テクノロジ系）：TCP/IP、SQL、暗号化、ファイアウォール
+\end{itemize}
+\end{keypoint}
+
+\pitfallmemo{SLA（Service Level Agreement）は「サービスの品質水準の合意」。開発工程ではなく、\textbf{運用・サービス提供}のフェーズで使う概念}
+
+\begin{mondai}{SLA（Service Level Agreement）の説明として最も適切なものはどれか。}{standard}
+  \choice{システム開発の工程と納期を定めた計画書}
+  \choice{ITサービスの提供者と利用者の間で合意したサービス品質の水準}
+  \choice{プロジェクトの作業を階層的に分解した図}
+  \choice{情報セキュリティに関する社内規程}
+\end{mondai}
+
+\begin{mondai}{ITILの主な対象範囲はどれか。}{standard}
+  \choice{システム開発プロジェクトの管理}
+  \choice{ITサービスの運用管理}
+  \choice{ネットワーク機器の設計}
+  \choice{プログラミング言語の標準化}
+\end{mondai}
+
+\begin{mondai}{BCP（事業継続計画）の目的として最も適切なものはどれか。}{trick}
+  \choice{データのバックアップ手順を定めること}
+  \choice{災害やシステム障害が発生しても事業を継続・早期復旧するための計画を策定すること}
+  \choice{セキュリティインシデントの対応手順を定めること}
+  \choice{新規システムの開発計画を策定すること}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+
+\begin{kaisetsu}
+SLA は\textbf{サービス品質の合意}。例えば「稼働率99.9\%以上」「障害復旧は4時間以内」等を定める。A は開発計画、C はWBS、D はセキュリティポリシー。
+\end{kaisetsu}
+
+\answer{B}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A → プロジェクト管理は\textbf{PMBOK}の範囲
+  \item B → \textbf{ITIL}はITサービスマネジメント（運用管理）のベストプラクティス。\textbf{これが正解}
+  \item C → ネットワーク設計はテクノロジ系の技術的作業
+  \item D → 言語標準化はITILの範囲外
+\end{itemize}
+\end{goutoubun}
+
+\answer{B}
+
+\begin{kaisetsu}
+BCP は\textbf{事業継続}が目的。バックアップ（A）やインシデント対応（C）はBCPの一部ではあるが、BCP自体の目的はより広い「事業の継続と早期復旧」。D は開発プロジェクトの話。
+\end{kaisetsu}
+
+\begin{trickwarn}
+「BCP = バックアップ計画」と覚えてしまうと A を選んでしまう。バックアップはBCPの\textbf{手段の一つ}にすぎない。BCPは\textbf{経営レベルの計画}であり、バックアップだけでなく代替拠点、要員確保、顧客対応なども含む。「範囲を狭く捉えすぎない」ことが重要。
+\end{trickwarn}
+
+\hitokoto{用語を覚えるときは「何の話か（経営？開発？運用？技術？）」を必ずセットで。}
+
+\qrunit{5}{7}
+
+% ====================================================
+%  章末ミニ模試
+% ====================================================
+\section*{章末ミニ模試}
+\addcontentsline{toc}{section}{章末ミニ模試}
+
+\begin{minimoshi}{分野横断とひっかけ攻略}
+
+以下の5問を制限時間 \textbf{8分} で解いてみましょう。横断テーマとひっかけパターンを意識して取り組んでください。
+
+\begin{mondai}{アジャイル開発でシステムを段階的に構築する場合に、準委任契約が選ばれる理由として最も適切なものはどれか。}{standard}
+  \choice{準委任契約は報酬が安いから}
+  \choice{アジャイル開発は要件が変化するため、完成物を事前に確定しにくいから}
+  \choice{準委任契約は納期が不要だから}
+  \choice{法律で義務づけられているから}
+\end{mondai}
+
+\begin{mondai}{SQLインジェクション対策として最も効果的なものはどれか。}{standard}
+  \choice{パスワードの定期変更}
+  \choice{ファイアウォールの導入}
+  \choice{プレースホルダ（バインド機構）の使用}
+  \choice{ウイルス対策ソフトの更新}
+\end{mondai}
+
+\begin{mondai}{TCPとUDPの違いの説明として\textbf{適切でないもの}はどれか。}{trick}
+  \choice{TCPはデータの到達確認を行い、UDPは行わない}
+  \choice{TCPは信頼性を重視し、UDPは速度を重視する}
+  \choice{TCPは暗号化を行い、UDPは暗号化を行わない}
+  \choice{TCPとUDPはどちらもトランスポート層のプロトコルである}
+\end{mondai}
+
+\begin{mondai}{DX（デジタルトランスフォーメーション）に\textbf{該当しないもの}はどれか。}{trick}
+  \choice{AIを活用した新規ビジネスモデルの構築}
+  \choice{IoTセンサーで収集したデータによるサービス創出}
+  \choice{社内の紙伝票を電子ファイルに置き換えること}
+  \choice{デジタル技術による顧客体験の根本的な変革}
+\end{mondai}
+
+\begin{mondai}{BCP（事業継続計画）の説明として最も適切なものはどれか。}{standard}
+  \choice{プロジェクトの進捗を管理するための計画}
+  \choice{情報セキュリティポリシーの策定手順}
+  \choice{災害やシステム障害が発生しても事業を継続・早期復旧するための計画}
+  \choice{新製品の市場投入計画}
+\end{mondai}
+
+\end{minimoshi}
+
+\subsection*{章末ミニ模試 解答}
+
+\begin{enumerate}
+  \item \textbf{B}（要件が変化するため）— アジャイルは要件変更が前提。完成物を事前に確定しにくいので、プロセスを約束する準委任契約が合理的。A の「安い」やC の「納期不要」は誤り。D のような法律の義務は存在しない。
+  \item \textbf{C}（プレースホルダ）— SQLインジェクションは入力値とSQL文を分離する\textbf{プレースホルダ}が最も効果的。ファイアウォールではHTTP通信に紛れた攻撃は防げない。パスワード変更やウイルス対策は別の脅威への対策。
+  \item \textbf{C}（暗号化の説明が誤り）— TCP/UDPは暗号化を行わない。暗号化はSSL/TLSなど上位プロトコルの役割。「適切でないもの」を選ぶ否定形問題に注意。
+  \item \textbf{C}（紙の電子化）— 紙伝票の電子化はIT化（デジタイゼーション）であり、ビジネスモデルの変革を伴うDXには該当しない。「該当しないもの」を選ぶ否定形問題。
+  \item \textbf{C}（事業継続・早期復旧）— BCPは\textbf{経営レベル}の計画で、災害時でも事業を続けるための包括的な計画。A はプロジェクト管理、B はセキュリティポリシー、D はマーケティング。
+\end{enumerate}
+
+\begin{column}{横断テーマの攻略法}
+横断テーマの問題は「知識を組み合わせる力」が問われます。攻略のコツは3つ：
+\begin{enumerate}
+  \item \textbf{用語のカテゴリを意識する}——「この用語は経営？開発？運用？技術？」を常に考える
+  \item \textbf{比較表を自作する}——似た用語は必ず表にして「何が違うか」を明確にする
+  \item \textbf{否定形に印をつける}——設問を読んだ瞬間に「肯定か否定か」をチェックする習慣をつける
+\end{enumerate}
+この3つを意識するだけで、横断テーマの正答率は大きく変わります。
+\end{column}
+
+\qrchapter{5}

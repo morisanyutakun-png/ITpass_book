@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>確認テスト — 図でつながる ITパスポート</title>
+  <title>練習問題 — 図で解ける ITパスポート</title>
   <link rel="stylesheet" href="assets/css/style.css" />
   <script defer src="assets/js/main.js"></script>
   <script defer src="assets/js/quiz.js"></script>
@@ -12,14 +12,14 @@
   <header class="site-header">
     <div class="site-header__inner">
       <div class="site-title">
-        図でつながる ITパスポート
-        <small>大学生・新社会人のための、理解で受かる参考書</small>
+        図で解ける ITパスポート
+        <small>理解しながら解く、見開き完結の問題集</small>
       </div>
       <nav class="site-nav" aria-label="主要ナビ">
         <a href="index.html">トップ</a>
         <a href="about.html">本書について</a>
         <a href="downloads.html">ダウンロード</a>
-        <a href="quiz.html">確認テスト</a>
+        <a href="quiz.html">練習問題</a>
         <a href="errata.html">正誤表</a>
         <a href="changelog.html">更新履歴</a>
       </nav>
@@ -28,8 +28,19 @@
 
   <main>
     <section class="hero">
-      <h1>確認テスト</h1>
-      <p>ブラウザだけで動く 4 択の確認問題です。すべて本書編集部によるオリジナル問題（ダミー）で、公式公開問題の引用ではありません。</p>
+      <h1>テーマ別練習問題</h1>
+      <p>本書の各テーマに対応した追加の4択問題です。本書のQRコードからも直接アクセスできます。すべてオリジナル問題で、公式公開問題の引用ではありません。</p>
+    </section>
+
+    <section>
+      <h2>分野を選んで解く</h2>
+      <div class="quiz-filter" id="quiz-filter">
+        <button class="btn quiz-filter__btn is-active" data-category="all">全分野</button>
+        <button class="btn btn--ghost quiz-filter__btn" data-category="ストラテジ">ストラテジ</button>
+        <button class="btn btn--ghost quiz-filter__btn" data-category="マネジメント">マネジメント</button>
+        <button class="btn btn--ghost quiz-filter__btn" data-category="テクノロジ">テクノロジ</button>
+        <button class="btn btn--ghost quiz-filter__btn" data-category="横断">横断</button>
+      </div>
     </section>
 
     <section>
@@ -42,17 +53,18 @@
       <h2>使い方</h2>
       <div class="box box--info">
         <ul class="list-plain">
+          <li>分野ボタンで出題範囲を絞れます。</li>
           <li>問題はランダム順で出題されます。</li>
-          <li>回答すると正誤と解説が表示されます。</li>
-          <li>最後にスコアが表示されます。</li>
+          <li>回答後に正誤・解説・誤答の理由が表示されます。</li>
           <li>スコアはブラウザ内でのみ集計され、どこにも送信されません。</li>
+          <li>本書の各テーマのQRコードから直接ここに飛べます。</li>
         </ul>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    © 図でつながる ITパスポート 編集部
+    &copy; 図で解ける ITパスポート 編集部
   </footer>
 </body>
 </html>

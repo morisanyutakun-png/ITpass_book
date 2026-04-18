@@ -1,0 +1,272 @@
+% ==============================================
+% macros.tex — 試験問題風・見開き分離型マクロ
+% 図で解ける ITパスポート
+% ==============================================
+
+% --- サポートサイト URL ---
+\newcommand{\supportbaseurl}{https://example.github.io/ITpass_book}
+
+% ==============================================================
+%  見開き制御（左ページ＝問題、右ページ＝解答）
+% ==============================================================
+
+% 左ページ（偶数ページ）に移動して問題を配置
+\newcommand{\mondaipage}{%
+  \clearpage
+  \ifodd\value{page}\hbox{}\thispagestyle{empty}\newpage\fi
+}
+
+% 右ページ（奇数ページ）に移動して解答を配置
+\newcommand{\kaitoupage}{%
+  \clearpage
+  \ifodd\value{page}\else\hbox{}\thispagestyle{empty}\newpage\fi
+  \noindent{\sffamily\bfseries\large 解答・解説}%
+  \par\vspace{2pt}%
+  {\color{RuleGray}\rule{\textwidth}{0.4pt}}%
+  \par\vspace{6pt}%
+}
+
+% ==============================================================
+%  QR コード
+% ==============================================================
+\newcommand{\qrunit}[2]{%
+  \begin{flushright}
+    \qrcode[height=1.2cm]{\supportbaseurl/quiz.html?ch=#1\&sec=#2}\\[-2pt]
+    {\tiny\sffamily\color{LightGray} Web で類題を解く}
+  \end{flushright}
+}
+
+\newcommand{\qrchapter}[1]{%
+  \begin{center}
+    \qrcode[height=1.8cm]{\supportbaseurl/quiz.html?ch=#1}\\[2pt]
+    {\small\sffamily\color{MedGray} この章の練習問題を Web で解く}
+  \end{center}
+}
+
+% ==============================================================
+%  テーマヘッダ
+% ==============================================================
+\newcommand{\unittheme}[2]{%
+  \subsection{#1}%
+  \label{unit:#2}%
+}
+
+% ==============================================================
+%  左ページ用（概要・ポイント）— すべて簡素化
+% ==============================================================
+
+% --- 要点ボックス（薄いグレー背景、細い罫線） ---
+\newtcolorbox{keypoint}{
+  blanker,
+  colback=PaleGray,
+  borderline west={2pt}{0pt}{DarkGray},
+  left=8pt, right=8pt, top=6pt, bottom=6pt,
+  before skip=6pt, after skip=6pt,
+  breakable
+}
+
+% --- つまずきポイント（左罫線のみ） ---
+\newtcolorbox{stumble}{
+  blanker,
+  borderline west={2pt}{0pt}{MedGray},
+  left=8pt, right=8pt, top=4pt, bottom=4pt,
+  before skip=6pt, after skip=6pt,
+  breakable,
+  before upper={\noindent{\sffamily\bfseries\small 注意}\par\smallskip}
+}
+
+% --- 比較ボックス（枠なし、そのまま通す） ---
+\newtcolorbox{comparison}{
+  blanker,
+  left=0pt, right=0pt, top=4pt, bottom=4pt,
+  before skip=6pt, after skip=6pt,
+  breakable
+}
+
+% --- たとえ（細い左罫線） ---
+\newtcolorbox{analogy}{
+  blanker,
+  borderline west={1pt}{0pt}{RuleGray},
+  left=8pt, right=8pt, top=4pt, bottom=4pt,
+  before skip=4pt, after skip=4pt,
+}
+
+% --- 誤答ポイント1行メモ ---
+\newcommand{\pitfallmemo}[1]{%
+  \par\noindent
+  {\sffamily\small\color{DarkGray}\textbf{※} #1}%
+  \par\vspace{3pt}%
+}
+
+% ==============================================================
+%  問題環境（試験問題風・ア/イ/ウ/エ形式）
+% ==============================================================
+
+% --- 難易度ラベル ---
+\newcommand{\levelbasic}{{\sffamily\scriptsize【基礎】}}
+\newcommand{\levelstandard}{{\sffamily\scriptsize【標準】}}
+\newcommand{\leveltrick}{{\sffamily\scriptsize【応用】}}
+
+% --- 問題番号カウンター ---
+\newcounter{questionctr}[chapter]
+\renewcommand{\thequestionctr}{\thechapter-\arabic{questionctr}}
+
+% --- 選択肢カウンター ---
+\newcounter{choicectr}
+
+% --- カタカナラベル ---
+\newcommand{\katalabel}[1]{%
+  \ifcase#1\or ア\or イ\or ウ\or エ\or オ\or カ\fi
+}
+
+% --- 4択問題環境（試験問題風） ---
+\newenvironment{mondai}[2]{%
+  \refstepcounter{questionctr}%
+  \par\vspace{8pt}%
+  \noindent
+  \textbf{\sffamily 問\thequestionctr}%
+  \hfill
+  \ifstrequal{#2}{basic}{\levelbasic}{}%
+  \ifstrequal{#2}{standard}{\levelstandard}{}%
+  \ifstrequal{#2}{trick}{\leveltrick}{}%
+  \par\vspace{2pt}%
+  \noindent #1%
+  \par\vspace{4pt}%
+  \setcounter{choicectr}{0}%
+}{%
+  \par\vspace{6pt}%
+  {\color{RuleGray}\rule{\textwidth}{0.15pt}}%
+}
+
+% --- 選択肢（ア/イ/ウ/エ） ---
+\newcommand{\choice}[1]{%
+  \stepcounter{choicectr}%
+  \par\noindent\hspace{1.5em}%
+  \textbf{\katalabel{\value{choicectr}}}\hspace{0.6em}#1%
+}
+
+% ==============================================================
+%  解答・解説（右ページ用）
+% ==============================================================
+
+% --- A→ア 自動変換付き正解表示 ---
+\newcommand{\kanaconv}[1]{%
+  \if#1Aア\else\if#1Bイ\else\if#1Cウ\else\if#1Dエ\else#1\fi\fi\fi\fi
+}
+
+\newcommand{\answer}[1]{%
+  \par\noindent
+  \textbf{\sffamily 正解：\kanaconv{#1}}%
+  \par\vspace{2pt}%
+}
+
+% --- 問番号付き解答ヘッダ ---
+\newcommand{\anslabel}[1]{%
+  \par\vspace{6pt}%
+  \noindent{\sffamily\bfseries 問#1}%
+  \par
+}
+
+% --- 解説環境（左罫線） ---
+\newtcolorbox{kaisetsu}{
+  blanker,
+  borderline west={2pt}{0pt}{RuleGray},
+  left=8pt, right=4pt, top=3pt, bottom=3pt,
+  before skip=3pt, after skip=6pt,
+  breakable
+}
+
+% --- 誤答分析環境（左罫線・細い） ---
+\newtcolorbox{goutoubun}{
+  blanker,
+  borderline west={1pt}{0pt}{RuleGray},
+  left=8pt, right=4pt, top=3pt, bottom=3pt,
+  before skip=3pt, after skip=6pt,
+  breakable,
+  before upper={\noindent{\sffamily\small\bfseries 各選択肢の検討}\par\smallskip}
+}
+
+% --- ひっかけ注意（インライン） ---
+\newtcolorbox{trickwarn}{
+  blanker,
+  colback=PaleGray,
+  left=8pt, right=8pt, top=4pt, bottom=4pt,
+  before skip=4pt, after skip=4pt,
+  before upper={\noindent{\sffamily\small\bfseries ひっかけ注意}\par\smallskip}
+}
+
+% --- 1行まとめ ---
+\newcommand{\hitokoto}[1]{%
+  \par\vspace{3pt}\noindent
+  {\sffamily\small\textbf{Point：}} {\small #1}%
+  \par\vspace{3pt}%
+}
+
+% --- 関連テーマ ---
+\newcommand{\related}[1]{%
+  \par\noindent
+  {\small\sffamily\color{MedGray}→ #1}%
+  \par\vspace{2pt}%
+}
+
+% ==============================================================
+%  出典管理
+% ==============================================================
+\newcommand{\originaltag}{%
+  {\tiny\sffamily\color{LightGray}[オリジナル]}%
+}
+
+\newcommand{\officialtag}[2]{%
+  {\tiny\sffamily\color{MedGray}[#1 問#2]}%
+}
+
+% ==============================================================
+%  章末ミニ模試（シンプル枠）
+% ==============================================================
+\newtcolorbox{minimoshi}[1]{
+  blanker,
+  colback=PaleGray,
+  borderline={0.4pt}{0pt}{DarkGray},
+  fonttitle=\sffamily\bfseries\large,
+  coltitle=Black,
+  title={章末ミニ模試 —— #1},
+  left=10pt, right=10pt, top=8pt, bottom=8pt,
+  before skip=14pt, after skip=14pt,
+  breakable
+}
+
+% ==============================================================
+%  巻末模試
+% ==============================================================
+\newtcolorbox{honshikenmoshi}[1]{
+  blanker,
+  colback=PaleGray,
+  borderline={0.6pt}{0pt}{Black},
+  fonttitle=\sffamily\bfseries\Large,
+  coltitle=Black,
+  title={#1},
+  left=10pt, right=10pt, top=8pt, bottom=8pt,
+  before skip=18pt, after skip=18pt,
+  breakable
+}
+
+% ==============================================================
+%  学習コラム
+% ==============================================================
+\newtcolorbox{column}[1]{
+  blanker,
+  borderline={0.3pt}{0pt}{RuleGray},
+  fonttitle=\sffamily\bfseries,
+  coltitle=DarkGray,
+  title={#1},
+  left=8pt, right=8pt, top=6pt, bottom=6pt,
+  before skip=8pt, after skip=8pt,
+  breakable
+}
+
+% ==============================================================
+%  自己診断チェックリスト
+% ==============================================================
+\newcommand{\diagnosisitem}[1]{%
+  \item[$\square$] #1%
+}

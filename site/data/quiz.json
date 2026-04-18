@@ -1,10 +1,11 @@
 {
-  "version": 1,
-  "note": "すべて編集部によるオリジナル問題（ダミー）。公式公開問題の引用ではありません。source フィールドは将来 IPA 公開問題等を扱うための拡張用。",
+  "version": 2,
+  "note": "すべて編集部によるオリジナル問題。公式公開問題の引用ではありません。level: basic/standard/trick。wrong_analysis: 誤答分析。",
   "questions": [
     {
       "id": "q-strategy-001",
       "category": "ストラテジ",
+      "level": "basic",
       "question": "SWOT 分析で扱う 4 要素の組合せとして正しいものはどれか。",
       "choices": [
         "強み・弱み・機会・脅威",
@@ -13,12 +14,14 @@
         "理念・方針・戦略・戦術"
       ],
       "answer": 0,
-      "explanation": "SWOT は自社の Strengths / Weaknesses と、外部環境の Opportunities / Threats。B は 3C + α、C は 4P、D は戦略階層の話です。",
+      "explanation": "SWOT は自社の Strengths / Weaknesses と、外部環境の Opportunities / Threats。",
+      "wrong_analysis": "B は 3C + α、C は 4P（マーケティングミックス）、D は戦略階層の話で、SWOT とは別のフレームワークです。",
       "source": null
     },
     {
       "id": "q-strategy-002",
       "category": "ストラテジ",
+      "level": "basic",
       "question": "損益計算書 (PL) が表すものとして最も適切なものはどれか。",
       "choices": [
         "ある時点の資産・負債・資本の残高",
@@ -27,12 +30,57 @@
         "事業ポートフォリオの位置づけ"
       ],
       "answer": 1,
-      "explanation": "A は貸借対照表、C はキャッシュフロー計算書、D は PPM の考え方です。PL は期間中の「儲け」を表します。",
+      "explanation": "PL は期間中の「儲け」を表します。",
+      "wrong_analysis": "A は貸借対照表（BS）、C はキャッシュフロー計算書（CF）、D は PPM の考え方です。",
+      "source": null
+    },
+    {
+      "id": "q-strategy-003",
+      "category": "ストラテジ",
+      "level": "standard",
+      "question": "PPM において、市場成長率が低く市場占有率が高い事業を何と呼ぶか。",
+      "choices": ["花形", "問題児", "金のなる木", "負け犬"],
+      "answer": 2,
+      "explanation": "市場成長率が低い＝投資が少ない、市場占有率が高い＝安定収益。よって「金のなる木」。",
+      "wrong_analysis": "花形は成長率・占有率ともに高い。問題児は成長率高・占有率低。負け犬はどちらも低い。",
+      "source": null
+    },
+    {
+      "id": "q-strategy-004",
+      "category": "ストラテジ",
+      "level": "trick",
+      "question": "請負契約で開発を受注した場合、開発作業中の指揮命令権があるのは誰か。",
+      "choices": [
+        "発注者（顧客企業）",
+        "受注者（開発企業）",
+        "PMO",
+        "発注者と受注者の共同"
+      ],
+      "answer": 1,
+      "explanation": "請負契約では受注側が自律的に作業する。発注者が直接指示すると偽装請負（違法）。",
+      "wrong_analysis": "A は派遣契約の特徴。C の PMO は支援組織であり契約上の指揮命令権とは別。D は契約形態として存在しない。",
+      "source": null
+    },
+    {
+      "id": "q-strategy-005",
+      "category": "ストラテジ",
+      "level": "trick",
+      "question": "著作権の説明として正しいものはどれか。",
+      "choices": [
+        "登録しなければ権利が発生しない",
+        "作品を創作した時点で自動的に権利が発生する",
+        "保護期間は出願日から20年である",
+        "技術的なアイデアを保護する権利である"
+      ],
+      "answer": 1,
+      "explanation": "著作権は無方式主義。創作した瞬間に自動で権利が発生する。",
+      "wrong_analysis": "A は特許権等（登録必要）、C は特許権の保護期間、D は特許権の説明。著作権は「表現」を保護し、「アイデア」は保護しない。",
       "source": null
     },
     {
       "id": "q-mgmt-001",
       "category": "マネジメント",
+      "level": "basic",
       "question": "ウォーターフォールモデルとアジャイル開発の違いとして最も適切なものはどれか。",
       "choices": [
         "ウォーターフォールは反復型、アジャイルは直線型である。",
@@ -41,21 +89,46 @@
         "両者とも計画を行わない。"
       ],
       "answer": 1,
-      "explanation": "ウォーターフォールは上流から下流へ一方向に進め、アジャイルは小さな反復で計画と実装を何度も繰り返します。",
+      "explanation": "ウォーターフォールは上流から下流へ一方向に進め、アジャイルは小さな反復で計画と実装を何度も繰り返す。",
+      "wrong_analysis": "A は逆。C はアジャイルでは各反復でテストを行う。D はアジャイルも計画する（ただし短期サイクルで）。",
       "source": null
     },
     {
       "id": "q-mgmt-002",
       "category": "マネジメント",
-      "question": "QCD のうち「Q」が指すものはどれか。",
-      "choices": ["質問", "品質", "数量", "機会"],
+      "level": "basic",
+      "question": "WBS の目的として最も適切なものはどれか。",
+      "choices": [
+        "プロジェクトの作業を階層的に分解して管理しやすくする",
+        "プロジェクトの予算を計算する",
+        "プロジェクトのリスクを評価する",
+        "プロジェクトの品質を検査する"
+      ],
+      "answer": 0,
+      "explanation": "WBS（Work Breakdown Structure）は作業を階層的に分解する手法。「何をやるか」を漏れなく洗い出すのが目的。",
+      "wrong_analysis": "B は見積もり手法、C はリスクマネジメント、D は品質管理。WBS は分解した結果を使って予算やスケジュールを作るが、WBS 自体は「分解」が目的。",
+      "source": null
+    },
+    {
+      "id": "q-mgmt-003",
+      "category": "マネジメント",
+      "level": "standard",
+      "question": "SLA の説明として最も適切なものはどれか。",
+      "choices": [
+        "システム開発の契約形態",
+        "サービス提供者と利用者の間で合意したサービス品質の水準",
+        "プロジェクトの進捗管理手法",
+        "セキュリティ対策の基準"
+      ],
       "answer": 1,
-      "explanation": "QCD は Quality（品質）・Cost（費用）・Delivery（納期）の頭文字です。",
+      "explanation": "SLA（Service Level Agreement）は、サービスの品質水準（稼働率、応答時間など）を定めた合意文書。",
+      "wrong_analysis": "A は請負・準委任・派遣の話。C はガントチャート等。D は ISMS 等。SLA は「ここまでのサービスを保証します」という約束。",
       "source": null
     },
     {
       "id": "q-tech-001",
       "category": "テクノロジ",
+      "level": "basic",
       "question": "TCP の特徴として最も適切なものはどれか。",
       "choices": [
         "接続を確立せずに送信する軽量プロトコル",
@@ -64,21 +137,25 @@
         "ドメイン名を IP アドレスに変換する"
       ],
       "answer": 1,
-      "explanation": "A は UDP の特徴、C は ARP、D は DNS です。TCP は信頼性重視のトランスポート層プロトコルです。",
+      "explanation": "TCP は信頼性重視のトランスポート層プロトコルです。",
+      "wrong_analysis": "A は UDP の特徴、C は ARP、D は DNS。TCP は 3ウェイハンドシェイクで接続を確立してからデータを送る。",
       "source": null
     },
     {
       "id": "q-tech-002",
       "category": "テクノロジ",
+      "level": "standard",
       "question": "情報セキュリティの 3 要素 (CIA) に含まれないものはどれか。",
       "choices": ["機密性", "完全性", "可用性", "真正性"],
       "answer": 3,
-      "explanation": "CIA は Confidentiality（機密性）・Integrity（完全性）・Availability（可用性）。真正性は「拡張 7 要素」に含まれるが 3 要素ではありません。",
+      "explanation": "CIA は Confidentiality（機密性）・Integrity（完全性）・Availability（可用性）。真正性は「拡張 7 要素」に含まれるが 3 要素ではない。",
+      "wrong_analysis": "A・B・C はすべて CIA の構成要素。D の真正性（Authenticity）は重要だが、基本3要素ではなく拡張7要素に分類される。「含まれないもの」を選ぶ否定形の問題に注意。",
       "source": null
     },
     {
       "id": "q-tech-003",
       "category": "テクノロジ",
+      "level": "standard",
       "question": "公開鍵暗号方式の説明として最も適切なものはどれか。",
       "choices": [
         "暗号化と復号に同じ鍵を使う方式",
@@ -87,12 +164,14 @@
         "鍵を使わずハッシュ関数だけを用いる方式"
       ],
       "answer": 1,
-      "explanation": "A は共通鍵暗号、C はワンタイムパッド的な発想、D はハッシュ関数そのもの。公開鍵は「公開鍵」と「秘密鍵」のペアを使います。",
+      "explanation": "公開鍵暗号は「公開鍵」と「秘密鍵」のペアを使う。",
+      "wrong_analysis": "A は共通鍵暗号（AES など）。C はワンタイムパッド的な発想。D はハッシュ関数そのもので、暗号化ではない。",
       "source": null
     },
     {
       "id": "q-tech-004",
       "category": "テクノロジ",
+      "level": "basic",
       "question": "リレーショナルデータベースにおける主キーの役割として最も適切なものはどれか。",
       "choices": [
         "他の表を参照するための列",
@@ -101,12 +180,30 @@
         "仮想的に作られた表"
       ],
       "answer": 2,
-      "explanation": "A は外部キー、B はインデックス、D はビューです。主キーは「本人確認の列」に相当します。",
+      "explanation": "主キーは「本人確認の列」に相当し、各行を一意に特定する。",
+      "wrong_analysis": "A は外部キー、B はインデックス、D はビュー。主キーは NULL を許さず、重複もしない。",
+      "source": null
+    },
+    {
+      "id": "q-tech-005",
+      "category": "テクノロジ",
+      "level": "trick",
+      "question": "SQLインジェクション攻撃への対策として最も適切なものはどれか。",
+      "choices": [
+        "ファイアウォールを設置する",
+        "入力値をプレースホルダ（バインド変数）で処理する",
+        "パスワードを定期的に変更する",
+        "データベースを暗号化する"
+      ],
+      "answer": 1,
+      "explanation": "SQLインジェクションは入力値に不正なSQLを仕込む攻撃。プレースホルダで入力値をSQL文から分離するのが根本対策。",
+      "wrong_analysis": "A のファイアウォールはネットワーク層の防御でSQL文の内容は検知しない。C はパスワード管理の話。D は保存データの保護でSQLインジェクションの防御にはならない。",
       "source": null
     },
     {
       "id": "q-cross-001",
       "category": "横断",
+      "level": "standard",
       "question": "準委任契約と請負契約の違いとして最も適切なものはどれか。",
       "choices": [
         "準委任は完成責任を負い、請負は善管注意義務のみを負う。",
@@ -115,12 +212,14 @@
         "両者とも善管注意義務のみを負う。"
       ],
       "answer": 1,
-      "explanation": "請負は「動くものを納品する責任」まで負い、準委任は「決められた作業を適切に行う義務」までを負います。",
+      "explanation": "請負は「動くものを納品する責任」まで負い、準委任は「決められた作業を適切に行う義務」までを負う。",
+      "wrong_analysis": "A は逆。C・D は両者を同一視しており誤り。請負＝結果責任、準委任＝プロセス責任、と覚える。",
       "source": null
     },
     {
       "id": "q-cross-002",
       "category": "横断",
+      "level": "trick",
       "question": "個人情報保護法における「個人情報」に該当しないものはどれか。",
       "choices": [
         "氏名と生年月日の組合せ",
@@ -129,7 +228,24 @@
         "社員番号と結びつく従業員の住所"
       ],
       "answer": 2,
-      "explanation": "匿名加工情報は、本人を識別できないように加工され、元の個人情報に戻せない状態にあるものを指し、個人情報とは別に扱われます。",
+      "explanation": "匿名加工情報は、本人を識別できないように加工され、元の個人情報に戻せない状態にあるもの。個人情報とは別に扱われる。",
+      "wrong_analysis": "A は典型的な個人情報。B は個人識別符号に該当。D は他の情報と容易に照合でき個人を特定できるため個人情報。C だけが「個人を識別できない」状態。",
+      "source": null
+    },
+    {
+      "id": "q-cross-003",
+      "category": "横断",
+      "level": "trick",
+      "question": "認証と認可の違いとして最も適切なものはどれか。",
+      "choices": [
+        "認証は「誰であるか」を確認すること、認可は「何をしてよいか」を許可すること",
+        "認証は「何をしてよいか」を許可すること、認可は「誰であるか」を確認すること",
+        "認証と認可は同じ意味である",
+        "認証はサーバ側、認可はクライアント側の処理である"
+      ],
+      "answer": 0,
+      "explanation": "認証（Authentication）= 本人確認。認可（Authorization）= 権限の付与。ログインが認証、アクセス権の設定が認可。",
+      "wrong_analysis": "B は逆。C は似ているが明確に異なる概念。D は処理場所の話ではなく、概念の違い。",
       "source": null
     }
   ]

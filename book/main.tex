@@ -1,0 +1,102 @@
+% ==============================================
+% 図で解ける ITパスポート
+% — 理解しながら解く、見開き完結の問題集 —
+%
+% LuaLaTeX + luatexja
+% Build: latexmk main.tex
+% ==============================================
+\documentclass[b5paper,11pt,twoside,openany]{ltjsbook}
+
+% --- スタイル読み込み ---
+\input{styles/preamble}
+\input{styles/theme}
+\input{styles/macros}
+
+% --- PDF メタ情報 ---
+\title{図で解ける ITパスポート}
+\author{編集部}
+\date{2026年版}
+
+\begin{document}
+
+% ==============================
+%  前付
+% ==============================
+\frontmatter
+
+% --- 表紙 ---
+\begin{titlepage}
+  \begin{center}
+    \vspace*{40mm}
+
+    {\fontsize{36pt}{44pt}\selectfont\sffamily\bfseries 図で解ける}\\[6mm]
+    {\fontsize{28pt}{34pt}\selectfont\sffamily\bfseries ITパスポート}\\[14mm]
+
+    {\Large\sffamily 理解しながら解く、見開き完結の問題集}\\[40mm]
+
+    {\large\sffamily
+      左ページ＝問題\\[4pt]
+      右ページ＝解答・解説
+    }
+
+    \vfill
+
+    {\large\sffamily 大学生・新社会人のための ITパスポート問題集}\\[6mm]
+    {\color{RuleGray}\rule{0.4\textwidth}{0.4pt}}\\[6mm]
+    {\sffamily 2026年版}
+  \end{center}
+\end{titlepage}
+
+% --- はしがき ---
+\chapter*{はしがき}
+\addcontentsline{toc}{chapter}{はしがき}
+
+この本は、\textbf{「読むだけの参考書」}でも\textbf{「解くだけの問題集」}でもありません。
+
+\textbf{「図で理解し、その場で解いて、解説でひっかけを潰す」}
+
+——この1冊で、理解と演習を同時に回せるように設計しました。
+
+\begin{itemize}
+  \item \textbf{左ページ}には、要点整理と問題を配置
+  \item \textbf{右ページ}には、解答と「なぜ他の選択肢がダメか」まで踏み込んだ解説
+  \item \textbf{章末}には、ミニ模試で理解度を確認
+  \item \textbf{巻末}には、本試験形式の模試を収録
+\end{itemize}
+
+ITパスポートは「暗記で受かる」と言われがちですが、実際には\textbf{「似た用語の見分け方」}を知っているかどうかで合否が分かれます。
+本書は、その「見分け方」を問題の中で体験しながら身につけることを目指しています。
+
+\vspace{1em}
+\noindent 対象読者：大学生・就活生・新社会人・非IT系初学者・一度挫折した再受験者
+
+\vspace{2em}
+\begin{flushright}
+  {\sffamily 編集部}
+\end{flushright}
+
+% --- 目次 ---
+\tableofcontents
+
+% ==============================
+%  本文
+% ==============================
+\mainmatter
+
+\include{chapters/00_intro}
+\include{chapters/01_strategy}
+\include{chapters/02_management}
+\include{chapters/03_technology}
+\include{chapters/04_cross_review}
+\include{chapters/05_mock_exam}
+
+% ==============================
+%  後付
+% ==============================
+\backmatter
+
+\chapter*{索引}
+\addcontentsline{toc}{chapter}{索引}
+（索引は最終版で自動生成します）
+
+\end{document}

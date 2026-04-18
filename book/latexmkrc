@@ -1,0 +1,10 @@
+#!/usr/bin/env perl
+# latexmkrc — LuaLaTeX 用ビルド設定
+
+$lualatex = 'lualatex -synctex=1 -interaction=nonstopmode -halt-on-error %O %S';
+$pdf_mode = 4;           # lualatex で PDF 生成
+$max_repeat = 5;
+$out_dir = '_build';
+
+# クリーンアップ対象
+$clean_ext = 'aux log out toc lof lot fls fdb_latexmk synctex.gz bbl blg bcf run.xml nav snm vrb idx ilg ind dvi xdv thm lol listing';

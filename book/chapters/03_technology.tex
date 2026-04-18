@@ -1,0 +1,932 @@
+% ==============================================
+% 第4章 テクノロジ系
+% ==============================================
+\chapter{テクノロジ系}
+
+テクノロジ系は「ハードウェア・ソフトウェア・ネットワーク・データベース・セキュリティ」の分野です。
+IT の土台そのものを問う分野であり、出題数は全100問中 約45問。\textbf{最も出題数が多い分野}です。
+
+\begin{keypoint}
+テクノロジ系の主なテーマ：
+\begin{itemize}
+  \item ハードウェアとソフトウェア（CPU、メモリ、OS、ファイル管理）
+  \item ネットワーク（TCP/IP、IPアドレス、DNS、プロトコル）
+  \item データベース（リレーショナルDB、SQL）
+  \item セキュリティ（CIA、暗号化、マルウェア、認証）
+  \item 新技術トレンド（AI、IoT、クラウド）
+\end{itemize}
+\end{keypoint}
+
+% ====================================================
+%  4.1 コンピュータの構成要素（CPU・メモリ・記憶装置）
+% ====================================================
+\section{ハードウェアとソフトウェア}
+
+\mondaipage
+\unittheme{コンピュータの構成要素（CPU・メモリ・記憶装置）}{hardware}
+
+\begin{stumble}
+「メモリ」と「ストレージ（記憶装置）」の違いが分からない人が多い。
+\textbf{メモリ = 作業机}（一時的に使う場所。電源を切ると消える）。
+\textbf{ストレージ = 本棚}（長期的に保存する場所。電源を切っても残る）。
+この「揮発性か不揮発性か」が最大の違い。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXXX}
+  \toprule
+  & \textbf{メモリ（RAM）} & \textbf{SSD} & \textbf{HDD} \\
+  \midrule
+  速度 & 非常に速い & 速い & 遅い \\
+  揮発性 & 揮発性（電源OFFで消える） & 不揮発性 & 不揮発性 \\
+  容量あたりの価格 & 高い & 中程度 & 安い \\
+  用途 & 作業領域 & 保存（高速） & 保存（大容量） \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{「ROM」は「Read Only Memory」。メモリの一種だが書き換え不可で不揮発性。RAMと混同しない}
+
+\begin{mondai}{コンピュータの五大装置に含まれないものはどれか。}{basic}
+  \choice{演算装置}
+  \choice{制御装置}
+  \choice{通信装置}
+  \choice{記憶装置}
+\end{mondai}
+
+\begin{mondai}{主記憶装置（メインメモリ）の説明として最も適切なものはどれか。}{standard}
+  \choice{電源を切っても内容が保持される不揮発性メモリである}
+  \choice{CPUが直接読み書きできる高速な揮発性メモリである}
+  \choice{大容量のデータを長期間保存するための装置である}
+  \choice{CPUの内部にある最も高速な記憶領域である}
+\end{mondai}
+
+\begin{mondai}{記憶装置を「CPUから見たアクセス速度が速い順」に並べたとき、正しいものはどれか。}{trick}
+  \choice{HDD → メモリ → キャッシュメモリ → レジスタ}
+  \choice{レジスタ → キャッシュメモリ → メモリ → HDD}
+  \choice{メモリ → レジスタ → キャッシュメモリ → HDD}
+  \choice{キャッシュメモリ → レジスタ → メモリ → HDD}
+\end{mondai}
+
+\kaitoupage
+
+\answer{C}
+
+\begin{kaisetsu}
+コンピュータの五大装置は\textbf{演算装置・制御装置・記憶装置・入力装置・出力装置}です。通信装置は五大装置には含まれません。CPUは「演算装置＋制御装置」を担います。
+\end{kaisetsu}
+
+\answer{B}
+
+\begin{kaisetsu}
+主記憶装置（RAM）は\textbf{CPUが直接アクセスする揮発性メモリ}です。A は ROM やフラッシュメモリ、C は HDD/SSD（補助記憶装置）、D はレジスタの説明です。
+\end{kaisetsu}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A → 不揮発性メモリは ROM やフラッシュメモリ。RAM は揮発性
+  \item B → CPUが直接読み書きできる揮発性メモリ。\textbf{これが正解}
+  \item C → 大容量の長期保存は補助記憶装置（HDD/SSD）の役割
+  \item D → CPU内部の最高速記憶はレジスタ。主記憶はCPUの外にある
+\end{itemize}
+\end{goutoubun}
+
+\answer{B}
+
+\begin{trickwarn}
+速い順は「レジスタ → キャッシュメモリ → 主記憶（RAM） → 補助記憶（SSD/HDD）」。\textbf{速いほど容量は小さく、価格は高い}。この「速度と容量のトレードオフ」を記憶階層という。D の「キャッシュ → レジスタ」は順番が逆。
+\end{trickwarn}
+
+\hitokoto{CPU = 頭脳、メモリ = 作業机（揮発性）、ストレージ = 本棚（不揮発性）。}
+
+\related{OS とファイル管理（\pageref{unit:os}）}
+
+\qrunit{4}{1}
+
+% ====================================================
+%  4.2 OSとファイル管理
+% ====================================================
+
+\mondaipage
+\unittheme{OS とファイル管理}{os}
+
+\begin{stumble}
+「OS」の役割が抽象的で分かりにくいという声が多い。
+OSは\textbf{ハードウェアとアプリケーションの仲介役}。
+アプリが直接ハードウェアを操作しなくても済むように、OSが「翻訳」してくれる。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  & \textbf{絶対パス} & \textbf{相対パス} \\
+  \midrule
+  起点 & ルート（最上位）から & 現在のディレクトリから \\
+  特徴 & どこにいても同じ表記 & 自分の位置によって変わる \\
+  例 & /home/user/report.pdf & ./report.pdf、../data/file.csv \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{「..」は1つ上のディレクトリ、「.」は現在のディレクトリ。パスの問題で頻出}
+
+\begin{mondai}{OSの機能として最も適切なものはどれか。}{basic}
+  \choice{文書を作成する}
+  \choice{ハードウェア資源を管理し、アプリケーションに共通の実行環境を提供する}
+  \choice{Webサイトを閲覧する}
+  \choice{データベースにSQL文を発行する}
+\end{mondai}
+
+\begin{mondai}{あるファイルの絶対パスが「/home/user/docs/report.pdf」である。現在のディレクトリが「/home/user」のとき、相対パスとして正しいものはどれか。}{standard}
+  \choice{/docs/report.pdf}
+  \choice{docs/report.pdf}
+  \choice{../docs/report.pdf}
+  \choice{../../docs/report.pdf}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+
+\begin{kaisetsu}
+OSは\textbf{ハードウェア資源の管理}と\textbf{アプリケーションへの共通環境の提供}が主な役割です。A はワープロソフト、C はWebブラウザ、D はDBMS（データベース管理システム）の機能であり、いずれもアプリケーション層の話です。
+\end{kaisetsu}
+
+\answer{B}
+
+\begin{kaisetsu}
+現在地が /home/user なので、そこから docs フォルダに入り report.pdf にたどり着く。よって \textbf{docs/report.pdf} が正解。A は「/」で始まっているため絶対パスになってしまう。C の「..」は1つ上（/home）に上がるので間違い。
+\end{kaisetsu}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A → 先頭の「/」はルートを意味するため絶対パス。相対パスではない
+  \item B → 現在地 /home/user から docs/report.pdf。\textbf{これが正解}
+  \item C → ../docs だと /home/docs となり、存在しないパス
+  \item D → ../../docs だと /docs となり、さらに違う場所
+\end{itemize}
+\end{goutoubun}
+
+\hitokoto{OS = ハードとアプリの仲介役。ファイル管理は「絶対パス vs 相対パス」を押さえる。}
+
+\related{コンピュータの構成要素（\pageref{unit:hardware}）}
+
+\qrunit{4}{2}
+
+% ====================================================
+%  4.3 TCP/IPとプロトコル
+% ====================================================
+\section{ネットワーク}
+
+\mondaipage
+\unittheme{TCP/IP とプロトコル}{tcpip}
+
+\begin{stumble}
+「プロトコル」という言葉が抽象的で分かりにくい。
+プロトコルとは\textbf{通信の約束事（ルール）}のこと。
+人間同士の会話でも「まず挨拶して、日本語で話して、最後にお辞儀する」というルールがあるように、コンピュータ同士にも通信のルールがある。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  & \textbf{TCP} & \textbf{UDP} \\
+  \midrule
+  特徴 & 信頼性が高い & 速度が速い \\
+  確認 & データが届いたか確認する & 確認しない \\
+  用途 & Web閲覧、メール、ファイル転送 & 動画配信、音声通話、オンラインゲーム \\
+  たとえ & 書留郵便（届いたか確認） & ポスティング（入れたら終わり） \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{HTTPS の「S」= Secure。HTTPをTLS/SSLで暗号化したもの。「安全なHTTP」と覚える}
+
+\begin{mondai}{Webブラウザでページを閲覧するときに使用されるプロトコルはどれか。}{basic}
+  \choice{SMTP}
+  \choice{FTP}
+  \choice{HTTP}
+  \choice{DHCP}
+\end{mondai}
+
+\begin{mondai}{TCPとUDPの違いとして最も適切なものはどれか。}{standard}
+  \choice{TCPはネットワーク層、UDPはトランスポート層のプロトコルである}
+  \choice{TCPはデータの到達を確認し、UDPは確認せずに送信する}
+  \choice{UDPはTCPより信頼性が高い}
+  \choice{TCPは動画配信に適し、UDPはメール送信に適する}
+\end{mondai}
+
+\kaitoupage
+
+\answer{C}
+
+\begin{kaisetsu}
+Web閲覧には\textbf{HTTP}（またはHTTPS）を使います。A の SMTP はメール送信、B の FTP はファイル転送、D の DHCP はIPアドレスの自動割り当てです。
+\end{kaisetsu}
+
+\answer{B}
+
+\begin{kaisetsu}
+TCPは\textbf{確認応答（ACK）}を行い信頼性を確保する。UDPは確認せず高速に送信する。A は両方ともトランスポート層。D は逆で、TCPがメール等、UDPが動画配信等に使われる。
+\end{kaisetsu}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A → TCP も UDP もトランスポート層のプロトコル。層は同じ
+  \item B → TCP = 確認あり、UDP = 確認なし。\textbf{これが正解}
+  \item C → 信頼性が高いのは TCP。UDP は速度優先
+  \item D → 動画配信は UDP、メールは TCP。説明が逆
+\end{itemize}
+\end{goutoubun}
+
+\hitokoto{TCP = 確実に届ける書留、UDP = 速さ重視のポスティング。用途で使い分け。}
+
+\related{IPアドレスとDNS（\pageref{unit:ip-dns}）、情報セキュリティの3要素（\pageref{unit:cia}）}
+
+\qrunit{4}{3}
+
+% ====================================================
+%  4.4 IPアドレスとDNS
+% ====================================================
+
+\mondaipage
+\unittheme{IPアドレスとDNS}{ip-dns}
+
+\begin{stumble}
+「IPアドレス」と「ドメイン名」の関係が分かりにくい。
+\textbf{IPアドレス = 住所}（数字の羅列: 192.168.1.1）、
+\textbf{ドメイン名 = 表札}（人間が読みやすい: example.com）。
+DNSは\textbf{電話帳}のように、名前から住所を引く仕組み。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  & \textbf{グローバルIPアドレス} & \textbf{プライベートIPアドレス} \\
+  \midrule
+  使う場所 & インターネット上 & LAN内部 \\
+  一意性 & 世界中で一意 & LAN内で一意（他のLANと重複可） \\
+  割り当て & ISPやICANNが管理 & 管理者が自由に設定 \\
+  例 & 203.0.113.5 & 192.168.1.10、10.0.0.1 \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{「192.168.x.x」「10.x.x.x」「172.16〜31.x.x」はプライベートIPアドレスの範囲。試験で問われる}
+
+\begin{mondai}{DNS の役割として最も適切なものはどれか。}{basic}
+  \choice{IPアドレスを自動的に割り当てる}
+  \choice{ドメイン名とIPアドレスを相互に変換する}
+  \choice{データを暗号化して安全に送信する}
+  \choice{メールを送信先のサーバに届ける}
+\end{mondai}
+
+\begin{mondai}{プライベートIPアドレスの説明として最も適切なものはどれか。}{standard}
+  \choice{インターネット上で一意に割り当てられるアドレスである}
+  \choice{組織内のネットワークで使用し、インターネットに直接接続できないアドレスである}
+  \choice{ISP（インターネットサービスプロバイダ）が割り当てるアドレスである}
+  \choice{IPv6でのみ使用できるアドレスである}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+
+\begin{kaisetsu}
+DNSは\textbf{ドメイン名とIPアドレスの対応付け（名前解決）}を行うシステムです。A は DHCP、C は SSL/TLS、D は SMTP の役割です。
+\end{kaisetsu}
+
+\answer{B}
+
+\begin{kaisetsu}
+プライベートIPアドレスは\textbf{組織内LANで使用される}アドレスで、そのままではインターネットに直接アクセスできません（NATやルータを経由する必要がある）。A・C はグローバルIPの説明、D はIPv4にもプライベートアドレスがあるので誤り。
+\end{kaisetsu}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A → インターネット上で一意なのはグローバルIPアドレス
+  \item B → LAN内部で使用し、インターネットには直接出られない。\textbf{これが正解}
+  \item C → ISPが割り当てるのはグローバルIPアドレス
+  \item D → IPv4でもプライベートIPアドレスは存在する（192.168.x.x 等）
+\end{itemize}
+\end{goutoubun}
+
+\hitokoto{IPアドレス = 数字の住所、ドメイン名 = 人間向けの表札、DNS = 電話帳。}
+
+\related{TCP/IP とプロトコル（\pageref{unit:tcpip}）、暗号化（\pageref{unit:encryption}）}
+
+\qrunit{4}{4}
+
+% ====================================================
+%  4.5 リレーショナルデータベースと主キー・外部キー
+% ====================================================
+\section{データベース}
+
+\mondaipage
+\unittheme{リレーショナルデータベースと主キー・外部キー}{rdb}
+
+\begin{stumble}
+「主キー」と「外部キー」の違いが混乱しやすい。
+\textbf{主キー = 行を一意に特定する列}（学籍番号のようなもの。重複・NULLは不可）。
+\textbf{外部キー = 別のテーブルの主キーを参照する列}（テーブル間をつなぐ橋）。
+\end{stumble}
+
+\begin{keypoint}
+\begin{itemize}
+  \item \textbf{リレーショナルデータベース（RDB）}: データを「表（テーブル）」で管理
+  \item \textbf{行（レコード）}: 1件分のデータ
+  \item \textbf{列（フィールド/カラム）}: データの属性（項目名）
+  \item \textbf{主キー}: 各行を一意に特定する列。重複・NULL不可
+  \item \textbf{外部キー}: 他のテーブルの主キーを参照し、テーブル間を関連付ける
+  \item \textbf{DBMS}: データベースを管理するソフトウェア（MySQL、PostgreSQL 等）
+\end{itemize}
+\end{keypoint}
+
+\pitfallmemo{主キーは「重複なし・NULLなし」の2条件セット。片方でも欠けると主キーにならない}
+
+\begin{mondai}{リレーショナルデータベースにおける主キーの説明として最も適切なものはどれか。}{basic}
+  \choice{他のテーブルのデータを参照するための列である}
+  \choice{テーブル内の各行を一意に識別するための列である}
+  \choice{データの検索を高速化するための仕組みである}
+  \choice{テーブルに格納できるデータ型を定義するものである}
+\end{mondai}
+
+\begin{mondai}{「受注テーブル」に「顧客コード」という列があり、この列は「顧客テーブル」の主キーである「顧客コード」を参照している。このとき、受注テーブルの「顧客コード」は何と呼ばれるか。}{standard}
+  \choice{主キー}
+  \choice{外部キー}
+  \choice{候補キー}
+  \choice{複合キー}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+
+\begin{kaisetsu}
+主キーは\textbf{各行を一意に識別する}ための列です。A は外部キー、C はインデックス、D はスキーマ（データ型定義）の説明です。
+\end{kaisetsu}
+
+\answer{B}
+
+\begin{kaisetsu}
+他のテーブルの主キーを参照する列は\textbf{外部キー（Foreign Key）}です。外部キーによりテーブル間のリレーション（関連）が定義されます。
+\end{kaisetsu}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A「主キー」→ 自テーブル内の行を一意に識別する列。他のテーブルの参照ではない
+  \item B「外部キー」→ 他テーブルの主キーを参照する列。\textbf{これが正解}
+  \item C「候補キー」→ 主キーになり得る列の候補。主キーを参照する概念ではない
+  \item D「複合キー」→ 複数列を組み合わせて一意にするキー。参照関係とは別
+\end{itemize}
+\end{goutoubun}
+
+\hitokoto{主キー = 行のID（重複・NULL不可）。外部キー = テーブル間をつなぐ橋。}
+
+\related{SQL の基本（\pageref{unit:sql}）}
+
+\qrunit{4}{5}
+
+% ====================================================
+%  4.6 SQLの基本
+% ====================================================
+
+\mondaipage
+\unittheme{SQL の基本}{sql}
+
+\begin{stumble}
+SQLの基本構文（SELECT、WHERE等）は覚えやすいが、\textbf{「何をしている文か」を読み取る問題}に弱い人が多い。ITパスポートではSQLを書く必要はないが、\textbf{読んで意味が分かる}レベルが求められる。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  \textbf{SQL文} & \textbf{操作} & \textbf{例} \\
+  \midrule
+  SELECT 氏名 FROM 社員 & 社員テーブルから氏名を取得 & データの参照 \\
+  WHERE 部署 = '営業' & 部署が営業の行だけ絞り込み & 条件指定 \\
+  ORDER BY 年齢 DESC & 年齢の降順で並び替え & 並び替え \\
+  INSERT INTO 社員 ... & 社員テーブルにデータ追加 & データの追加 \\
+  UPDATE 社員 SET ... & 社員テーブルのデータ更新 & データの変更 \\
+  DELETE FROM 社員 ... & 社員テーブルからデータ削除 & データの削除 \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{WHERE と ORDER BY の順番に注意。WHERE（絞り込み）→ ORDER BY（並び替え）。逆に書くとエラー}
+
+\begin{mondai}{「社員」テーブルから、部署が「営業」の社員の氏名を取得するSQL文として正しいものはどれか。}{basic}
+  \choice{SELECT 氏名 FROM 社員 WHERE 部署 = '営業'}
+  \choice{SELECT 部署 FROM 社員 WHERE 氏名 = '営業'}
+  \choice{INSERT 氏名 INTO 社員 WHERE 部署 = '営業'}
+  \choice{DELETE 氏名 FROM 社員 WHERE 部署 = '営業'}
+\end{mondai}
+
+\begin{mondai}{次のSQL文の実行結果として正しいものはどれか。\\
+\texttt{SELECT 商品名, 価格 FROM 商品 WHERE 価格 >= 1000 ORDER BY 価格 ASC}}{standard}
+  \choice{価格が1000未満の商品を価格の降順で表示する}
+  \choice{価格が1000以上の商品を価格の昇順で表示する}
+  \choice{すべての商品を価格の昇順で表示する}
+  \choice{価格が1000以上の商品を商品名順で表示する}
+\end{mondai}
+
+\kaitoupage
+
+\answer{A}
+
+\begin{kaisetsu}
+「氏名を取得」= SELECT 氏名、「社員テーブルから」= FROM 社員、「部署が営業」= WHERE 部署 = '営業'。B は取得する列と条件が逆。C の INSERT は追加、D の DELETE は削除であり、取得ではない。
+\end{kaisetsu}
+
+\answer{B}
+
+\begin{kaisetsu}
+WHERE 価格 >= 1000 → \textbf{1000以上を絞り込み}。ORDER BY 価格 ASC → \textbf{価格の昇順}。「>=」は「以上」、ASC は昇順（小→大）。
+\end{kaisetsu}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A → 「1000未満」は < 1000。>= 1000 は「以上」なので逆。降順も誤り
+  \item B → 1000以上を昇順で表示。\textbf{これが正解}
+  \item C → WHERE句があるので「すべて」ではない。絞り込まれている
+  \item D → ORDER BY は「価格」であり「商品名」ではない
+\end{itemize}
+\end{goutoubun}
+
+\hitokoto{SQL = SELECT で取得、WHERE で絞り込み、ORDER BY で並び替え。「読めればOK」。}
+
+\related{リレーショナルデータベースと主キー・外部キー（\pageref{unit:rdb}）}
+
+\qrunit{4}{6}
+
+% ====================================================
+%  4.7 情報セキュリティの3要素（CIA）
+% ====================================================
+\section{セキュリティ}
+
+\mondaipage
+\unittheme{情報セキュリティの3要素（CIA）}{cia}
+
+\begin{stumble}
+CIA の3つ（機密性・完全性・可用性）のうち、「完全性」と「可用性」を混同する人が多い。
+\textbf{完全性 = データが正しいままであること}（改ざんされていない）。
+\textbf{可用性 = 使いたいときに使えること}（システムが止まらない）。
+「正しさ」と「使えること」は別の話。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXXX}
+  \toprule
+  & \textbf{機密性} & \textbf{完全性} & \textbf{可用性} \\
+  \midrule
+  意味 & 見せない & 壊さない & 止めない \\
+  脅かす例 & 情報漏えい & データ改ざん & システム停止 \\
+  対策例 & アクセス制御、暗号化 & デジタル署名、ハッシュ & 冗長化、バックアップ \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{「真正性」「責任追跡性」「否認防止」「信頼性」は「拡張4要素」。CIAの3要素には含まれない}
+
+\begin{mondai}{情報セキュリティの3要素（CIA）の組合せとして正しいものはどれか。}{basic}
+  \choice{機密性・可用性・責任追跡性}
+  \choice{機密性・完全性・真正性}
+  \choice{機密性・完全性・可用性}
+  \choice{完全性・可用性・否認防止}
+\end{mondai}
+
+\begin{mondai}{社内システムが障害で長時間停止し、業務に支障が出た。この状況で損なわれた情報セキュリティの要素はどれか。}{standard}
+  \choice{機密性}
+  \choice{完全性}
+  \choice{可用性}
+  \choice{真正性}
+\end{mondai}
+
+\begin{mondai}{ある企業のWebサイトが不正にアクセスされ、顧客データベースの内容が書き換えられた。この攻撃で直接的に損なわれた情報セキュリティの要素はどれか。}{trick}
+  \choice{機密性のみ}
+  \choice{完全性のみ}
+  \choice{可用性のみ}
+  \choice{機密性と完全性}
+\end{mondai}
+
+\kaitoupage
+
+\answer{C}
+
+\begin{kaisetsu}
+CIA は \textbf{Confidentiality（機密性）・Integrity（完全性）・Availability（可用性）}の3つ。責任追跡性、真正性、否認防止は「拡張要素」であり、基本の3要素ではありません。
+\end{kaisetsu}
+
+\answer{C}
+
+\begin{kaisetsu}
+「システムが停止して使えない」= \textbf{可用性}の喪失。機密性は情報漏えい、完全性はデータ改ざん、真正性は本人確認の話。「使えない = 可用性」と覚える。
+\end{kaisetsu}
+
+\answer{D}
+
+\begin{trickwarn}
+「不正アクセス」= 許可されていない者がアクセスした → \textbf{機密性}の喪失。さらに「内容が書き換えられた」= \textbf{完全性}の喪失。1つの事象で複数の要素が損なわれることがある。「書き換えだから完全性だけ」と決めつけないこと。
+\end{trickwarn}
+
+\hitokoto{CIA = 見せない（機密性）・壊さない（完全性）・止めない（可用性）。}
+
+\related{暗号化（\pageref{unit:encryption}）、マルウェアと攻撃手法（\pageref{unit:malware}）、認証とアクセス制御（\pageref{unit:auth}）}
+
+\qrunit{4}{7}
+
+% ====================================================
+%  4.8 暗号化（共通鍵・公開鍵）
+% ====================================================
+
+\mondaipage
+\unittheme{暗号化（共通鍵・公開鍵）}{encryption}
+
+\begin{stumble}
+「共通鍵暗号」と「公開鍵暗号」の違いが最大の混乱ポイント。
+\textbf{共通鍵 = 同じ鍵で暗号化・復号}（1本の鍵を共有）。
+\textbf{公開鍵 = 暗号化と復号で別の鍵を使う}（公開鍵で暗号化、秘密鍵で復号）。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  & \textbf{共通鍵暗号} & \textbf{公開鍵暗号} \\
+  \midrule
+  鍵の数 & 1種類（共通鍵） & 2種類（公開鍵 + 秘密鍵） \\
+  暗号化/復号 & 同じ鍵で行う & 公開鍵で暗号化、秘密鍵で復号 \\
+  処理速度 & 速い & 遅い \\
+  鍵の配送 & 安全に渡すのが課題 & 公開鍵は公開してOK \\
+  代表例 & AES & RSA \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{デジタル署名は公開鍵暗号の「逆」。秘密鍵で署名し、公開鍵で検証する。暗号化と逆なので注意}
+
+\begin{mondai}{共通鍵暗号方式の説明として最も適切なものはどれか。}{basic}
+  \choice{暗号化と復号に異なる鍵を使用する方式}
+  \choice{暗号化と復号に同じ鍵を使用する方式}
+  \choice{公開鍵で暗号化し、秘密鍵で復号する方式}
+  \choice{鍵を使わずにデータを暗号化する方式}
+\end{mondai}
+
+\begin{mondai}{公開鍵暗号方式で、送信者がデータを暗号化するために使う鍵はどれか。}{standard}
+  \choice{送信者の秘密鍵}
+  \choice{送信者の公開鍵}
+  \choice{受信者の秘密鍵}
+  \choice{受信者の公開鍵}
+\end{mondai}
+
+\begin{mondai}{デジタル署名において、署名の作成に使われる鍵はどれか。}{trick}
+  \choice{送信者の公開鍵}
+  \choice{送信者の秘密鍵}
+  \choice{受信者の公開鍵}
+  \choice{受信者の秘密鍵}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+
+\begin{kaisetsu}
+共通鍵暗号は\textbf{1つの鍵（共通鍵）}で暗号化と復号の両方を行います。A・C は公開鍵暗号方式の説明。D は暗号方式には必ず鍵が必要なので誤り。
+\end{kaisetsu}
+
+\answer{D}
+
+\begin{kaisetsu}
+公開鍵暗号では\textbf{受信者の公開鍵}で暗号化し、\textbf{受信者の秘密鍵}で復号する。「相手の南京錠で閉める」イメージ。
+\end{kaisetsu}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A「送信者の秘密鍵」→ デジタル署名で使う（暗号化の話ではない）
+  \item B「送信者の公開鍵」→ 送信者の公開鍵で暗号化しても、送信者が復号できてしまい意味がない
+  \item C「受信者の秘密鍵」→ 秘密鍵は受信者しか持たない。送信者は使えない
+  \item D「受信者の公開鍵」→ \textbf{これが正解}。公開鍵で暗号化→秘密鍵で復号
+\end{itemize}
+\end{goutoubun}
+
+\answer{B}
+
+\begin{trickwarn}
+暗号化では「受信者の公開鍵」で暗号化するが、デジタル署名では\textbf{送信者の秘密鍵}で署名する。検証は「送信者の公開鍵」で行う。暗号化とデジタル署名で\textbf{鍵の使い方が逆}になるのが最大のひっかけポイント。
+\end{trickwarn}
+
+\hitokoto{共通鍵 = 1本を共有（速い）。公開鍵 = 2本使う（安全）。署名は暗号化の逆。}
+
+\related{情報セキュリティの3要素（\pageref{unit:cia}）、認証とアクセス制御（\pageref{unit:auth}）}
+
+\qrunit{4}{8}
+
+% ====================================================
+%  4.9 マルウェアと攻撃手法
+% ====================================================
+
+\mondaipage
+\unittheme{マルウェアと攻撃手法}{malware}
+
+\begin{stumble}
+マルウェアの種類が多すぎて混乱する。まず\textbf{「自己増殖するか」}で分けると整理しやすい。
+\textbf{ウイルス = 宿主ファイルに寄生して増殖}、
+\textbf{ワーム = 単独で自己増殖}、
+\textbf{トロイの木馬 = 増殖しない（正体を隠して潜伏）}。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXXX}
+  \toprule
+  & \textbf{ウイルス} & \textbf{ワーム} & \textbf{トロイの木馬} \\
+  \midrule
+  宿主ファイル & 必要 & 不要 & 不要 \\
+  自己増殖 & する（宿主経由） & する（単独） & しない \\
+  特徴 & ファイルに寄生 & ネットワークで拡散 & 正体を隠す \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{ランサムウェアは「身代金（ransom）」が語源。最近の試験で出題が急増しているテーマ}
+
+\begin{mondai}{ランサムウェアの説明として最も適切なものはどれか。}{basic}
+  \choice{ネットワーク経由で自己増殖するマルウェア}
+  \choice{有用なソフトウェアに偽装して侵入するマルウェア}
+  \choice{データを暗号化し、復元のための金銭を要求するマルウェア}
+  \choice{キーボードの入力内容を記録して外部に送信するマルウェア}
+\end{mondai}
+
+\begin{mondai}{偽のWebサイトに利用者を誘導し、IDやパスワードなどの個人情報を入力させて盗む攻撃手法はどれか。}{standard}
+  \choice{DoS攻撃}
+  \choice{SQLインジェクション}
+  \choice{ソーシャルエンジニアリング}
+  \choice{フィッシング}
+\end{mondai}
+
+\begin{mondai}{攻撃者がWebアプリケーションの入力フォームに不正なSQL文を入力し、データベースの情報を不正に取得する攻撃はどれか。}{trick}
+  \choice{クロスサイトスクリプティング}
+  \choice{SQLインジェクション}
+  \choice{バッファオーバフロー}
+  \choice{フィッシング}
+\end{mondai}
+
+\kaitoupage
+
+\answer{C}
+
+\begin{kaisetsu}
+ランサムウェアは\textbf{データを暗号化して使用不能にし、復元と引き換えに身代金を要求}するマルウェアです。A はワーム、B はトロイの木馬、D はキーロガー（スパイウェアの一種）。
+\end{kaisetsu}
+
+\answer{D}
+
+\begin{kaisetsu}
+偽サイトに誘導してID・パスワードを盗む手法は\textbf{フィッシング}です。A は大量アクセスによるサーバ妨害、B はSQL文の不正注入、C は人間の心理を突いて情報を聞き出す行為。
+\end{kaisetsu}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A「DoS攻撃」→ サーバに大量のリクエストを送りダウンさせる。情報を盗む手法ではない
+  \item B「SQLインジェクション」→ Webフォーム等に不正なSQL文を入力してDBを操作する
+  \item C「ソーシャルエンジニアリング」→ 電話やなりすまし等、\textbf{人間を騙す}手法。偽サイトではない
+  \item D「フィッシング」→ 偽サイトで個人情報を入力させる。\textbf{これが正解}
+\end{itemize}
+\end{goutoubun}
+
+\answer{B}
+
+\begin{trickwarn}
+「入力フォームに不正なSQL文」がキーワード。クロスサイトスクリプティング（XSS）はスクリプト（JavaScript等）を埋め込む攻撃で、SQLではない。\textbf{「SQL」の文字が出たらSQLインジェクション}と覚えておくと迷わない。
+\end{trickwarn}
+
+\hitokoto{ウイルス = 寄生、ワーム = 単独増殖、トロイの木馬 = 偽装。攻撃手法の名前と特徴をセットで覚える。}
+
+\related{情報セキュリティの3要素（\pageref{unit:cia}）、認証とアクセス制御（\pageref{unit:auth}）}
+
+\qrunit{4}{9}
+
+% ====================================================
+%  4.10 認証とアクセス制御
+% ====================================================
+
+\mondaipage
+\unittheme{認証とアクセス制御}{auth}
+
+\begin{stumble}
+「認証」と「認可」の違いが分かりにくい。
+\textbf{認証 = 「あなたは誰ですか？」}（本人確認）。
+\textbf{認可 = 「あなたは何ができますか？」}（権限の付与）。
+まず認証で本人確認し、次に認可で権限を決める。この順番が重要。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXX}
+  \toprule
+  \textbf{認証の種類} & \textbf{説明} & \textbf{例} \\
+  \midrule
+  知識認証 & 知っていることで確認 & パスワード、秘密の質問 \\
+  所持認証 & 持っているもので確認 & ICカード、ワンタイムパスワード生成器 \\
+  生体認証 & 体の特徴で確認 & 指紋認証、顔認証 \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{「パスワード＋秘密の質問」は2要素認証ではない。両方「知識情報」なので1要素。種類が違う組合せが必要}
+
+\begin{mondai}{二要素認証の組合せとして適切なものはどれか。}{basic}
+  \choice{パスワードと秘密の質問}
+  \choice{パスワードと指紋認証}
+  \choice{ICカードとスマートフォン}
+  \choice{指紋認証と顔認証}
+\end{mondai}
+
+\begin{mondai}{生体認証（バイオメトリクス認証）に該当するものはどれか。}{standard}
+  \choice{ワンタイムパスワード}
+  \choice{ICカード認証}
+  \choice{静脈パターン認証}
+  \choice{デジタル証明書}
+\end{mondai}
+
+\begin{mondai}{シングルサインオン（SSO）の説明として最も適切なものはどれか。}{trick}
+  \choice{パスワードを定期的に変更させるセキュリティ対策}
+  \choice{一度の認証で複数のシステムやサービスにアクセスできる仕組み}
+  \choice{パスワードの代わりに生体情報を使う認証方式}
+  \choice{すべてのシステムで同じパスワードを使い回すこと}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+
+\begin{kaisetsu}
+二要素認証は\textbf{異なる種類の認証要素を2つ以上}組み合わせる。B は「知識（パスワード）＋ 生体（指紋）」で二要素認証。A は両方「知識」、C は両方「所持」、D は両方「生体」。同じ種類を2つ組み合わせても二要素にならない。
+\end{kaisetsu}
+
+\answer{C}
+
+\begin{kaisetsu}
+生体認証は\textbf{身体的特徴}を使う認証方式。静脈パターンは身体の特徴なので生体認証です。A は所持情報（トークン等で生成）、B は所持情報、D は電子的な証明書（所持情報に近い）。
+\end{kaisetsu}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A「ワンタイムパスワード」→ 一度きりのパスワードを生成する仕組み。所持情報に分類される
+  \item B「ICカード認証」→ 物理的なカード。所持情報
+  \item C「静脈パターン認証」→ 手や指の静脈パターン。\textbf{これが正解}
+  \item D「デジタル証明書」→ 認証局が発行する電子証明書。PKI の仕組み
+\end{itemize}
+\end{goutoubun}
+
+\answer{B}
+
+\begin{trickwarn}
+SSO は\textbf{一度のログインで複数のサービスにアクセスできる仕組み}。D の「同じパスワードの使い回し」とは全く異なる。SSOは\textbf{認証基盤が一元管理}している。パスワードの使い回しはセキュリティリスクなので混同しないこと。
+\end{trickwarn}
+
+\hitokoto{認証 = 誰？、認可 = 何ができる？。二要素認証は「異なる種類」の組合せ。}
+
+\related{暗号化（\pageref{unit:encryption}）、情報セキュリティの3要素（\pageref{unit:cia}）}
+
+\qrunit{4}{10}
+
+% ====================================================
+%  4.11 AI・IoT・クラウド
+% ====================================================
+\section{新技術トレンド}
+
+\mondaipage
+\unittheme{AI・IoT・クラウド}{ai-iot-cloud}
+
+\begin{stumble}
+AI・IoT・クラウドはそれぞれ独立した概念だが、試験では\textbf{「組み合わせ」}で問われることが多い。
+例：IoTデバイスがデータを収集 → クラウドに蓄積 → AIが分析、という流れ。
+\end{stumble}
+
+\begin{comparison}
+\begin{tabularx}{\textwidth}{lXXX}
+  \toprule
+  & \textbf{SaaS} & \textbf{PaaS} & \textbf{IaaS} \\
+  \midrule
+  提供範囲 & アプリケーションまで & 開発環境まで & インフラまで \\
+  利用者の自由度 & 低い（設定のみ） & 中程度（開発可能） & 高い（OS設定も可能） \\
+  例 & Gmail、Slack & Heroku、GAE & AWS EC2、Azure VM \\
+  たとえ & 賃貸マンション & 建売住宅 & 更地＋建築許可 \\
+  \bottomrule
+\end{tabularx}
+\end{comparison}
+
+\pitfallmemo{「ビッグデータ」はAI・IoTと一緒に出ることが多い。IoTでデータ収集→ビッグデータとして蓄積→AIで分析}
+
+\begin{mondai}{IoT（Internet of Things）の説明として最も適切なものはどれか。}{basic}
+  \choice{インターネットを通じてソフトウェアを利用するサービス形態}
+  \choice{さまざまなモノがインターネットに接続し、データの送受信を行う仕組み}
+  \choice{大量のデータを高速に分析する技術}
+  \choice{コンピュータが人間のように学習し判断する技術}
+\end{mondai}
+
+\begin{mondai}{クラウドサービスにおいて、アプリケーションの開発環境や実行環境を提供するサービスモデルはどれか。}{standard}
+  \choice{SaaS}
+  \choice{PaaS}
+  \choice{IaaS}
+  \choice{DaaS}
+\end{mondai}
+
+\begin{mondai}{機械学習の手法の一つで、多層のニューラルネットワークを用いてデータの特徴を自動的に学習する技術はどれか。}{trick}
+  \choice{ビッグデータ}
+  \choice{ブロックチェーン}
+  \choice{ディープラーニング}
+  \choice{クラウドコンピューティング}
+\end{mondai}
+
+\kaitoupage
+
+\answer{B}
+
+\begin{kaisetsu}
+IoTは\textbf{「モノのインターネット」}。センサーや家電などがネットワークにつながり、データをやり取りする仕組みです。A はクラウド（SaaS）、C はビッグデータ分析、D はAI の説明。
+\end{kaisetsu}
+
+\answer{B}
+
+\begin{kaisetsu}
+「開発環境・実行環境の提供」= \textbf{PaaS（Platform as a Service）}。SaaS はアプリ提供、IaaS はインフラ提供、DaaS はデスクトップ環境の提供です。
+\end{kaisetsu}
+
+\begin{goutoubun}
+\begin{itemize}
+  \item A「SaaS」→ Software as a Service。完成したアプリを使うだけ
+  \item B「PaaS」→ Platform as a Service。開発環境が用意されている。\textbf{これが正解}
+  \item C「IaaS」→ Infrastructure as a Service。サーバやネットワーク等のインフラを提供
+  \item D「DaaS」→ Desktop as a Service。仮想デスクトップを提供
+\end{itemize}
+\end{goutoubun}
+
+\answer{C}
+
+\begin{trickwarn}
+「多層のニューラルネットワーク」がキーワード。ディープラーニング（深層学習）は機械学習の一手法。ビッグデータは「大量のデータ」そのものであり技術名ではない。ブロックチェーンは分散台帳技術で、AIとは別分野。紛らわしいバズワードに惑わされないこと。
+\end{trickwarn}
+
+\hitokoto{IoT = モノがネットにつながる。クラウド = SaaS/PaaS/IaaS。AI = 機械学習・ディープラーニング。}
+
+\related{情報セキュリティの3要素（\pageref{unit:cia}）}
+
+\qrunit{4}{11}
+
+% ====================================================
+%  章末ミニ模試
+% ====================================================
+\section*{章末ミニ模試}
+\addcontentsline{toc}{section}{章末ミニ模試}
+
+\begin{minimoshi}{テクノロジ系}
+
+以下の5問を制限時間 \textbf{8分} で解いてみましょう。
+
+\begin{mondai}{コンピュータの記憶装置のうち、CPUから見たアクセス速度が最も速いものはどれか。}{standard}
+  \choice{主記憶装置（RAM）}
+  \choice{SSD}
+  \choice{キャッシュメモリ}
+  \choice{レジスタ}
+\end{mondai}
+
+\begin{mondai}{情報セキュリティにおいて、データが改ざんされていないことを保証する要素はどれか。}{standard}
+  \choice{機密性}
+  \choice{完全性}
+  \choice{可用性}
+  \choice{真正性}
+\end{mondai}
+
+\begin{mondai}{公開鍵暗号方式において、送信者がデータを暗号化するために使用する鍵はどれか。}{standard}
+  \choice{送信者の公開鍵}
+  \choice{送信者の秘密鍵}
+  \choice{受信者の公開鍵}
+  \choice{受信者の秘密鍵}
+\end{mondai}
+
+\begin{mondai}{リレーショナルデータベースにおいて、他のテーブルの主キーを参照し、テーブル間の関連を定義する列を何というか。}{standard}
+  \choice{主キー}
+  \choice{外部キー}
+  \choice{候補キー}
+  \choice{インデックス}
+\end{mondai}
+
+\begin{mondai}{クラウドサービスのうち、利用者がアプリケーションの機能をインターネット経由で利用するサービスモデルはどれか。}{trick}
+  \choice{IaaS}
+  \choice{PaaS}
+  \choice{SaaS}
+  \choice{DaaS}
+\end{mondai}
+
+\end{minimoshi}
+
+\subsection*{章末ミニ模試 解答}
+
+\begin{enumerate}
+  \item \textbf{D}（レジスタ）— CPU内部にあるレジスタが最も高速。速い順はレジスタ → キャッシュメモリ → 主記憶（RAM）→ SSD → HDD。
+  \item \textbf{B}（完全性）— 「改ざんされていない」= 完全性（Integrity）。機密性は「見せない」、可用性は「止めない」。
+  \item \textbf{C}（受信者の公開鍵）— 公開鍵暗号では受信者の公開鍵で暗号化し、受信者の秘密鍵で復号する。
+  \item \textbf{B}（外部キー）— 外部キー（Foreign Key）は他テーブルの主キーを参照する列。テーブル間のリレーションを定義する。
+  \item \textbf{C}（SaaS）— SaaS = Software as a Service。アプリケーションをそのまま使うモデル。PaaS は開発環境、IaaS はインフラ。
+\end{enumerate}
+
+\qrchapter{4}
